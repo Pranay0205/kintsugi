@@ -40,4 +40,7 @@ def load_joined_datasets():
 
     print("Datasets joined successfully.")
 
+    print("Columns in the joined dataset:")
+    print(full_data.columns)
+
     return full_data
