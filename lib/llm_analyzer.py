@@ -3,8 +3,8 @@ from time import time
 from dotenv import load_dotenv
 from google import genai
 
-from utils.constants import GEMINI_API_KEY
-from utils.dataset import load_joined_datasets
+from utils.constants import BATCH_SIZE, GEMINI_API_KEY
+
 
 load_dotenv()
 
@@ -14,7 +14,8 @@ client = genai.Client(api_key=GEMINI_API_KEY)
 def analyze_submissions(submissions: list[dict[str, str]]):
     prompt = """You are an expert code reviewer. Analyze the following code submissions and provide general gaps of knowledge that the authors should focus on to improve their coding skills. Provide a concise list of areas for improvement without going into specific details about each submission."""
 
-    formatted_submissions = __format_submissions_for_batch(prompt, submissions)
+    formatted_submissions = __format_submissions_for_batch(
+        prompt, submissions[:BATCH_SIZE])
 
     inline_batch_job = client.batches.create(
         model="models/gemini-2.5-flash",

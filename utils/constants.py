@@ -10,3 +10,4 @@ CODESTATES_TABLE_PATH = os.path.join(
 SUBJECT_TABLE_PATH = os.path.join(
     PROJECT_ROOT, "dataset", "CodeWorkout", "LinkTables", "Subject.csv")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+BATCH_SIZE = 10
