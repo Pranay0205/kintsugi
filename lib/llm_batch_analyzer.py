@@ -24,7 +24,7 @@ def analyze_batch_submissions(submissions: list[dict[Hashable, str]], limit: int
                 "recommended_topics": ["list of topics to review"]
               }
 
-              Focus on: syntax errors, array/loop bounds, variable scope, return statements.
+              Focus on: array/loop bounds, variable scope, return statements.
 
               Submissions:
               """
