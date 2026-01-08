@@ -79,3 +79,30 @@ def load_problem_descriptions() -> dict[str, str]:
         problem_map[problem_id] = description
 
     return problem_map
+
+
+def get_best_attempts(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Returns a DataFrame with only the best attempt (highest Score) 
+    for each student-problem pair.
+
+    If there are ties, takes the latest attempt (highest Attempt number).
+    """
+    # Filter to only Run.Program events (these have the Score)
+    run_events = df[df['EventType'] == 'Run.Program'].copy()
+
+    # Sort by Score (desc) then Attempt (desc) to handle ties
+    run_events = run_events.sort_values(
+        by=['SubjectID', 'ProblemID', 'Score', 'Attempt'],
+        ascending=[True, True, False, False]
+    )
+
+    # Keep first row for each student-problem pair (which is now the best)
+    best_attempts = run_events.groupby(
+        ['SubjectID', 'ProblemID']).first().reset_index()
+
+    print(f"Best attempts: {len(best_attempts):,} rows")
+    print(f"  Unique students: {best_attempts['SubjectID'].nunique()}")
+    print(f"  Unique problems: {best_attempts['ProblemID'].nunique()}")
+
+    return best_attempts

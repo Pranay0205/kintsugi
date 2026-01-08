@@ -18,4 +18,4 @@ TOPICS_JSON_PATH = os.path.join(
     PROJECT_ROOT, "dataset", "Topics", "java_topics.json")
 
 PROBLEM_PROMPT_PATH = os.path.join(
-    PROJECT_ROOT,  "dataset", "CodeWorkout", "problem_prompts.csv")
+    PROJECT_ROOT,  "dataset", "CodeWorkout", "Problem_Prompts", "problem_prompts.csv")
