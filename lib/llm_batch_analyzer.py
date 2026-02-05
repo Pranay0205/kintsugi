@@ -113,6 +113,16 @@ IMPORTANT RULES FOR GAP IDENTIFICATION:
    NOT: Student used a less efficient approach
 
 OUTPUT FORMAT:
+Use these standard tags for "at_risk_topic" where applicable:
+- Loop (for while, for loops)
+- NestedLoop
+- String (methods, indexing)
+- Array (indexing, bounds)
+- Logic (boolean logic, and/or/not)
+- Condition (if/else)
+- Method (creating functions)
+- Math (arithmetic, modulo)
+
 Return ONLY valid JSON:
 {{
   "student_analysis": [
@@ -203,13 +213,14 @@ def get_focused_best_attempts(
     return submissions
 
 
-def analyze_student_submissions(submissions: list[dict], limit: int = 30) -> dict | None:
+def analyze_student_submissions(submissions: list[dict], limit: int = 30, system_instruction: str = None) -> dict | None:
     """
     Analyze student submissions with focus on individual gaps and predictions.
 
     Args:
         submissions: List of submission dicts (best attempts only)
         limit: Max submissions to analyze (token management)
+        system_instruction: Optional custom system prompt. If None, default is used.
     """
 
     # Limit submissions
@@ -220,7 +231,9 @@ def analyze_student_submissions(submissions: list[dict], limit: int = 30) -> dic
         return None
 
     formatted_input = format_submissions(submissions)
-    system_instruction = create_system_instruction()
+
+    if system_instruction is None:
+        system_instruction = create_system_instruction()
 
     print(f"Analyzing {len(submissions)} submissions...")
     print(
