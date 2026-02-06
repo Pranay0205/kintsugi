@@ -1,23 +1,31 @@
+"""Data loading and preprocessing for the CodeWorkout dataset."""
 
-
-from utils.constants import MAINTABLE_PATH, CODESTATES_TABLE_PATH, PROBLEM_PROMPT_PATH, SUBJECT_TABLE_PATH, TOPICS_JSON_PATH
-import pandas as pd
 import json
 
+import pandas as pd
 
-def load_data():
+from utils.constants import (
+    MAINTABLE_PATH,
+    CODESTATES_TABLE_PATH,
+    PROBLEM_PROMPT_PATH,
+    SUBJECT_TABLE_PATH,
+    TOPICS_JSON_PATH,
+)
 
+
+def load_data(
+    verbose: bool = False,
+) -> tuple[pd.DataFrame | None, pd.DataFrame | None, pd.DataFrame | None]:
+    """Load raw CSV tables (MainTable, CodeStates, Subject)."""
     try:
-        print("Loading datasets...")
-
         main_table = pd.read_csv(MAINTABLE_PATH)
-        print(f"Main table: {len(main_table):,} rows")
-
         codestate_table = pd.read_csv(CODESTATES_TABLE_PATH)
-        print(f"CodeState table: {len(codestate_table):,} rows")
-
         subject_table = pd.read_csv(SUBJECT_TABLE_PATH)
-        print(f"Subject table: {len(subject_table):,} rows")
+
+        if verbose:
+            print(f"Main table: {len(main_table):,} rows")
+            print(f"CodeState table: {len(codestate_table):,} rows")
+            print(f"Subject table: {len(subject_table):,} rows")
 
         return main_table, codestate_table, subject_table
 
@@ -26,83 +34,71 @@ def load_data():
         return None, None, None
 
 
-def load_joined_datasets():
-    main_table, codestate_table, subject_table = load_data()
+def load_joined_datasets(verbose: bool = True) -> pd.DataFrame | None:
+    """Load and join all three tables into a single DataFrame (~191 k rows)."""
+    main_table, codestate_table, subject_table = load_data(verbose=verbose)
 
     if main_table is None or codestate_table is None or subject_table is None:
-        print("Failed to load datasets. Aborting join operation.")
+        print("Failed to load datasets.")
         return None
 
-    print("\nJoining datasets...")
     data = main_table.merge(codestate_table, on="CodeStateID")
-
     full_data = data.merge(subject_table, on="SubjectID")
-    print(f"Joined dataset: {len(full_data):,} rows")
 
-    print("Datasets joined successfully.")
-
-    print("Columns in the joined dataset:")
-    print(full_data.columns)
+    if verbose:
+        print(f"Joined dataset: {len(full_data):,} rows")
 
     return full_data
 
 
 def load_topics_json() -> dict | None:
-
+    """Load the course curriculum topic structure from JSON."""
     try:
-        with open(TOPICS_JSON_PATH, 'r') as f:
-            topics = json.load(f)
-        print(f"Loaded topics from {TOPICS_JSON_PATH}")
-        return topics
-    except FileNotFoundError:
-        print(f"Error: {TOPICS_JSON_PATH} not found.")
+        with open(TOPICS_JSON_PATH, "r") as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Error loading topics: {e}")
         return None
-    except json.JSONDecodeError as e:
-        print(f"Error decoding JSON from {TOPICS_JSON_PATH}: {e}")
-        return None
-
-# utils/dataset.py or wherever you load data
 
 
 def load_problem_descriptions() -> dict[str, str]:
-    """
-    Load problem descriptions from LinkTable.csv or wherever they're stored.
-    Returns dict mapping problem_id -> problem_description
-    """
-    # Adjust path/column names based on your actual data
+    """Return ``{problem_id: requirement_text}`` from problem_prompts.csv."""
     problems_df = pd.read_csv(PROBLEM_PROMPT_PATH)
-
-    problem_map = {}
-    for _, row in problems_df.iterrows():
-        problem_id = str(row['ProblemID'])
-        description = row['Requirement']  # or whatever column has it
-        problem_map[problem_id] = description
-
-    return problem_map
+    return {
+        str(row["ProblemID"]): row["Requirement"]
+        for _, row in problems_df.iterrows()
+    }
 
 
-def get_best_attempts(df: pd.DataFrame) -> pd.DataFrame:
+def load_problem_topics() -> pd.DataFrame | None:
+    """Load the problem → KC tag matrix from problem_prompts.csv."""
+    try:
+        return pd.read_csv(PROBLEM_PROMPT_PATH)
+    except Exception as e:
+        print(f"Error loading problem topics: {e}")
+        return None
+
+
+def get_best_attempts(df: pd.DataFrame, verbose: bool = True) -> pd.DataFrame:
+    """Best attempt (highest Score) per student–problem pair.
+
+    Ties are broken by latest Attempt number.
+    Only ``Run.Program`` events are considered.
     """
-    Returns a DataFrame with only the best attempt (highest Score) 
-    for each student-problem pair.
+    run_events = df[df["EventType"] == "Run.Program"].copy()
 
-    If there are ties, takes the latest attempt (highest Attempt number).
-    """
-    # Filter to only Run.Program events (these have the Score)
-    run_events = df[df['EventType'] == 'Run.Program'].copy()
-
-    # Sort by Score (desc) then Attempt (desc) to handle ties
     run_events = run_events.sort_values(
-        by=['SubjectID', 'ProblemID', 'Score', 'Attempt'],
-        ascending=[True, True, False, False]
+        by=["SubjectID", "ProblemID", "Score", "Attempt"],
+        ascending=[True, True, False, False],
     )
 
-    # Keep first row for each student-problem pair (which is now the best)
-    best_attempts = run_events.groupby(
-        ['SubjectID', 'ProblemID']).first().reset_index()
+    best = run_events.groupby(["SubjectID", "ProblemID"]).first().reset_index()
 
-    print(f"Best attempts: {len(best_attempts):,} rows")
-    print(f"  Unique students: {best_attempts['SubjectID'].nunique()}")
-    print(f"  Unique problems: {best_attempts['ProblemID'].nunique()}")
+    if verbose:
+        print(
+            f"Best attempts: {len(best):,} rows "
+            f"({best['SubjectID'].nunique()} students, "
+            f"{best['ProblemID'].nunique()} problems)"
+        )
 
-    return best_attempts
+    return best

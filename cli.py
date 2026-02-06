@@ -20,8 +20,8 @@ def main() -> None:
         "validate", help="Validate predictions against future performance")
 
     validate_parser.add_argument(
-        "--limit", type=int, default=10,
-        help="Number of students to validate"
+        "--limit", type=int, default=30,
+        help="Number of students to validate (default: 30, mixed sample)"
     )
 
     args = parser.parse_args()
