@@ -4,14 +4,16 @@ Kintsugi (named after the Japanese art of repairing broken pottery with gold) is
 
 ## Notebook Workflow
 
-The project now uses three focused notebooks instead of one monolithic flow:
+The project now uses an ordered thesis workflow under `experiments/`:
 
-- `single_student_experiments.ipynb`  
+- `experiments/01_single_student_experiments.ipynb`  
   Single-student prompt strategy experiments (Experiments 1-4).
-- `single_student_mental_model_injection.ipynb`  
+- `experiments/02_single_student_mental_model_injection.ipynb`  
   Single-student mental-model construction and context-enriched prompt evaluation.
-- `batch_prompt_experiments.ipynb`  
+- `experiments/03_batch_prompt_experiments.ipynb`  
   Cohort-level prompt strategy experiments and summary metrics.
+- `experiments/04_batch_context_enriched_comparison.ipynb`  
+  Cohort A/B comparison: baseline prompt strategies vs context-enriched strategies.
 
 `student_assessment_analysis.ipynb` is preserved as the original notebook and is intentionally left intact.
 
@@ -31,13 +33,14 @@ Common notebook logic is centralized in `lib/`:
   - Mental-model payload builder
   - Context-enriched prompt evaluation helpers
 
-Existing modules (`lib/llm_batch_analyzer.py`, `lib/prompts.py`, `lib/normalizer.py`, `lib/prediction_validator.py`) remain supported for CLI and thesis analysis flows.
+Existing modules (`lib/llm_batch_analyzer.py`, `lib/prompts.py`, `lib/normalizer.py`, `lib/prediction_validator.py`) remain supported for thesis analysis flows.
 
 ## Recommended Run Order
 
-1. Run all cells in `single_student_experiments.ipynb`
-2. Run all cells in `single_student_mental_model_injection.ipynb`
-3. Run all cells in `batch_prompt_experiments.ipynb`
+1. Run all cells in `experiments/01_single_student_experiments.ipynb`
+2. Run all cells in `experiments/02_single_student_mental_model_injection.ipynb`
+3. Run all cells in `experiments/03_batch_prompt_experiments.ipynb`
+4. Run all cells in `experiments/04_batch_context_enriched_comparison.ipynb`
 
 Each notebook writes CSV outputs for downstream reporting.
 

@@ -2,14 +2,41 @@
 Prompt strategies for LLM-based knowledge gap detection.
 
 Defines four prompt engineering approaches compared in the thesis:
-1. Zero-Shot — Direct instruction, no examples
-2. Few-Shot — Instruction with annotated examples
-3. Chain-of-Thought — Step-by-step reasoning chain
-4. Curriculum-Aware — Role-based + curriculum context + strict KC tags
+1. Zero-Shot - Direct instruction, no examples
+2. Few-Shot - Instruction with annotated examples
+3. Chain-of-Thought - Step-by-step reasoning chain
+4. Curriculum-Aware - Role-based + curriculum context + strict KC tags
+
 """
 
 import json
 from typing import Callable
+
+
+# ---------------------------------------------------------------------------
+# KC Vocabulary (single source of truth - matches problem_prompts.csv columns)
+# ---------------------------------------------------------------------------
+
+KC_TAGS = [
+    "If/Else",
+    "NestedIf",
+    "While",
+    "For",
+    "NestedFor",
+    "Math+-*/",
+    "Math%",
+    "LogicAndNotOr",
+    "LogicCompareNum",
+    "LogicBoolean",
+    "StringFormat",
+    "StringConcat",
+    "StringIndex",
+    "StringLen",
+    "StringEqual",
+    "CharEqual",
+    "ArrayIndex",
+    "DefFunction",
+]
 
 
 # ---------------------------------------------------------------------------
@@ -114,8 +141,8 @@ IMPORTANT: Complete all reasoning steps BEFORE writing the final gaps and predic
 
 def build_curriculum_aware_prompt(
     topics: dict,
-    problems: dict[str, str],
-    focus_problem_ids: list[int],
+    problems: dict,
+    focus_problem_ids: list,
 ) -> str:
     """
     Build the full curriculum-aware system instruction.
@@ -156,31 +183,31 @@ EXAMPLES OF GOOD GAP IDENTIFICATION:
 
 Example 1 - Loop boundary error:
 ```java
-for(int i = 0; i < str.length(); i++) {{
+for(int i = 0; i < str.length(); i++) {{{{
     if(str.substring(i, i+5).equals("bread")) // crashes at end
 ```
 Gap: "Off-by-one error in loop bounds - doesn't account for substring length"
-Missing concept: Loop termination conditions with string operations
-Future risk: Will struggle with array traversal, nested loops, any boundary-sensitive algorithms
+Missing concept: For
+Future risk: NestedFor, ArrayIndex
 
 Example 2 - String method confusion:
 ```java
 int len = str.length;  // wrong
 ```
 Gap: "Confuses String.length() method with array.length property"
-Missing concept: Difference between methods and properties in Java
-Future risk: Will make similar errors with other String methods
+Missing concept: StringLen
+Future risk: StringIndex, ArrayIndex
 
 Example 3 - Logic flow issue:
 ```java
-for(int i = 0; i < str.length(); i++) {{
+for(int i = 0; i < str.length(); i++) {{{{
     if(str.charAt(i) == 'x') return true;
     else return false;  // returns on first char!
-}}
+}}}}
 ```
 Gap: "Premature return in loop - doesn't understand loop continuation"
-Missing concept: Control flow in loops, when to return vs continue
-Future risk: Will fail problems requiring full iteration
+Missing concept: For, LogicBoolean
+Future risk: NestedFor, LogicAndNotOr
 
 WHAT TO LOOK FOR:
 - Syntax errors that reveal conceptual confusion (not typos)
@@ -212,77 +239,193 @@ IMPORTANT RULES:
    return empty knowledge_gaps and future_predictions lists.
 
 OUTPUT FORMAT:
-Use these standard tags for "at_risk_topic" where applicable:
-- Loop, NestedLoop, String, Array, Logic, Condition, Method, Math
-
 Return ONLY valid JSON:
-{{
+{{{{
   "student_analysis": [
-    {{
+    {{{{
       "student_id": "SubjectID",
       "problem_id": "ProblemID",
       "score": 0.0,
       "knowledge_gaps": [
-        {{
+        {{{{
           "gap": "Specific description",
           "evidence": "Code snippet showing this gap",
-          "missing_concept": "The underlying concept",
+          "missing_concept": "STRICT_KC_TAG",
           "severity": "critical/moderate/minor"
-        }}
+        }}}}
       ],
       "future_predictions": [
-        {{
-          "at_risk_topic": "Topic tag",
+        {{{{
+          "at_risk_topic": "STRICT_KC_TAG",
           "reason": "Why this gap causes problems there",
           "prerequisite_gap": "What they need to learn first"
-        }}
+        }}}}
       ],
       "recommended_intervention": "Teaching suggestion"
-    }}
+    }}}}
   ],
-  "class_summary": {{
+  "class_summary": {{{{
     "common_gaps": ["Gaps affecting multiple students"],
     "highest_risk_students": ["Student IDs needing attention"],
     "suggested_review_topics": ["Topics to revisit"]
-  }}
-}}
+  }}}}
+}}}}
 """
+
+    # ------------------------------------------------------------------
+    # Use exact KC names from problem_prompts.csv instead of
+    # generic tags. This ensures WeakSkillOverlap can match LLM output
+    # against the student mental model which uses the same KC vocabulary.
+    #
+    # OLD (broken): Loop, NestedLoop, String, Array, Logic, Condition,
+    #               Method, Math, Indexing, Comparison
+    # NEW (fixed):  If/Else, NestedIf, While, For, NestedFor, Math+-*/,
+    #               Math%, LogicAndNotOr, LogicCompareNum, LogicBoolean,
+    #               StringFormat, StringConcat, StringIndex, StringLen,
+    #               StringEqual, CharEqual, ArrayIndex, DefFunction
+    # ------------------------------------------------------------------
 
     strict_tags = """
 
 STRICT OUTPUT RULES:
 Separate quantitative tags from qualitative descriptions.
 
-1. 'knowledge_gaps' must be a list of objects:
-   { "category": "STRICT_TAG", "description": "Detailed explanation..." }
+1. 'knowledge_gaps' must be a list of objects with 'missing_concept' using a STRICT KC TAG:
+   { "gap": "description", "evidence": "code", "missing_concept": "STRICT_KC_TAG", "severity": "level" }
 
-2. 'future_predictions' must be a list of objects:
-   { "topic_tag": "STRICT_TAG", "risk_explanation": "Detailed explanation..." }
+2. 'future_predictions' must be a list of objects with 'at_risk_topic' using a STRICT KC TAG:
+   { "at_risk_topic": "STRICT_KC_TAG", "reason": "explanation", "prerequisite_gap": "description" }
 
-PERMITTED STRICT TAGS for 'category' and 'topic_tag':
-- Loop
-- NestedLoop
-- String
-- Array
-- Logic
-- Condition
-- Method
-- Math
-- Indexing
-- Comparison
+PERMITTED KC TAGS - use ONLY these exact names for 'missing_concept' and 'at_risk_topic':
 
-Do not invent new tags. Use the closest match.
+Conditional Skills:
+- If/Else
+- NestedIf
+
+Loop Skills:
+- While
+- For
+- NestedFor
+
+Math Skills:
+- Math+-*/
+- Math%
+
+Logic Skills:
+- LogicAndNotOr
+- LogicCompareNum
+- LogicBoolean
+
+String Skills:
+- StringFormat
+- StringConcat
+- StringIndex
+- StringLen
+- StringEqual
+- CharEqual
+
+Array Skills:
+- ArrayIndex
+
+Function Skills:
+- DefFunction
+
+CRITICAL RULES FOR TAGS:
+- Do NOT use generic terms like "Logic", "Loop", "String", "Condition", "Method", "Array".
+- ALWAYS use the SPECIFIC KC tag from the list above (e.g., "For" not "Loop", "If/Else" not "Condition").
+- If a gap spans multiple skills, list each relevant specific KC tag as a SEPARATE future_prediction entry.
+- If no KC tag fits exactly, use the closest match from the list above.
 """
 
     return base + strict_tags
 
 
 # ---------------------------------------------------------------------------
+# Overlap Calculation
+# ---------------------------------------------------------------------------
+
+def calculate_weak_skill_overlap(
+    llm_output: dict,
+    weak_skills: list,
+) -> dict:
+    """
+    Calculate overlap between LLM-predicted at-risk topics and the student's
+    actual weak skills from their mental model.
+
+    Now works correctly because both sides use the same KC vocabulary
+    from problem_prompts.csv.
+
+    Parameters
+    ----------
+    llm_output : dict
+        Parsed JSON output from the LLM (Curriculum-Aware strategy).
+    weak_skills : list[str]
+        Student's weak skills from get_weak_skills(),
+        e.g. ["LogicCompareNum", "NestedIf"].
+
+    Returns
+    -------
+    dict with:
+        - overlap_count: int - number of LLM predictions matching weak skills
+        - overlap_skills: list[str] - which specific KCs overlapped
+        - total_predictions: int - total at_risk_topics the LLM predicted
+        - total_weak_skills: int - total weak skills in mental model
+        - overlap_ratio: float - overlap_count / total_predictions (precision)
+        - coverage_ratio: float - overlap_count / total_weak_skills (recall)
+    """
+    weak_set = set(weak_skills)
+
+    # Extract at_risk_topic tags from LLM output
+    predicted_tags = set()
+    try:
+        analyses = llm_output.get("student_analysis", [])
+        for analysis in analyses:
+            for pred in analysis.get("future_predictions", []):
+                tag = pred.get("at_risk_topic", "")
+                if tag:
+                    predicted_tags.add(tag)
+    except (AttributeError, TypeError):
+        pass
+
+    # Also extract missing_concept from knowledge_gaps
+    concept_tags = set()
+    try:
+        analyses = llm_output.get("student_analysis", [])
+        for analysis in analyses:
+            for gap in analysis.get("knowledge_gaps", []):
+                concept = gap.get("missing_concept", "")
+                if concept in KC_TAGS:
+                    concept_tags.add(concept)
+    except (AttributeError, TypeError):
+        pass
+
+    all_llm_tags = predicted_tags | concept_tags
+    overlap = all_llm_tags & weak_set
+
+    total_preds = len(all_llm_tags)
+    total_weak = len(weak_set)
+
+    return {
+        "overlap_count": len(overlap),
+        "overlap_skills": sorted(overlap),
+        "total_predictions": total_preds,
+        "total_weak_skills": total_weak,
+        "overlap_ratio": (
+            len(overlap) / total_preds if total_preds > 0 else 0.0
+        ),
+        "coverage_ratio": (
+            len(overlap) / total_weak if total_weak > 0 else 0.0
+        ),
+        "llm_tags": sorted(all_llm_tags),
+        "weak_skills": sorted(weak_set),
+    }
+
+
+# ---------------------------------------------------------------------------
 # Strategy Registry
 # ---------------------------------------------------------------------------
 
-# Simple strategies (no external data needed)
-SIMPLE_STRATEGIES: dict[str, Callable[[], str]] = {
+SIMPLE_STRATEGIES: dict[str, Callable] = {
     "Zero-Shot": get_zero_shot_prompt,
     "Few-Shot": get_few_shot_prompt,
     "Chain-of-Thought": get_chain_of_thought_prompt,

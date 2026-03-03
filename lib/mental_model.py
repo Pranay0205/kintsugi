@@ -1,6 +1,7 @@
 import json
 import re
 import time
+from pathlib import Path
 from typing import Any
 
 import networkx as nx
@@ -14,7 +15,12 @@ from utils.dataset import load_topics_json, load_problem_descriptions
 
 
 def load_skill_map(prompts_path: str = "dataset/CodeWorkout/Problem_Prompts/problem_prompts.csv"):
-    skill_df = pd.read_csv(prompts_path)
+    path = Path(prompts_path)
+    if not path.is_absolute():
+        project_root = Path(__file__).resolve().parents[1]
+        path = project_root / path
+
+    skill_df = pd.read_csv(path)
     skill_cols = skill_df.columns[3:]
 
     skill_map = {}
