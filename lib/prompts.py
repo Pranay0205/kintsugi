@@ -237,6 +237,9 @@ IMPORTANT RULES:
 
 4. If the student's code is correct and demonstrates solid understanding,
    return empty knowledge_gaps and future_predictions lists.
+   
+5. If student has just return statements with no logic, simply return no gaps instead of trying to infer a gap from lack of content. You can't identify a specific misconception if they haven't attempted any logic. [HIGLY CRITICAL: Do NOT fabricate gaps based on missing code. Only identify gaps from actual errors in their code.]
+      
 
 OUTPUT FORMAT:
 Return ONLY valid JSON:

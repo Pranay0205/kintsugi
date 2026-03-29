@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KC Gap Annotation Tool — Experiment 09</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f5f5f0;
+    color: #2c2c2a;
+    line-height: 1.6;
+  }
+
+  .header {
+    background: #fff;
+    border-bottom: 1px solid #e0dfd8;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header h1 { font-size: 16px; font-weight: 600; }
+
+  .header-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: #888;
+  }
+
+  .progress-bar {
+    width: 200px;
+    height: 6px;
+    background: #e0dfd8;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #1D9E75;
+    border-radius: 3px;
+    transition: width 0.3s;
+  }
+
+  .rater-bar {
+    background: #fff;
+    border-bottom: 1px solid #e0dfd8;
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .rater-bar input {
+    padding: 4px 10px;
+    border: 1px solid #d3d1c7;
+    border-radius: 6px;
+    font-size: 13px;
+    font-family: inherit;
+    width: 180px;
+  }
+
+  .container { max-width: 1400px; margin: 0 auto; padding: 20px 24px; }
+
+  /* Question section */
+  .question-box {
+    background: #fff;
+    border: 1px solid #e0dfd8;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .question-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  .question-text { font-size: 14px; line-height: 1.7; }
+
+  .kc-required {
+    margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .kc-required-tag {
+    background: #E1F5EE;
+    color: #085041;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+
+  /* Code panels */
+  .code-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .code-panel {
+    background: #fff;
+    border: 1px solid #e0dfd8;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .code-panel-header {
+    padding: 10px 16px;
+    border-bottom: 1px solid #e0dfd8;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .code-panel-header.student { background: #FFF8F0; color: #993C1D; }
+  .code-panel-header.reference { background: #F0F7FF; color: #185FA5; }
+
+  .code-area {
+    padding: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+    background: #fafaf8;
+  }
+
+  .code-area.empty {
+    color: #999;
+    font-family: 'Inter', sans-serif;
+    font-style: italic;
+    font-size: 13px;
+    padding: 32px 16px;
+    text-align: center;
+  }
+
+  /* Score indicator */
+  .score-bar {
+    background: #fff;
+    border: 1px solid #e0dfd8;
+    border-radius: 12px;
+    padding: 12px 24px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+  }
+
+  .score-value {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .score-value.pass { color: #1D9E75; }
+  .score-value.partial { color: #BA7517; }
+  .score-value.fail { color: #A32D2D; }
+
+  /* KC tagging section */
+  .tagging-section {
+    background: #fff;
+    border: 1px solid #e0dfd8;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  .tagging-label {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .tagging-instruction {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 14px;
+  }
+
+  .kc-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .kc-btn {
+    padding: 8px 16px;
+    border: 1.5px solid #d3d1c7;
+    border-radius: 8px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: #444;
+    user-select: none;
+  }
+
+  .kc-btn:hover { border-color: #888; background: #fafaf8; }
+
+  .kc-btn.selected {
+    background: #D85A30;
+    color: #fff;
+    border-color: #D85A30;
+  }
+
+  .kc-btn.selected:hover {
+    background: #c04e28;
+    border-color: #c04e28;
+  }
+
+  .selected-gaps {
+    padding: 12px 16px;
+    background: #fafaf8;
+    border-radius: 8px;
+    min-height: 44px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .selected-gap-tag {
+    background: #FAECE7;
+    color: #712B13;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .selected-gap-tag .remove {
+    cursor: pointer;
+    opacity: 0.5;
+    font-size: 14px;
+  }
+
+  .selected-gap-tag .remove:hover { opacity: 1; }
+
+  .no-gaps { color: #aaa; font-size: 12px; font-style: italic; }
+
+  /* Notes */
+  .notes-area {
+    margin-top: 12px;
+  }
+
+  .notes-area textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d3d1c7;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    resize: vertical;
+    min-height: 60px;
+    line-height: 1.5;
+  }
+
+  /* Navigation */
+  .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+
+  .nav-btn {
+    padding: 10px 24px;
+    border: 1.5px solid #d3d1c7;
+    border-radius: 8px;
+    background: #fff;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .nav-btn:hover { background: #fafaf8; border-color: #888; }
+
+  .nav-btn.primary {
+    background: #1D9E75;
+    color: #fff;
+    border-color: #1D9E75;
+  }
+
+  .nav-btn.primary:hover { background: #178862; }
+
+  .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .nav-btn.export {
+    background: #534AB7;
+    color: #fff;
+    border-color: #534AB7;
+  }
+
+  .nav-btn.export:hover { background: #4540a0; }
+
+  /* Problem selector */
+  .problem-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .problem-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid #d3d1c7;
+    background: #fff;
+    transition: all 0.15s;
+  }
+
+  .problem-dot:hover { border-color: #888; }
+  .problem-dot.done { background: #E1F5EE; border-color: #1D9E75; color: #085041; }
+  .problem-dot.current { background: #D85A30; color: #fff; border-color: #D85A30; }
+
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #2c2c2a;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    z-index: 200;
+  }
+
+  .toast.show { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>KC Gap Annotation Tool</h1>
+  <div class="header-meta">
+    <span id="counter">Problem 1 of 30</span>
+    <div class="progress-bar"><div class="progress-fill" id="progress" style="width: 0%"></div></div>
+    <span id="done-count">0 done</span>
+  </div>
+</div>
+
+<div class="rater-bar">
+  <label>Rater name:</label>
+  <input type="text" id="rater-name" placeholder="Your name" value="">
+  <span style="color:#aaa">|</span>
+  <label>Student ID:</label>
+  <input type="text" id="student-id" placeholder="e.g. 14359" value="">
+  <button class="nav-btn" onclick="loadStudentData()" style="padding:4px 14px;font-size:12px;">Load student data</button>
+  <span style="flex:1"></span>
+  <button class="nav-btn export" onclick="exportJSON()">Export JSON</button>
+</div>
+
+<div class="container">
+  <!-- Question -->
+  <div class="question-box">
+    <div class="question-label">Problem <span id="prob-id"></span> — Assignment <span id="assign-id"></span></div>
+    <div class="question-text" id="question-text"></div>
+    <div class="kc-required" id="kc-required"></div>
+  </div>
+
+  <!-- Score -->
+  <div class="score-bar">
+    <span>Student score:</span>
+    <span class="score-value" id="score-display">—</span>
+    <span id="score-label" style="font-size:12px;color:#888"></span>
+  </div>
+
+  <!-- Code panels -->
+  <div class="code-panels">
+    <div class="code-panel">
+      <div class="code-panel-header student">Student's code</div>
+      <div class="code-area" id="student-code">Load student data above to see their code</div>
+    </div>
+    <div class="code-panel">
+      <div class="code-panel-header reference">Reference solutions (what correct code looks like)</div>
+      <div class="code-area empty" id="reference-code">Reference solutions will be generated separately. For now, use the problem description and KC tags to judge what the student should have done.</div>
+    </div>
+  </div>
+
+  <!-- KC Tagging -->
+  <div class="tagging-section">
+    <div class="tagging-label">What knowledge gaps do you see in this student's code?</div>
+    <div class="tagging-instruction">Click the KCs that the student is struggling with on this problem. Compare their code against the problem requirements.</div>
+    <div class="kc-buttons" id="kc-buttons"></div>
+    <div class="tagging-label" style="font-size:12px;margin-top:8px;">Selected gaps:</div>
+    <div class="selected-gaps" id="selected-gaps">
+      <span class="no-gaps">No gaps selected — click KC buttons above, or leave empty if student code is correct</span>
+    </div>
+    <div class="notes-area">
+      <label style="font-size:12px;font-weight:500;">Notes (optional):</label>
+      <textarea id="notes" placeholder="Any observations about this student's code..."></textarea>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav-bar">
+    <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">Previous</button>
+    <div class="problem-grid" id="problem-grid"></div>
+    <button class="nav-btn primary" id="next-btn" onclick="navigate(1)">Save & Next</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ====== PROBLEM DATA (from problem_prompts.csv) ======
+const PROBLEMS = [{"id":1,"a":439,"r":"Write a function in Java that implements the following logic: Given 2 ints, a and b, return their sum. However, sums in the range 10..19 inclusive, are forbidden, so in that case just return 20.","kcs":["If/Else","Math+-*/","LogicAndNotOr","LogicCompareNum"]},{"id":3,"a":439,"r":"Write a function in Java that implements the following logic: Given a number n, return true if n is in the range 1..10, inclusive. Unless \"outsideMode\" is true, in which case return true if the number is less or equal to 1, or greater or equal to 10.","kcs":["If/Else","NestedIf","LogicAndNotOr","LogicCompareNum","LogicBoolean"]},{"id":5,"a":439,"r":"Write a function in Java that implements the following logic: Your cell phone rings. Return true if you should answer it. Normally you answer, except in the morning you only answer if it is your mom calling. In all cases, if you are asleep, you do not answer.","kcs":["If/Else","NestedIf","LogicBoolean"]},{"id":12,"a":439,"r":"Write a function in Java that implements the following logic: The squirrels in Palo Alto spend most of the day playing. In particular, they play if the temperature is between 60 and 90 (inclusive). Unless it is summer, then the upper limit is 100 instead of 90. Given an int temperature and a boolean isSummer, return true if the squirrels play and false otherwise.","kcs":["If/Else","NestedIf","LogicAndNotOr","LogicCompareNum","LogicBoolean"]},{"id":13,"a":439,"r":"Write a function in Java that implements the following logic: You are driving a little too fast, and a police officer stops you. Write code to compute the result, encoded as an int value: 0=no ticket, 1=small ticket, or 2=big ticket. If speed is 60 or less, the result is 0. If speed is between 61 and 80 inclusive, the result is 1. If speed is 81 or more, the result is 2. Unless it is your birthday--on that day, your speed can be 5 higher in all cases.","kcs":["If/Else","NestedIf","Math+-*/","LogicAndNotOr","LogicCompareNum","LogicBoolean"]},{"id":232,"a":439,"r":"Given a day of the week encoded as 0 = Sun, 1 = Mon, 2 = Tue, ... 6 = Sat, and a boolean indicating if we are on vacation, return a string of the form \"7:00\" indicating when the alarm clock should ring. Weekdays, the alarm should be \"7:00\" and on the weekend it should be \"10:00\". Unless we are on vacation--then on weekdays it should be \"10:00\" and weekends it should be \"off\".","kcs":["If/Else","NestedIf","LogicAndNotOr","LogicCompareNum","LogicBoolean","StringFormat"]},{"id":233,"a":439,"r":"The number 6 is a truly great number. Given two int values, a and b, return true if either one is 6. Or if their sum or difference is 6. Note: the function Math.abs(num) computes the absolute value of a number.","kcs":["If/Else","Math+-*/","LogicAndNotOr","LogicCompareNum"]},{"id":234,"a":439,"r":"When squirrels get together for a party, they like to have cigars. A squirrel party is successful when the number of cigars is between 40 and 60, inclusive. Unless it is the weekend, in which case there is no upper bound on the number of cigars. Return true if the party with the given values is successful, or false otherwise.","kcs":["If/Else","NestedIf","LogicAndNotOr","LogicCompareNum","LogicBoolean"]},{"id":235,"a":439,"r":"You and your date are trying to get a table at a restaurant. The parameter you is the stylishness of your clothes, in the range 0..10, and date is the stylishness of your date's clothes. Write a method that returns your chances of getting a table, encoded as an int value with 0 = no, 1 = maybe, 2 = yes. If either of you is very stylish, 8 or more, then the result is 2 (yes). With the exception that if either of you has style of 2 or less, then the result is 0 (no). Otherwise the result is 1 (maybe).","kcs":["If/Else","LogicAndNotOr","LogicCompareNum"]},{"id":236,"a":439,"r":"You have a green lottery ticket, with ints a, b, and c on it. If the numbers are all different from each other, the result is 0. If all of the numbers are the same, the result is 20. If two of the numbers are the same, the result is 10.","kcs":["If/Else","LogicAndNotOr","LogicCompareNum"]},{"id":17,"a":487,"r":"Write a function in Java that implements the following logic: You have a red lottery ticket showing ints a, b, and c, each of which is 0, 1, or 2. If they are all the value 2, the result is 10. Otherwise if they are all the same, the result is 5. Otherwise so long as both b and c are different from a, the result is 1. Otherwise the result is 0.","kcs":["If/Else","NestedIf","LogicAndNotOr","LogicCompareNum"]},{"id":20,"a":487,"r":"Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is the same as another of the values, it does not count towards the sum.","kcs":["If/Else","NestedIf","Math+-*/","LogicAndNotOr","LogicCompareNum"]},{"id":21,"a":487,"r":"Write a function in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if one of the values is 13 then it does not count towards the sum and values to its right do not count. So for example, if b is 13, then both b and c do not count.","kcs":["If/Else","NestedIf","Math+-*/","LogicAndNotOr","LogicCompareNum"]},{"id":22,"a":487,"r":"Write two methods in Java that implements the following logic: Given 3 int values, a, b, and c, return their sum. However, if any of the values is a teen--in the range 13..19 inclusive--then that value counts as 0, except 15 and 16 do not count as teens. Write a separate helper method called fixTeen() that takes in an int value and returns that value fixed for the teen rule. In this way you avoid repeating the teen code 3 times (i.e. \"decomposition\").","kcs":["If/Else","NestedIf","Math+-*/","LogicAndNotOr","LogicCompareNum","DefFunction"]},{"id":24,"a":487,"r":"Write a function in Java that implements the following logic: Given 2 int values greater than 0, return whichever value is nearest to 21 without going over. Return 0 if they both go over.","kcs":["If/Else","Math+-*/","LogicAndNotOr","LogicCompareNum"]},{"id":25,"a":487,"r":"Write a function in Java that implements the following logic: Given three ints, a, b, and c, one of them is small, one is medium and one is large. Return true if the three values are evenly spaced, so the difference between small and medium is the same as the difference between medium and large.","kcs":["If/Else","Math+-*/","LogicAndNotOr","LogicCompareNum"]},{"id":28,"a":487,"r":"Write a function in Java that implements the following logic: Given a string, return a string made of its first 2 chars. If the string length is less than 2, use '@' for the missing chars.","kcs":["If/Else","LogicCompareNum","StringFormat","StringConcat","StringIndex","StringLen"]},{"id":100,"a":487,"r":"For this problem, we'll round an int value up to the next multiple of 10 if its rightmost digit is 5 or more, so 15 rounds up to 20. Alternately, round down to the previous multiple of 10 if its rightmost digit is less than 5, so 12 rounds down to 10. Given 3 ints, a, b, and c, return the sum of their rounded values. To avoid code repetition, write a separate helper public int round10(int num) and call it 3 times. Write the helper entirely below and at the same indent level as roundSum().","kcs":["If/Else","Math+-*/","Math%","LogicCompareNum","DefFunction"]},{"id":101,"a":487,"r":"We want make a package of goal kilos of chocolate. We have small bars (1 kilo each) and big bars (5 kilos each). Return the number of small bars to use, assuming we always use big bars before small bars. Return -1 if it can't be done.","kcs":["If/Else","While","Math+-*/","LogicAndNotOr","LogicCompareNum"]},{"id":102,"a":487,"r":"Given a string, if the same 2-character substring appears at both its beginning and end, return the contents of the string without the 2-character substring at the beginning. For example, \"HelloHe\" yields \"lloHe\". Note that the 2-character substring at the beginning may overlap with the one at the end, so \"Hi\" yields \"\". If the two characters at the start and end of the string do not match each other, return the original string unchanged.","kcs":["If/Else","LogicCompareNum","StringFormat","StringIndex","StringLen","StringEqual"]},{"id":31,"a":492,"r":"Write a function in Java that implements the following logic: Given a string and an int n, return a string made of n repetitions of the last n characters of the string. You may assume that n is between 0 and the length of the string, inclusive.","kcs":["For","StringFormat","StringConcat","StringIndex","StringLen"]},{"id":32,"a":492,"r":"Write a function in Java that implements the following logic: Given a string str and a non-empty word, return a version of the original string where all chars have been replaced by pluses (+), except for appearances of the word which are preserved unchanged.","kcs":["If/Else","While","LogicCompareNum","StringFormat","StringConcat","StringIndex","StringLen","StringEqual"]},{"id":33,"a":492,"r":"Write a function in Java that implements the following logic: Given two strings, a and b, create a bigger string made of the first character of a, the first character of b, the second character of a, the second character of b, and so on. Any leftover characters go at the end of the result.","kcs":["While","LogicCompareNum","StringFormat","StringConcat","StringIndex","StringLen"]},{"id":34,"a":492,"r":"Given a string str, find all places where a three-letter combination starting with \"z\" and ending with \"p\" occurs. Return a string where for all such three-letter sequences, the middle letter has been removed. For example, a string like \"zipXzap\" would produce a result of \"zpXzp\".","kcs":["If/Else","For","LogicAndNotOr","StringFormat","StringConcat","StringIndex","StringLen","CharEqual"]},{"id":36,"a":492,"r":"Write a function in Java that counts the number of times the string \"code\" appears anywhere in the given string str, except that we'll accept any letter in place of the 'd', so for example, \"cope\" and \"cooe\" count.","kcs":["If/Else","For","Math+-*/","LogicAndNotOr","StringFormat","StringIndex","StringLen","StringEqual"]},{"id":37,"a":492,"r":"Given two strings, return true if either of the strings appears at the very end of the other string, ignoring upper/lower case differences (in other words, the computation should not be \"case sensitive\"). Note: str.toLowerCase() returns the lowercase version of a string.","kcs":["If/Else","LogicCompareNum","StringFormat","StringIndex","StringLen","StringEqual"]},{"id":38,"a":492,"r":"Write a function in Java that returns true if the given string str contains an occurrence of the substring \"xyz\" where \"xyz\" is not directly preceded by a period (\".\"). For example, \"xxyz\" counts, while \"x.xyz\" does not.","kcs":["If/Else","For","LogicAndNotOr","StringFormat","StringIndex","StringEqual","CharEqual"]},{"id":39,"a":492,"r":"We'll say that a string is xy-balanced if for all the 'x' characterss in the string, there exists a 'y' character somewhere later in the string. So \"xxy\" is balanced, but \"xyx\" is not. One 'y' can balance multiple 'x's. Return true if the given string is xy-balanced.","kcs":["If/Else","For","NestedFor","StringFormat","StringIndex","CharEqual"]},{"id":40,"a":492,"r":"A sandwich is two pieces of bread with something in between. Write a Java method that takes in a string str and returns the string that is between the first and last appearance of \"bread\" in str. Return the empty string \"\" if there are not two pieces of bread.","kcs":["If/Else","For","LogicAndNotOr","LogicCompareNum","StringFormat","StringIndex","StringEqual"]},{"id":128,"a":492,"r":"Return true if the given string contains a \"bob\" string, but where the middle 'o' character can be any character.","kcs":["If/Else","For","LogicAndNotOr","StringFormat","StringIndex","StringLen","CharEqual"]},{"id":41,"a":494,"r":"Given an array containing three ints, return the sum of all the elements.","kcs":["For","Math+-*/","ArrayIndex"]},{"id":43,"a":494,"r":"Given an int array of any length, return a new array of its first 2 elements. If the array is smaller than length 2, use whatever elements are present.","kcs":["If/Else","For","LogicCompareNum","ArrayIndex"]},{"id":44,"a":494,"r":"Write a function in Java that takes an int array as its parameter and returns the number of even ints it contains. Note: the % \"mod\" operator computes the remainder, e.g. 5 % 2 is 1.","kcs":["If/Else","For","Math+-*/","Math%","LogicCompareNum","ArrayIndex"]},{"id":46,"a":494,"r":"We'll say that a value is \"everywhere\" in an array if for every pair of adjacent elements in the array, at least one of the pair is that value. Return true if the given value is everywhere in the array.","kcs":["If/Else","For","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":49,"a":494,"r":"Write a function in Java that takes an array and returns the sum of the numbers in the array, or 0 if the array is empty. Except the number 13 is very unlucky, so it does not count any 13, or any number that immediately follows a 13.","kcs":["If/Else","For","Math+-*/","LogicCompareNum","ArrayIndex"]},{"id":67,"a":494,"r":"Given an array of ints, return true if the array contains two 7s next to each other, or there are two 7s separated by one element, such as with {7, 1, 7}. Otherwise, return false.","kcs":["If/Else","For","Math+-*/","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":104,"a":494,"r":"Write a function in Java that implements the following logic: Return a version of the given array where each zero value in the array is replaced by the largest odd value to the right of the zero in the array. If there is no odd value to the right of the zero, leave the zero as a zero. Hint: in solving this: you may use a second helper function if you want, say to find the largest odd value to the right of a specified position.","kcs":["If/Else","For","NestedFor","Math%","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":106,"a":494,"r":"Given an array of int values, return true if the group of n numbers at the start of the array is the same as the group of n numbers at the end of the array. For example, with {5, 6, 45, 99, 13, 5, 6}, the ends are the same for n == 0 and n == 2, and false for n == 1 and n == 3. You may assume that n is in the range 0..nums.length, inclusive.","kcs":["If/Else","For","NestedFor","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":107,"a":494,"r":"Say that a \"clump\" in an array is a series of 2 or more adjacent elements of the same value. Return the number of clumps in the given array.","kcs":["If/Else","For","Math+-*/","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":108,"a":494,"r":"Given an array, return an array that contains exactly the same numbers as the original array, but rearranged so that every 4 is immediately followed by a 5. Do not move the 4's, but every other number may move. The array contains the same number of 4's and 5's, and every 4 has a number after it that is not a 4. In this version, 5's may appear anywhere in the original array. (This is a slightly harder version of the fix34 problem.)","kcs":["If/Else","For","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":45,"a":502,"r":"Given an int array, return the sum of the numbers in the array, except ignore sections of numbers starting with a 6 and extending to the next 7 (every 6 will be followed by at least one 7). Return 0 for no numbers.","kcs":["If/Else","For","Math+-*/","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":48,"a":502,"r":"Given an int[] array, write a function that returns an array where all the 10's have been removed. The remaining elements should shift left towards the start of the array as needed, and the empty spaces at the end of the array should be set to 0. So {1, 10, 10, 2} yields {1, 2, 0, 0}. You may modify and return the given array or make a new array.","kcs":["If/Else","For","LogicCompareNum","ArrayIndex"]},{"id":51,"a":502,"r":"For each multiple of 10 in the given array, change all the values following it to be that multiple of 10, until encountering another multiple of 10. So {2, 10, 3, 4, 20, 5} yields {2, 10, 10, 10, 20, 20}.","kcs":["If/Else","For","Math%","LogicCompareNum","ArrayIndex"]},{"id":56,"a":502,"r":"Return the centered average of an array of ints, which we'll say is the mean average of the values, except ignoring the largest and smallest values in the array. If there are multiple copies of the smallest value, ignore just one copy, and likewise for the largest value. Use int division to produce the final average. You may assume that the array has a length of 3 or more.","kcs":["If/Else","For","Math+-*/","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":57,"a":502,"r":"Given a number n, create and return a new int array of length n, containing the numbers 0, 1, 2, ... n-1. The given n may be 0, in which case just return a length 0 array. You do not need a separate if statement for the length-0 case; the for loop should naturally execute 0 times in that case, so it just works. The syntax to make a new int array is new int[desired_length].","kcs":["For","ArrayIndex"]},{"id":64,"a":502,"r":"Consider the series of numbers beginning at start and running up to but not including end, so for example start=1 and end=5 gives the series 1, 2, 3, 4. Return a new String[] array containing the string form of these numbers, except in the case of multiples of 3, use \"Fizz\" instead of the number, and for multiples of 5 use \"Buzz\", and for multiples of both 3 and 5 use \"FizzBuzz\". In Java, String.valueOf(xxx) will make the String form of an int or other type.","kcs":["If/Else","For","Math%","LogicCompareNum","StringFormat","StringEqual","ArrayIndex"]},{"id":70,"a":502,"r":"Given an array of ints, return true if every 2 that appears in the array is next to another 2. Otherwise, return false.","kcs":["If/Else","For","LogicAndNotOr","LogicCompareNum","ArrayIndex"]},{"id":71,"a":502,"r":"Given a non-empty array, return true if there is a place to split the array so that the sum of the numbers on one side is equal to the sum of the numbers on the other side.","kcs":["If/Else","For","Math+-*/","LogicCompareNum","ArrayIndex"]},{"id":112,"a":502,"r":"Given n >= 0, create an array with the pattern {1, 1, 2, 1, 2, 3, ... 1, 2, 3 .. n} (spaces added to show the grouping). Note that the length of the array will be 1 + 2 + 3 ... + n, which is known to sum to exactly n * (n + 1)/2.","kcs":["For","NestedFor","Math+-*/","ArrayIndex"]},{"id":118,"a":502,"r":"Return an array that is \"left shifted\" by one--so for an input of {6, 2, 5, 3}, the method returns {2, 5, 3, 6}. You may modify and return the given array, or return a new array.","kcs":["For","ArrayIndex"]}];
+
+const ALL_KCS = ["If/Else","NestedIf","While","For","NestedFor","Math+-*/","Math%","LogicAndNotOr","LogicCompareNum","LogicBoolean","StringFormat","StringConcat","StringIndex","StringLen","StringEqual","CharEqual","ArrayIndex","DefFunction"];
+
+const STUDENT_DATA = {"1": {"code": "public int sortaSum(int a, int b)\r\n{\r\n    int sum = a + b;\r\n    if (sum >=10 && sum <= 19)\r\n    {\r\n        return 20;\r\n    }\r\n    \r\n    else\r\n    {\r\n        return sum;\r\n    }\r\n}\r\n", "score": 1.0, "attempt": 5, "codeStateId": 1748534}, "3": {"code": "public boolean in1To10(int n, boolean outsideMode)\r\n{\r\n   if (n >= 1 && n<= 10 && !outsideMode)\r\n   {\r\n       return true;\r\n   }\r\n    \r\n     \r\n    \r\n     else if (n<= 1 || n>= 10 && !outsideMode)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    else if (n<= 1 || n>= 10 && outsideMode)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    return false;\r\n}\r\n", "score": 0.8125, "attempt": 26, "codeStateId": 1749707}, "5": {"code": "public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep)\r\n{\r\n    if (isAsleep)\r\n    {\r\n        return false;\r\n    }\r\n    \r\n  else  if (isMorning && isMom)\r\n    {\r\n        return true;\r\n    }\r\n  \r\n    else if (isMorning && isMom && isAsleep)\r\n    {\r\n        return false;\r\n    }\r\n    \r\n    else if (isMorning && !isMom && !isAsleep)\r\n    {\r\n        return false;\r\n    }\r\n    \r\n    \r\n    \r\n    else\r\n    {\r\n   \t\t return true;\r\n    }\r\n}\r\n", "score": 1.0, "attempt": 18, "codeStateId": 1746920}, "12": {"code": "public boolean squirrelPlay(int temp, boolean isSummer)\r\n{\r\n   if (temp >= 60 && temp<= 90)\r\n   {\r\n       return true;\r\n   }\r\n    \r\n    else if( isSummer && temp>= 90 && temp<= 100)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    \r\n    return false;\r\n}\r\n", "score": 1.0, "attempt": 16, "codeStateId": 1749878}, "13": {"code": "public int caughtSpeeding(int speed, boolean isBirthday)\r\n{\r\n    if(speed <= 60 && !isBirthday)\r\n    {\r\n     return 0;   \r\n    }\r\n    \r\n    if(speed >= 61 && speed <= 80 && !isBirthday)\r\n    {\r\n     return 1;   \r\n    }\r\n    \r\n    if(speed >= 81 && !isBirthday)\r\n    {\r\n     return 2;   \r\n    }\r\n    \r\n    if(speed <= 65 && isBirthday)\r\n    {\r\n     return 0;   \r\n    }\r\n    \r\n    if(speed >= 66 && speed <= 85 && isBirthday)\r\n    {\r\n     return 1;   \r\n    }\r\n    \r\n    if(speed >= 86 && isBirthday)\r\n    {\r\n     return 2;   \r\n    }\r\n    \r\n    return 0;\r\n}\r\n", "score": 1.0, "attempt": 10, "codeStateId": 1750642}, "17": {"code": "public int redTicket(int a, int b, int c)\r\n{\r\n    \r\n    if (a== 2 && b==2 && c==2)\r\n    {\r\n        return 10;\r\n    }\r\n    \r\n    if (a==b && a==c && b==c)\r\n    {\r\n        return 5;\r\n    }\r\n    \r\n    if (a!=b && a!=c)\r\n    {\r\n        return 1;\r\n    }\r\n    \r\n    \r\n    return 0;\r\n}\r\n", "score": 1.0, "attempt": 5, "codeStateId": 1773850}, "20": {"code": "public int loneSum(int a, int b, int c)\r\n{\r\n \tint sum = a+b+c;\r\n    if (a!=b && b!=c && a!=c)\r\n    {\r\n        return sum;\r\n    }\r\n    \r\n    else if (a==c && a!=b && b!=c)\r\n    {\r\n        return b;\r\n    }\r\n    \r\n    else if ( c==b && a!=c && a!=b )\r\n    {\r\n        return a;\r\n    }\r\n    \r\n    else if (a==b && b!=c && a!=c)\r\n    {\r\n        return c;\r\n    }\r\n    \r\n   else if (a==b && b==c && a==c)\r\n   {\r\n       return 0;\r\n   }\r\n    \r\n    return 10;\r\n    \r\n}\r\n", "score": 1.0, "attempt": 11, "codeStateId": 1773839}, "21": {"code": "public int luckySum(int a, int b, int c)\r\n{\r\n    if (a != 13 && b!= 13 && c!= 13)\r\n    {\r\n        return (a+b+c);\r\n    }\r\n    \r\n    else if (a== 13)\r\n    {\r\n        return 0;\r\n    }\r\n    \r\n    else if (b== 13)\r\n    {\r\n        return a;\r\n    }\r\n    \r\n    else if (c==13)\r\n    {\r\n        return (a+b);\r\n    }\r\n    \r\n    return 0;\r\n}\r\n", "score": 1.0, "attempt": 5, "codeStateId": 1773820}, "22": {"code": "public int noTeenSum(int a, int b, int c)\r\n{\r\n    int sum = a+b+c;\r\n    return sum;\r\n}\r\n\r\npublic int fixTeen(int n)\r\n{\r\n    if (n>=13 && n<14)\r\n    {\r\n        return 0;\r\n    }\r\n    \r\n    if (n>=17 && n<19)\r\n    {\r\n     \treturn 0;   \r\n    }\r\n    \r\n    return 0;\r\n}\r\n", "score": 0.36, "attempt": 2, "codeStateId": 1774601}, "24": {"code": "public int blackjack(int a, int b)\r\n{\r\n    if (b-a > 0)\r\n    {\r\n    \treturn b;\r\n    }\r\n    \r\n    else if (b-a<0)\r\n    {\r\n        return a;\r\n    }\r\n    \r\n    else if (a-b<0)\r\n    {\r\n        return b;\r\n    }\r\n    \r\n    else if (a-b>0)\r\n    {\r\n        return a;\r\n    }\r\n    \r\n    else if (a>21 && b>21)\r\n    {\r\n        return 0;\r\n    }\r\n    \r\n    \r\n    \r\n    return 0;\r\n}\r\n\r\n", "score": 0.590909, "attempt": 26, "codeStateId": 1774638}, "25": {"code": "public boolean evenlySpaced(int a, int b, int c)\r\n{\r\n    if (a-b == c-b)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    else if (b-a == a-c)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    else if (a-c == c-b)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    else if (c-b == b-a)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    \r\n    return false;\r\n}\r\n", "score": 1.0, "attempt": 8, "codeStateId": 1773798}, "28": {"code": "public String atFirst(String str)\r\n{\r\n    if (str.length() > 2)\r\n    {\r\n        return str.substring(0,1);\r\n    }\r\n    \r\n    return str;\r\n}\r\n", "score": 0.2, "attempt": 11, "codeStateId": 1773815}, "31": {"code": "public String repeatEnd(String str, int n)\r\n{\r\n   return str;\r\n}\r\n", "score": 0.272727, "attempt": 5, "codeStateId": 1809054}, "32": {"code": "public String plusOut(String str, String word)\r\n{\r\n    return word;\r\n}\r\n", "score": 0.0, "attempt": 1, "codeStateId": 1809028}, "33": {"code": "public String mixString(String a, String b)\r\n{\r\n    return a;\r\n}\r\n", "score": 0.133333, "attempt": 7, "codeStateId": 1809061}, "34": {"code": "public String zipZap(String str)\r\n{\r\n    return str;\r\n}\r\n", "score": 0.5, "attempt": 5, "codeStateId": 1809064}, "36": {"code": "public int countCode(String str)\r\n{\r\n    return 1;\r\n}\r\n", "score": 0.411765, "attempt": 1, "codeStateId": 1808989}, "37": {"code": "public boolean endOther(String a, String b)\r\n{\r\n \tif (b.contains(a.substring(0)))\r\n        {\r\n            return true;\r\n        }\r\n    \r\n    return false;\r\n    \r\n}\r\n", "score": 0.666667, "attempt": 6, "codeStateId": 1808657}, "38": {"code": "public boolean xyzThere(String str)\r\n{\r\n    if(str.contains(\"xyz\") && !str.startsWith(\".\"))\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    else if (str.contains(\".\") && str.endsWith(\"xyz\"))\r\n    {\r\n        \r\n    return true;\r\n    }\r\n    \r\n    return false;\r\n}\r\n\r\n", "score": 0.733333, "attempt": 9, "codeStateId": 1808771}, "39": {"code": "public boolean xyBalance(String str)\r\n{\r\n    return true;\r\n}\r\n", "score": 0.631579, "attempt": 1, "codeStateId": 1808964}, "40": {"code": "public String getSandwich(String str)\r\n{\r\n  \tif (str.startsWith(\"bread\"))\r\n    {\r\n        return \"\";\r\n    }\r\n    \r\n    \r\n    return str;\r\n}\r\n", "score": 0.153846, "attempt": 9, "codeStateId": 1808633}, "41": {"code": "public int sum3(int[] nums)\r\n{\r\n    int sum = 0;\r\n    for (int i : nums)\r\n    {\r\n        sum = sum + i;\r\n    }\r\n    \r\n    return sum;\r\n}\r\n", "score": 1.0, "attempt": 15, "codeStateId": 1846607}, "43": {"code": "public int[] frontPiece(int[] nums)\r\n{\r\n  \t\r\n    if (nums.length > 2)\r\n    {\r\n        int[] a = {nums[2]};\r\n        return a;\r\n    }\r\n    return nums;\r\n}\r\n", "score": 0.625, "attempt": 77, "codeStateId": 1846719}, "44": {"code": "public int countEvens(int[] nums)\r\n{\r\n    return 0;\r\n}\r\n", "score": 0.4, "attempt": 12, "codeStateId": 1846723}, "45": {"code": "public int sum67(int[] nums)\r\n{\r\n    return 0;\r\n}\r\n", "score": 0.133333, "attempt": 1, "codeStateId": 1915398}, "46": {"code": "public boolean isEverywhere(int[] nums, int val)\r\n{\r\n    return true;\r\n}\r\n", "score": 0.555556, "attempt": 4, "codeStateId": 1846776}, "48": {"code": "public int[] withoutTen(int[] nums)\r\n{\r\n    for (int val : nums)\r\n    {\r\n     \tif (val == 10)\r\n        {\r\n         \tval = 0;\r\n           // val.set(val.getIndex(), val.getSize() - 1);\r\n        }\r\n    }\r\n    \r\n    \r\n    return nums;\r\n}\r\n", "score": 0.272727, "attempt": 6, "codeStateId": 1915549}, "49": {"code": "public int sum13(int[] nums)\r\n{\r\n \treturn 0;   \r\n}\r\n", "score": 0.411765, "attempt": 5, "codeStateId": 1846836}, "51": {"code": "public int[] tenRun(int[] nums)\r\n{\r\n return nums;   \r\n}\r\n", "score": 0.384615, "attempt": 1, "codeStateId": 1915446}, "56": {"code": "public int centeredAverage(int[] nums)\r\n{\r\n \treturn 3;   \r\n}\r\n", "score": 0.095238, "attempt": 2, "codeStateId": 1915465}, "67": {"code": "public boolean has77(int[] nums)\r\n{\r\n    return true;\r\n}\r\n", "score": 0.5, "attempt": 2, "codeStateId": 1846839}, "70": {"code": "public boolean twoTwo(int[] nums)\r\n{\r\n    return true;\r\n}\r\n", "score": 0.571429, "attempt": 3, "codeStateId": 1915495}, "71": {"code": "public boolean canBalance(int[] nums)\r\n{\r\n    return true;\r\n}\r\n", "score": 0.5625, "attempt": 1, "codeStateId": 1915497}, "100": {"code": "public int roundSum(int a, int b, int c)\r\n{\r\n    return (a+b+c);\r\n}\r\n\r\npublic int round10(int num)\r\n{\r\n    return 0;\r\n}\r\n", "score": 0.071429, "attempt": 6, "codeStateId": 1771796}, "101": {"code": "public int makeChocolate(int small, int big, int goal)\r\n{\r\n    return -1;\r\n}\r\n", "score": 0.0, "attempt": 9, "codeStateId": 1773693}, "102": {"code": "public String without2(String str) \r\n{\r\n    \r\n    \r\n    \r\n    return str;\r\n    \r\n}\r\n", "score": 0.538462, "attempt": 5, "codeStateId": 1773732}, "104": {"code": "public int[] zeroMax(int[] nums)\r\n{\r\n    return nums;\r\n}\r\n", "score": 0.333333, "attempt": 2, "codeStateId": 1846842}, "106": {"code": "public boolean sameEnds(int[] nums, int n)\r\n{\r\n    return true;\r\n}\r\n", "score": 0.625, "attempt": 2, "codeStateId": 1846843}, "107": {"code": "public int countClumps(int[] nums)\r\n{\r\n    return 0;\r\n}\r\n", "score": 0.272727, "attempt": 17, "codeStateId": 1846845}, "108": {"code": "public int[] fix45(int[] nums)\r\n{\r\n    return nums;\r\n}\r\n", "score": 0.263158, "attempt": 3, "codeStateId": 1846846}, "128": {"code": "public boolean bobThere(String str)\r\n{\r\n \tString word = \"bob\";\r\n    char one = word.charAt(0);\r\n    char two = word.charAt(2);\r\n    \r\n    \r\n       if (one == 'b' || two == 'b')\r\n    \t{\r\n            return true;\r\n        }\r\n    \r\n    return false;   \r\n}\r\n", "score": 0.555556, "attempt": 14, "codeStateId": 1817959}, "232": {"code": "public String alarmClock(int day, boolean vacation)\r\n{\r\n    \r\n    if(day == 1 && !vacation)\r\n    {\r\n     return \"7:00\";   \r\n    }\r\n    \r\n    if(day == 2 && !vacation)\r\n    {\r\n     return \"7:00\";   \r\n    }\r\n    \r\n    if(day == 3 && !vacation)\r\n    {\r\n     return \"7:00\";   \r\n    }\r\n    \r\n    if(day == 4 && !vacation)\r\n    {\r\n     return \"7:00\";   \r\n    }\r\n    \r\n    if(day == 5 && !vacation)\r\n    {\r\n     return \"7:00\";   \r\n    }\r\n    \r\n    if( day ==0 && !vacation )\r\n    {\r\n     return \"10:00\";   \r\n    }\r\n    \r\n    if( day ==6 && !vacation)\r\n    {\r\n     return \"10:00\";   \r\n    }\r\n    \r\n    \r\n    if(day == 1 && vacation)\r\n    {\r\n     return \"10:00\";   \r\n    }\r\n    \r\n    if(day == 2 && vacation)\r\n    {\r\n     return \"10:00\";   \r\n    }\r\n    \r\n    if(day == 3 && vacation)\r\n    {\r\n     return \"10:00\";   \r\n    }\r\n    \r\n    if(day == 4 && vacation)\r\n    {\r\n     return \"10:00\";   \r\n    }\r\n    \r\n    if(day ==5 && vacation)\r\n    {\r\n     return \"10:00\";   \r\n    }\r\n    \r\n    if(day ==0 && vacation)\r\n    {\r\n     return \"off\";   \r\n    }\r\n    \r\n    \r\n    if(day ==6 && vacation)\r\n    {\r\n     return \"off\";   \r\n    }\r\n    \r\n    \r\n    return \"off\";\r\n    \r\n    \r\n}\r\n", "score": 1.0, "attempt": 35, "codeStateId": 1750536}, "233": {"code": "public boolean love6(int a, int b)\r\n{\r\n  \tif (a==6 || b == 6)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    else if (a+b ==6)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    else if (a-b == 6)\r\n    {\r\n      return true;\r\n    }\r\n    \r\n    else if (b-a == 6)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    \r\n    \r\n    return false;\r\n}\r\n", "score": 1.0, "attempt": 15, "codeStateId": 1748407}, "234": {"code": "public boolean cigarParty(int cigars, boolean isWeekend)\r\n{\r\n   // isWeekend = true;\r\n    if (cigars >= 40 && cigars <= 60 && true)\r\n    {\r\n        return true;\r\n    }\r\n    \r\n    else if ( cigars >= 40 && true)\r\n    {\r\n     \treturn true;   \r\n    }\r\n    \r\n    else if (cigars >= 40 && cigars <= 60 && false)\r\n    {\r\n        return false;\r\n    }\r\n    \r\n    \r\n    \r\n    return false;\r\n}\r\n", "score": 0.923077, "attempt": 18, "codeStateId": 1745408}, "235": {"code": "public int dateFashion(int you, int date)\r\n{\r\n   if (you >= 8 && date >= 8)\r\n   {\r\n       return 2;\r\n   }\r\n    \r\n    if (date >= 8 && you >= 8)\r\n   {\r\n       return 2;\r\n   }\r\n    \r\n    \r\n    else if (you <= 2 || date <= 2)\r\n   {\r\n       return 0;\r\n   }\r\n    \r\n  else if (you >= 2 && date <= 8)\r\n  {\r\n    return 1;\r\n  }\r\n    return 0;\r\n}\r\n", "score": 0.857143, "attempt": 19, "codeStateId": 1744055}, "236": {"code": "public int greenTicket(int a, int b, int c)\r\n{\r\n \tif (a==b && b==c)\r\n    {\r\n        return 20;\r\n    }\r\n    \r\n     if (a==b && a==c)\r\n    {\r\n        return 10;\r\n    }\r\n    \r\n    if (a!=b && b!=c)\r\n    {\r\n        return 0;\r\n    }\r\n    \r\n    \r\n \treturn 10;\r\n}\r\n", "score": 0.75, "attempt": 31, "codeStateId": 1746620}};
+
+const REFERENCE_SOLUTIONS = {"1": {"solution1": "public int sumProblem1(int a, int b) {\n  int sum = a + b;\n  if (sum >= 10 && sum <= 19) {\n    return 20;\n  } else {\n    return sum;\n  }\n}", "solution2": "public int sumProblem2(int a, int b) {\n  int sum = a + b;\n  return (sum >= 10 && sum <= 19) ? 20 : sum;\n}", "required_kcs": ["If/Else", "Math+-*/", "LogicAndNotOr", "LogicCompareNum"]}, "3": {"solution1": "public boolean in1To10(int n, boolean outsideMode) {\n  if (outsideMode) {\n    if (n <= 1 || n >= 10) {\n      return true;\n    } else {\n      return false;\n    }\n  } else {\n    if (n >= 1 && n <= 10) {\n      return true;\n    } else {\n      return false;\n    }\n  }\n}", "solution2": "public boolean in1To10(int n, boolean outsideMode) {\n  return outsideMode ? (n <= 1 || n >= 10) : (n >= 1 && n <= 10);\n}", "required_kcs": ["If/Else", "NestedIf", "LogicAndNotOr", "LogicCompareNum", "LogicBoolean"]}, "5": {"solution1": "public class Solution {\n public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep) {\n if (isAsleep) {\n return false;\n }\n if (isMorning) {\n return isMom;\n } else {\n return true;\n }\n }\n}", "solution2": "public class Solution {\n public boolean answerCell(boolean isMorning, boolean isMom, boolean isAsleep) {\n return !isAsleep && (isMorning ? isMom : true);\n }\n}", "required_kcs": ["If/Else", "NestedIf", "LogicBoolean"]}, "12": {"solution1": "public boolean squirrelPlay(int temp, boolean isSummer) {\n  if (isSummer) {\n    if (temp >= 60 && temp <= 100) {\n      return true;\n    } else {\n      return false;\n    }\n  } else {\n    if (temp >= 60 && temp <= 90) {\n      return true;\n    } else {\n      return false;\n    }\n  }\n}", "solution2": "public boolean squirrelPlay(int temp, boolean isSummer) {\n  int upperLimit = isSummer ? 100 : 90;\n  return (temp >= 60 && temp <= upperLimit);\n}", "required_kcs": ["If/Else", "NestedIf", "LogicAndNotOr", "LogicCompareNum", "LogicBoolean"]}, "13": {"solution1": "public int caughtSpeeding(int speed, boolean isBirthday) {\n  if (isBirthday) {\n    speed -= 5;\n  }\n  if (speed <= 60) {\n    return 0;\n  } else if (speed <= 80) {\n    return 1;\n  } else {\n    return 2;\n  }\n}", "solution2": "public int caughtSpeeding(int speed, boolean isBirthday) {\n  int adjustedSpeed = isBirthday ? speed - 5 : speed;\n  return (adjustedSpeed <= 60) ? 0 : (adjustedSpeed <= 80) ? 1 : 2;\n}", "required_kcs": ["If/Else", "NestedIf", "Math+-*/", "LogicAndNotOr", "LogicCompareNum", "LogicBoolean"]}, "232": {"solution1": "public String alarmClock(int day, boolean vacation) {\n  if (vacation) {\n    if (day >= 1 && day <= 5) {\n      return \"10:00\";\n    } else {\n      return \"off\";\n    }\n  } else {\n    if (day >= 1 && day <= 5) {\n      return \"7:00\";\n    } else {\n      return \"10:00\";\n    }\n  }\n}", "solution2": "public String alarmClock(int day, boolean vacation) {\n  String alarmTime;\n  boolean isWeekday = (day >= 1 && day <= 5);\n\n  if (vacation) {\n    alarmTime = isWeekday ? \"10:00\" : \"off\";\n  } else {\n    alarmTime = isWeekday ? \"7:00\" : \"10:00\";\n  }\n\n  return alarmTime;\n}", "required_kcs": ["If/Else", "NestedIf", "LogicAndNotOr", "LogicCompareNum", "LogicBoolean", "StringFormat"]}, "233": {"solution1": "public boolean love6(int a, int b) {\n  if (a == 6 || b == 6) {\n    return true;\n  }\n  if (a + b == 6) {\n    return true;\n  }\n  if (Math.abs(a - b) == 6) {\n    return true;\n  }\n  return false;\n}", "solution2": "public boolean love6(int a, int b) {\n  return (a == 6 || b == 6 || (a + b) == 6 || Math.abs(a - b) == 6);\n}", "required_kcs": ["If/Else", "Math+-*/", "LogicAndNotOr", "LogicCompareNum"]}, "234": {"solution1": "public boolean cigarParty(int cigars, boolean isWeekend) {\n  if (isWeekend) {\n    return cigars >= 40;\n  } else {\n    return cigars >= 40 && cigars <= 60;\n  }\n}", "solution2": "public boolean cigarParty(int cigars, boolean isWeekend) {\n  return isWeekend ? (cigars >= 40) : (cigars >= 40 && cigars <= 60);\n}", "required_kcs": ["If/Else", "NestedIf", "LogicAndNotOr", "LogicCompareNum", "LogicBoolean"]}, "235": {"solution1": "public int dateFashion(int you, int date) {\n  if (you <= 2 || date <= 2) {\n    return 0;\n  }\n  if (you >= 8 || date >= 8) {\n    return 2;\n  }\n  return 1;\n}", "solution2": "public int dateFashion(int you, int date) {\n  int result = 1;\n  if (you <= 2 || date <= 2) {\n    result = 0;\n  } else if (you >= 8 || date >= 8) {\n    result = 2;\n  }\n  return result;\n}", "required_kcs": ["If/Else", "LogicAndNotOr", "LogicCompareNum"]}, "236": {"solution1": "public int greenTicket(int a, int b, int c) {\n  if (a == b && b == c) {\n    return 20;\n  } else if (a == b || a == c || b == c) {\n    return 10;\n  } else {\n    return 0;\n  }\n}", "solution2": "public int greenTicket(int a, int b, int c) {\n  int result = 0;\n  if (a == b) {\n    result = (b == c) ? 20 : 10;\n  } else if (a == c) {\n    result = 10;\n  } else if (b == c) {\n    result = 10;\n  }\n  return result;\n}", "required_kcs": ["If/Else", "LogicAndNotOr", "LogicCompareNum"]}, "17": {"solution1": "public class Solution {\n    public int redTicket(int a, int b, int c) {\n        if (a == 2 && b == 2 && c == 2) {\n            return 10;\n        } else if (a == b && b == c) {\n            return 5;\n        } else if (b != a && c != a) {\n            return 1;\n        } else {\n            return 0;\n        }\n    }\n}", "solution2": "public class Solution {\n    public int redTicket(int a, int b, int c) {\n        int result = 0;\n        if (a == b && b == c) {\n            result = (a == 2) ? 10 : 5;\n        } else if (b != a && c != a) {\n            result = 1;\n        }\n        return result;\n    }\n}", "required_kcs": ["If/Else", "NestedIf", "LogicAndNotOr", "LogicCompareNum"]}, "20": {"solution1": "public int loneSum(int a, int b, int c) {\n    int sum = 0;\n    if (a != b && a != c) {\n      sum += a;\n    }\n    if (b != a && b != c) {\n      sum += b;\n    }\n    if (c != a && c != b) {\n      sum += c;\n    }\n    return sum;\n}", "solution2": "public int loneSum(int a, int b, int c) {\n    int sum = a + b + c;\n    if (a == b && b == c) {\n        return 0;\n    } else if (a == b) {\n        return c;\n    } else if (a == c) {\n        return b;\n    } else if (b == c) {\n        return a;\n    }\n    return sum;\n}", "required_kcs": ["If/Else", "NestedIf", "Math+-*/", "LogicAndNotOr", "LogicCompareNum"]}, "21": {"solution1": "public int luckySum(int a, int b, int c) {\n    if (a == 13) {\n      return 0;\n    } else if (b == 13) {\n      return a;\n    } else if (c == 13) {\n      return a + b;\n    } else {\n      return a + b + c;\n    }\n}", "solution2": "public int luckySum(int a, int b, int c) {\n    int sum = 0;\n    sum += (a != 13) ? a : 0;\n    sum += (a != 13 && b != 13) ? b : 0;\n    sum += (a != 13 && b != 13 && c != 13) ? c : 0;\n    return sum;\n}", "required_kcs": ["If/Else", "NestedIf", "Math+-*/", "LogicAndNotOr", "LogicCompareNum"]}, "22": {"solution1": "public class Solution {\n    public int noTeenSum(int a, int b, int c) {\n        return fixTeen(a) + fixTeen(b) + fixTeen(c);\n    }\n\n    public int fixTeen(int n) {\n        if (n >= 13 && n <= 19) {\n            if (n == 15 || n == 16) {\n                return n;\n            } else {\n                return 0;\n            }\n        } else {\n            return n;\n        }\n    }\n}", "solution2": "public class Solution {\n    public int noTeenSum(int a, int b, int c) {\n        return fixTeen(a) + fixTeen(b) + fixTeen(c);\n    }\n\n    public int fixTeen(int n) {\n        return (n >= 13 && n <= 19 && n != 15 && n != 16) ? 0 : n;\n    }\n}", "required_kcs": ["If/Else", "NestedIf", "Math+-*/", "LogicAndNotOr", "LogicCompareNum", "DefFunction"]}, "24": {"solution1": "public class Near21 {\n public int near21(int a, int b) {\n if (a > 21 && b > 21) {\n return 0;\n }\n if (a > 21) {\n return b;\n }\n if (b > 21) {\n return a;\n }\n if (21 - a < 21 - b) {\n return a;\n } else {\n return b;\n }\n }\n}", "solution2": "public class Near21 {\n public int near21(int a, int b) {\n int aDiff = (a <= 21) ? 21 - a : Integer.MAX_VALUE;\n int bDiff = (b <= 21) ? 21 - b : Integer.MAX_VALUE;\n\n if (aDiff == Integer.MAX_VALUE && bDiff == Integer.MAX_VALUE) {\n return 0;\n } else if (aDiff < bDiff) {\n return a;\n } else {\n return b;\n }\n }\n}", "required_kcs": ["If/Else", "Math+-*/", "LogicAndNotOr", "LogicCompareNum"]}, "25": {"solution1": "public boolean evenlySpaced(int a, int b, int c) {\n  int small = Math.min(a, Math.min(b, c));\n  int large = Math.max(a, Math.max(b, c));\n  int medium = a + b + c - small - large;\n  return (medium - small) == (large - medium);\n}", "solution2": "public boolean evenlySpaced(int a, int b, int c) {\n  if ((a <= b && b <= c) || (c <= b && b <= a)) {\n    return (b - a) == (c - b);\n  } else if ((a <= c && c <= b) || (b <= c && c <= a)) {\n    return (c - a) == (b - c);\n  } else {\n    return (a - b) == (c - a);\n  }\n}", "required_kcs": ["If/Else", "Math+-*/", "LogicAndNotOr", "LogicCompareNum"]}, "28": {"solution1": "public String firstTwo(String str) {\n  if (str.length() >= 2) {\n    return str.substring(0, 2);\n  } else if (str.length() == 1) {\n    return str.charAt(0) + \"@\";\n  } else {\n    return \"@@\";\n  }\n}", "solution2": "public String firstTwo(String str) {\n  String result = \"\";\n  result += (str.length() > 0) ? str.charAt(0) : '@';\n  result += (str.length() > 1) ? str.charAt(1) : '@';\n  return result;\n}", "required_kcs": ["If/Else", "LogicCompareNum", "StringFormat", "StringConcat", "StringIndex", "StringLen"]}, "100": {"solution1": "public class Solution {\n public int roundSum(int a, int b, int c) {\n return round10(a) + round10(b) + round10(c);\n }\n\n public int round10(int num) {\n int remainder = num % 10;\n if (remainder >= 5) {\n return num + (10 - remainder);\n } else {\n return num - remainder;\n }\n }\n}", "solution2": "public class Solution {\n public int roundSum(int a, int b, int c) {\n return round10(a) + round10(b) + round10(c);\n }\n\n public int round10(int num) {\n int remainder = num % 10;\n return (remainder >= 5) ? (num + (10 - remainder)) : (num - remainder);\n }\n}", "required_kcs": ["If/Else", "Math+-*/", "Math%", "LogicCompareNum", "DefFunction"]}, "101": {"solution1": "public class Chocolate { public int makeChocolate(int small, int big, int goal) { int bigNeeded = Math.min(big, goal / 5); goal -= bigNeeded * 5; if (small >= goal) { return goal; } else { return -1; } } }", "solution2": "public class Chocolate { public int makeChocolate(int small, int big, int goal) { int remainder = goal % 5; int bigUsed = (goal / 5 <= big) ? goal / 5 : big; int remainingGoal = goal - (bigUsed * 5); return (small >= remainingGoal) ? remainingGoal : -1; } }", "required_kcs": ["If/Else", "While", "Math+-*/", "LogicAndNotOr", "LogicCompareNum"]}, "102": {"solution1": "public String without2(String str) {\n  if (str.length() < 2) {\n    return str;\n  }\n  String firstTwo = str.substring(0, 2);\n  String lastTwo;\n  if (str.length() >= 2) {\n      lastTwo = str.substring(str.length() - 2);\n  } else {\n      lastTwo = \"\";\n  }\n  if (firstTwo.equals(lastTwo)) {\n    return str.substring(2);\n  } else {\n    return str;\n  }\n}", "solution2": "public String without2(String str) {\n  return (str.length() >= 2 && str.substring(0, 2).equals(str.substring(str.length() - 2))) ? str.substring(2) : str;\n}", "required_kcs": ["If/Else", "LogicCompareNum", "StringFormat", "StringIndex", "StringLen", "StringEqual"]}, "31": {"solution1": "public String repeatEnd(String str, int n) {\n    String end = str.substring(str.length() - n);\n    String result = \"\";\n    for (int i = 0; i < n; i++) {\n      result += end;\n    }\n    return result;\n  }", "solution2": "public String repeatEnd(String str, int n) {\n    String suffix = str.substring(str.length() - n);\n    return String.format(\"%\" + n + \"s\", \"\").replace(\" \", suffix);\n  }", "required_kcs": ["For", "StringFormat", "StringConcat", "StringIndex", "StringLen"]}, "32": {"solution1": "public String plusOut(String str, String word) {\n  String result = \"\";\n  int i = 0;\n  while (i < str.length()) {\n    if (i + word.length() <= str.length() && str.substring(i, i + word.length()).equals(word)) {\n      result += word;\n      i += word.length();\n    } else {\n      result += \"+\";\n      i++;\n    }\n  }\n  return result;\n}", "solution2": "public String plusOut(String str, String word) {\n  StringBuilder result = new StringBuilder();\n  for (int i = 0; i < str.length(); i++) {\n    if (str.startsWith(word, i)) {\n      result.append(word);\n      i += word.length() - 1;\n    } else {\n      result.append(\"+\");\n    }\n  }\n  return result.toString();\n}", "required_kcs": ["If/Else", "While", "LogicCompareNum", "StringFormat", "StringConcat", "StringIndex", "StringLen", "StringEqual"]}, "33": {"solution1": "public String mixString(String a, String b) {\n    String result = \"\";\n    int i = 0;\n    while (i < a.length() || i < b.length()) {\n      if (i < a.length()) {\n        result += a.substring(i, i + 1);\n      }\n      if (i < b.length()) {\n        result += b.substring(i, i + 1);\n      }\n      i++;\n    }\n    return result;\n  }", "solution2": "public String mixString(String a, String b) {\n    StringBuilder result = new StringBuilder();\n    int lenA = a.length();\n    int lenB = b.length();\n    int maxLength = Math.max(lenA, lenB);\n\n    for (int i = 0; i < maxLength; i++) {\n      result.append((i < lenA) ? a.charAt(i) : \"\");\n      result.append((i < lenB) ? b.charAt(i) : \"\");\n    }\n\n    return result.toString();\n  }", "required_kcs": ["While", "LogicCompareNum", "StringFormat", "StringConcat", "StringIndex", "StringLen"]}, "34": {"solution1": "public class Solution {\n public String zipZap(String str) {\n String result = \"\";\n if (str.length() < 3) {\n return str;\n }\n for (int i = 0; i < str.length(); i++) {\n if (i + 2 < str.length() && str.charAt(i) == 'z' && str.charAt(i + 2) == 'p') {\n result += \"zp\";\n i += 2;\n } else {\n result += str.charAt(i);\n }\n }\n return result;\n }\n}", "solution2": "public class Solution {\n public String zipZap(String str) {\n String result = \"\";\n for (int i = 0; i < str.length(); i++) {\n result += (i + 2 < str.length() && str.charAt(i) == 'z' && str.charAt(i + 2) == 'p') ? \"zp\" : String.valueOf(str.charAt(i));\n i += (i + 2 < str.length() && str.charAt(i) == 'z' && str.charAt(i + 2) == 'p') ? 2 : 0;\n }\n return result;\n }\n}", "required_kcs": ["If/Else", "For", "LogicAndNotOr", "StringFormat", "StringConcat", "StringIndex", "StringLen", "CharEqual"]}, "36": {"solution1": "// Generation failed \u2014 run again or write manually", "solution2": "// Generation failed \u2014 run again or write manually", "required_kcs": ["If/Else", "For", "Math+-*/", "LogicAndNotOr", "StringFormat", "StringIndex", "StringLen", "StringEqual"]}, "37": {"solution1": "public class StringEnd {\n public boolean endOther(String a, String b) {\n String aLower = a.toLowerCase();\n String bLower = b.toLowerCase();\n int aLen = aLower.length();\n int bLen = bLower.length();\n if (aLen > bLen) {\n return aLower.substring(aLen - bLen).equals(bLower);\n } else {\n return bLower.substring(bLen - aLen).equals(aLower);\n }\n }\n}", "solution2": "public class StringEnd {\n public boolean endOther(String a, String b) {\n String aLower = a.toLowerCase();\n String bLower = b.toLowerCase();\n int aLen = aLower.length();\n int bLen = bLower.length();\n return (aLen >= bLen) ? aLower.substring(aLen - bLen).equals(bLower) : bLower.substring(bLen - aLen).equals(aLower);\n }\n}", "required_kcs": ["If/Else", "LogicCompareNum", "StringFormat", "StringIndex", "StringLen", "StringEqual"]}, "38": {"solution1": "public class Solution {\n public boolean xyzThere(String str) {\n  for (int i = 0; i < str.length() - 2; i++) {\n   if (str.substring(i, i + 3).equals(\"xyz\")) {\n    if (i == 0 || str.charAt(i - 1) != '.') {\n     return true;\n    }\n   }\n  }\n  return false;\n }\n}", "solution2": "public class Solution {\n public boolean xyzThere(String str) {\n  for (int i = 0; i < str.length() - 2; i++) {\n   boolean isXYZ = str.substring(i, i + 3).equals(\"xyz\");\n   boolean precededByPeriod = (i > 0) ? (str.charAt(i - 1) == '.') : false;\n   if (isXYZ && !precededByPeriod) {\n    return true;\n   }\n  }\n  return false;\n }\n}", "required_kcs": ["If/Else", "For", "LogicAndNotOr", "StringFormat", "StringIndex", "StringEqual", "CharEqual"]}, "39": {"solution1": "public boolean xyBalance(String str) {\n    for (int i = 0; i < str.length(); i++) {\n      if (str.charAt(i) == 'x') {\n        boolean foundY = false;\n        for (int j = i + 1; j < str.length(); j++) {\n          if (str.charAt(j) == 'y') {\n            foundY = true;\n            break;\n          }\n        }\n        if (!foundY) {\n          return false;\n        }\n      }\n    }\n    return true;\n  }", "solution2": "public boolean xyBalance(String str) {\n    int lastX = -1;\n    int lastY = -1;\n    for (int i = 0; i < str.length(); i++) {\n      if (str.charAt(i) == 'x') {\n        lastX = i;\n      } else if (str.charAt(i) == 'y') {\n        lastY = i;\n      }\n    }\n    return lastX == -1 || (lastY > lastX);\n  }", "required_kcs": ["If/Else", "For", "NestedFor", "StringFormat", "StringIndex", "CharEqual"]}, "40": {"solution1": "public String getSandwich(String str) {\n int firstBread = str.indexOf(\"bread\");\n int lastBread = str.lastIndexOf(\"bread\");\n if (firstBread != -1 && lastBread != -1 && firstBread != lastBread) {\n return str.substring(firstBread + 5, lastBread);\n } else {\n return \"\";\n }\n}", "solution2": "public String getSandwich(String str) {\n int first = str.indexOf(\"bread\");\n int last = str.lastIndexOf(\"bread\");\n return (first != -1 && last != -1 && first != last) ? str.substring(first + 5, last) : \"\";\n}", "required_kcs": ["If/Else", "For", "LogicAndNotOr", "LogicCompareNum", "StringFormat", "StringIndex", "StringEqual"]}, "128": {"solution1": "public boolean bobThere(String str) {\n  if (str.length() < 3) {\n    return false;\n  }\n  for (int i = 0; i < str.length() - 2; i++) {\n    if (str.charAt(i) == 'b' && str.charAt(i + 2) == 'b') {\n      return true;\n    }\n  }\n  return false;\n}", "solution2": "public boolean bobThere(String str) {\n  return (str.length() < 3) ? false : (java.util.stream.IntStream.range(0, str.length() - 2).anyMatch(i -> str.charAt(i) == 'b' && str.charAt(i + 2) == 'b'));\n}", "required_kcs": ["If/Else", "For", "LogicAndNotOr", "StringFormat", "StringIndex", "StringLen", "CharEqual"]}, "41": {"solution1": "public int sum3(int[] nums) {\n  int sum = 0;\n  for (int i = 0; i < nums.length; i++) {\n    sum += nums[i];\n  }\n  return sum;\n}", "solution2": "public int sum3(int[] nums) {\n  return nums[0] + nums[1] + nums[2];\n}", "required_kcs": ["For", "Math+-*/", "ArrayIndex"]}, "43": {"solution1": "public int[] frontPiece(int[] nums) {\n  if (nums.length >= 2) {\n    int[] result = new int[2];\n    result[0] = nums[0];\n    result[1] = nums[1];\n    return result;\n  } else {\n    return nums;\n  }\n}", "solution2": "public int[] frontPiece(int[] nums) {\n  int len = Math.min(2, nums.length);\n  int[] result = new int[len];\n  for (int i = 0; i < len; i++) {\n    result[i] = nums[i];\n  }\n  return result;\n}", "required_kcs": ["If/Else", "For", "LogicCompareNum", "ArrayIndex"]}, "44": {"solution1": "public class Solution {\n public int countEven(int[] nums) {\n  int count = 0;\n  for (int i = 0; i < nums.length; i++) {\n   if (nums[i] % 2 == 0) {\n    count++;\n   }\n  }\n  return count;\n }\n}", "solution2": "public class Solution {\n public int countEven(int[] nums) {\n  int count = 0;\n  for (int num : nums) {\n   count += (num % 2 == 0) ? 1 : 0;\n  }\n  return count;\n }\n}", "required_kcs": ["If/Else", "For", "Math+-*/", "Math%", "LogicCompareNum", "ArrayIndex"]}, "46": {"solution1": "public boolean isEverywhere(int[] nums, int val) {\n    if (nums.length == 0) return true;\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (nums[i] != val && nums[i+1] != val) {\n        return false;\n      }\n    }\n    return true;\n  }", "solution2": "public boolean isEverywhere(int[] nums, int val) {\n    if (nums.length == 0) return true;\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (!(nums[i] == val || nums[i+1] == val)) return false;\n    }\n    return true;\n  }", "required_kcs": ["If/Else", "For", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "49": {"solution1": "public class Solution {\n    public int sum13(int[] nums) {\n        int sum = 0;\n        if (nums == null || nums.length == 0) {\n            return 0;\n        }\n        for (int i = 0; i < nums.length; i++) {\n            if (nums[i] == 13) {\n                i++;\n            } else {\n                sum += nums[i];\n            }\n        }\n        return sum;\n    }\n}", "solution2": "public class Solution {\n    public int sum13(int[] nums) {\n        int sum = 0;\n        boolean skipNext = false;\n        if (nums == null || nums.length == 0) return 0;\n        for (int num : nums) {\n            if (skipNext) {\n                skipNext = false;\n                continue;\n            }\n            if (num == 13) {\n                skipNext = true;\n            } else {\n                sum += num;\n            }\n        }\n        return sum;\n    }\n}", "required_kcs": ["If/Else", "For", "Math+-*/", "LogicCompareNum", "ArrayIndex"]}, "67": {"solution1": "public class Solution {\n public boolean has77(int[] nums) {\n  for (int i = 0; i < nums.length - 1; i++) {\n   if (nums[i] == 7) {\n    if (nums[i + 1] == 7) {\n     return true;\n    } else if (i + 2 < nums.length && nums[i + 2] == 7) {\n     return true;\n    }\n   }\n  }\n  return false;\n }\n}", "solution2": "public class Solution {\n public boolean has77(int[] nums) {\n  for (int i = 0; i < nums.length - 1; i++) {\n   if (nums[i] == 7 && (i + 1 < nums.length && nums[i + 1] == 7 || i + 2 < nums.length && nums[i + 2] == 7)) {\n    return true;\n   }\n  }\n  return false;\n }\n}", "required_kcs": ["If/Else", "For", "Math+-*/", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "104": {"solution1": "public class Solution {\n public int[] zeroMax(int[] nums) {\n  for (int i = 0; i < nums.length; i++) {\n   if (nums[i] == 0) {\n    int maxOdd = 0;\n    for (int j = i + 1; j < nums.length; j++) {\n     if (nums[j] % 2 != 0 && nums[j] > maxOdd) {\n      maxOdd = nums[j];\n     }\n    }\n    nums[i] = maxOdd;\n   }\n  }\n  return nums;\n }\n}", "solution2": "public class Solution {\n public int[] zeroMax(int[] nums) {\n  for (int i = 0; i < nums.length; i++) {\n   if (nums[i] == 0) {\n    int largestOdd = 0;\n    for (int j = i + 1; j < nums.length; j++) {\n     largestOdd = (nums[j] % 2 != 0 && nums[j] > largestOdd) ? nums[j] : largestOdd;\n    }\n    nums[i] = largestOdd;\n   }\n  }\n  return nums;\n }\n}", "required_kcs": ["If/Else", "For", "NestedFor", "Math%", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "106": {"solution1": "public boolean sameEnds(int[] nums, int n) {\n  if (n == 0) return true;\n  for (int i = 0; i < n; i++) {\n    if (nums[i] != nums[nums.length - n + i]) {\n      return false;\n    }\n  }\n  return true;\n}", "solution2": "public boolean sameEnds(int[] nums, int n) {\n  boolean same = true;\n  for (int i = 0; i < n; i++) {\n    same = (nums[i] == nums[nums.length - n + i]) && same;\n  }\n  return same;\n}", "required_kcs": ["If/Else", "For", "NestedFor", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "107": {"solution1": "public int countClumps(int[] nums) {\n    int clumps = 0;\n    boolean inClump = false;\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (nums[i] == nums[i + 1]) {\n        if (!inClump) {\n          clumps++;\n          inClump = true;\n        }\n      } else {\n        inClump = false;\n      }\n    }\n    return clumps;\n  }", "solution2": "public int countClumps(int[] nums) {\n    int clumps = 0;\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (nums[i] == nums[i + 1]) {\n        clumps++;\n        int j = i + 1;\n        while (j < nums.length - 1 && nums[j] == nums[j + 1]) {\n          j++;\n        }\n        i = j;\n      }\n    }\n    return clumps;\n  }", "required_kcs": ["If/Else", "For", "Math+-*/", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "108": {"solution1": "public int[] fix45(int[] nums) {\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (nums[i] == 4 && nums[i + 1] != 5) {\n        for (int j = 0; j < nums.length; j++) {\n          if (nums[j] == 5 && (j == 0 || nums[j - 1] != 4)) {\n            int temp = nums[i + 1];\n            nums[i + 1] = 5;\n            nums[j] = temp;\n            break;\n          }\n        }\n      }\n    }\n    return nums;\n  }", "solution2": "public int[] fix45(int[] nums) {\n    int j = 0;\n    for (int i = 0; i < nums.length; i++) {\n      if (nums[i] == 4) {\n        j = i + 1;\n        while (nums[j] == 5) {\n          j++;\n        }\n        for (int k = 0; k < nums.length; k++) {\n          if (nums[k] == 5 && (k == 0 || nums[k - 1] != 4)) {\n            int temp = nums[i + 1];\n            nums[i + 1] = 5;\n            nums[k] = temp;\n            break;\n          }\n        }\n      }\n    }\n    return nums;\n  }", "required_kcs": ["If/Else", "For", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "45": {"solution1": "public int sum67(int[] nums) {\n  int sum = 0;\n  boolean ignore = false;\n  for (int i = 0; i < nums.length; i++) {\n    if (nums[i] == 6) {\n      ignore = true;\n    }\n    if (!ignore) {\n      sum += nums[i];\n    }\n    if (nums[i] == 7 && ignore) {\n      ignore = false;\n    }\n  }\n  return sum;\n}", "solution2": "public int sum67(int[] nums) {\n  int sum = 0;\n  int i = 0;\n  while (i < nums.length) {\n    if (nums[i] == 6) {\n      while (i < nums.length && nums[i] != 7) {\n        i++;\n      }\n      if (i < nums.length) {\n        i++;\n      }\n    } else {\n      sum += nums[i];\n      i++;\n    }\n  }\n  return sum;\n}", "required_kcs": ["If/Else", "For", "Math+-*/", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "48": {"solution1": "public int[] withoutTen(int[] nums) {\n    int count = 0;\n    for (int i = 0; i < nums.length; i++) {\n      if (nums[i] != 10) {\n        nums[count++] = nums[i];\n      }\n    }\n    while (count < nums.length) {\n      nums[count++] = 0;\n    }\n    return nums;\n  }", "solution2": "public int[] withoutTen(int[] nums) {\n    int[] result = new int[nums.length];\n    int index = 0;\n    for (int num : nums) {\n      result[index] = (num != 10) ? num : 0;\n      index = (num != 10) ? index + 1 : index;\n    }\n    while (index < nums.length) {\n      result[index++] = 0;\n    }\n    return result;\n  }", "required_kcs": ["If/Else", "For", "LogicCompareNum", "ArrayIndex"]}, "51": {"solution1": "public int[] tenRun(int[] nums) {\n  int multiple = 0;\n  for (int i = 0; i < nums.length; i++) {\n    if (nums[i] % 10 == 0) {\n      multiple = nums[i];\n    } else if (multiple != 0) {\n      nums[i] = multiple;\n    }\n  }\n  return nums;\n}", "solution2": "public int[] tenRun(int[] nums) {\n  int currentMultiple = 0;\n  for (int i = 0; i < nums.length; i++) {\n    currentMultiple = (nums[i] % 10 == 0) ? nums[i] : currentMultiple;\n    nums[i] = (currentMultiple != 0 && nums[i] % 10 != 0) ? currentMultiple : nums[i];\n  }\n  return nums;\n}", "required_kcs": ["If/Else", "For", "Math%", "LogicCompareNum", "ArrayIndex"]}, "56": {"solution1": "public int centeredAverage(int[] nums) {\n    int min = nums[0];\n    int max = nums[0];\n    int sum = 0;\n    for (int i = 0; i < nums.length; i++) {\n      sum += nums[i];\n      if (nums[i] < min) {\n        min = nums[i];\n      }\n      if (nums[i] > max) {\n        max = nums[i];\n      }\n    }\n    return (sum - min - max) / (nums.length - 2);\n  }", "solution2": "public int centeredAverage(int[] nums) {\n    int min = nums[0];\n    int max = nums[0];\n    int sum = 0;\n    for (int num : nums) {\n      min = (num < min) ? num : min;\n      max = (num > max) ? num : max;\n      sum += num;\n    }\n    return (sum - min - max) / (nums.length - 2);\n  }", "required_kcs": ["If/Else", "For", "Math+-*/", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "57": {"solution1": "public int[] fizzArray(int n) {\n  int[] result = new int[n];\n  for (int i = 0; i < n; i++) {\n    result[i] = i;\n  }\n  return result;\n}", "solution2": "public int[] fizzArray(int n) {\n  int[] arr = new int[n];\n  for(int i = 0; i < arr.length; i++){\n    arr[i] = i;\n  }\n  return arr;\n}", "required_kcs": ["For", "ArrayIndex"]}, "64": {"solution1": "public String[] fizzBuzz(int start, int end) {\n    String[] result = new String[end - start];\n    for (int i = start; i < end; i++) {\n      if (i % 3 == 0 && i % 5 == 0) {\n        result[i - start] = \"FizzBuzz\";\n      } else if (i % 3 == 0) {\n        result[i - start] = \"Fizz\";\n      } else if (i % 5 == 0) {\n        result[i - start] = \"Buzz\";\n      } else {\n        result[i - start] = String.valueOf(i);\n      }\n    }\n    return result;\n  }", "solution2": "public String[] fizzBuzz(int start, int end) {\n    String[] result = new String[end - start];\n    for (int i = start; i < end; i++) {\n      String str = \"\";\n      str += (i % 3 == 0) ? \"Fizz\" : \"\";\n      str += (i % 5 == 0) ? \"Buzz\" : \"\";\n      result[i - start] = (str.isEmpty()) ? String.valueOf(i) : str;\n    }\n    return result;\n  }", "required_kcs": ["If/Else", "For", "Math%", "LogicCompareNum", "StringFormat", "StringEqual", "ArrayIndex"]}, "70": {"solution1": "public boolean twoTwo(int[] nums) {\n    for (int i = 0; i < nums.length; i++) {\n      if (nums[i] == 2) {\n        if (i > 0 && nums[i - 1] == 2) continue;\n        if (i < nums.length - 1 && nums[i + 1] == 2) continue;\n        return false;\n      }\n    }\n    return true;\n  }", "solution2": "public boolean twoTwo(int[] nums) {\n    for (int i = 0; i < nums.length; i++) {\n      if (nums[i] == 2) {\n        boolean hasNeighbor = false;\n        if (i > 0 && nums[i - 1] == 2) {\n          hasNeighbor = true;\n        }\n        if (i < nums.length - 1 && nums[i + 1] == 2) {\n          hasNeighbor = true;\n        }\n        if (!hasNeighbor) {\n          return false;\n        }\n      }\n    }\n    return true;\n  }", "required_kcs": ["If/Else", "For", "LogicAndNotOr", "LogicCompareNum", "ArrayIndex"]}, "71": {"solution1": "public class SplitArray {\n public boolean canSplitArray(int[] nums) {\n  int totalSum = 0;\n  for (int num : nums) {\n   totalSum += num;\n  }\n  int leftSum = 0;\n  for (int i = 0; i < nums.length - 1; i++) {\n   leftSum += nums[i];\n   if (leftSum * 2 == totalSum) {\n    return true;\n   }\n  }\n  return false;\n }\n}", "solution2": "public class SplitArray {\n public boolean canSplitArray(int[] nums) {\n  int sum = 0;\n  for (int num : nums) {\n   sum += num;\n  }\n  int currentSum = 0;\n  for (int i = 0; i < nums.length; i++) {\n   if (currentSum == sum - currentSum) {\n    return true;\n   }\n   currentSum += nums[i];\n  }\n  return false;\n }\n}", "required_kcs": ["If/Else", "For", "Math+-*/", "LogicCompareNum", "ArrayIndex"]}, "112": {"solution1": "public int[] seriesUp(int n) {\n  int[] result = new int[n * (n + 1) / 2];\n  int index = 0;\n  for (int i = 1; i <= n; i++) {\n    for (int j = 1; j <= i; j++) {\n      result[index] = j;\n      index++;\n    }\n  }\n  return result;\n}", "solution2": "public int[] seriesUp(int n) {\n    int[] arr = new int[n * (n + 1) / 2];\n    int k = 0;\n    for (int i = 1; i <= n; i++) {\n        int j = 1;\n        while (j <= i) {\n            arr[k++] = j++;\n        }\n    }\n    return arr;\n}", "required_kcs": ["For", "NestedFor", "Math+-*/", "ArrayIndex"]}, "118": {"solution1": "public int[] shiftLeft(int[] nums) {\n  if (nums == null || nums.length == 0) {\n    return nums;\n  }\n  int first = nums[0];\n  for (int i = 0; i < nums.length - 1; i++) {\n    nums[i] = nums[i + 1];\n  }\n  nums[nums.length - 1] = first;\n  return nums;\n}", "solution2": "public int[] shiftLeft(int[] nums) {\n  if (nums == null || nums.length == 0) {\n    return nums;\n  }\n  int[] shifted = new int[nums.length];\n  for (int i = 1; i < nums.length; i++) {\n    shifted[i - 1] = nums[i];\n  }\n  shifted[nums.length - 1] = nums[0];\n  return shifted;\n}", "required_kcs": ["For", "ArrayIndex"]}};
+
+
+// ====== STATE ======
+let currentIdx = 0;
+let annotations = {};  // { problemId: { gaps: [...], notes: "...", timestamp: "..." } }
+let studentData = {};  // { problemId: { code: "...", score: 0.5 } }
+
+// Load saved state from localStorage
+function loadState() {
+  try {
+    const saved = localStorage.getItem('kc_annotations');
+    if (saved) annotations = JSON.parse(saved);
+    const savedStudent = localStorage.getItem('kc_student_data');
+    if (savedStudent) studentData = JSON.parse(savedStudent);
+    const savedRater = localStorage.getItem('kc_rater');
+    if (savedRater) document.getElementById('rater-name').value = savedRater;
+    const savedSid = localStorage.getItem('kc_student_id');
+    if (savedSid) document.getElementById('student-id').value = savedSid;
+  } catch(e) { console.log('No saved state'); }
+}
+
+function saveState() {
+  localStorage.setItem('kc_annotations', JSON.stringify(annotations));
+  localStorage.setItem('kc_rater', document.getElementById('rater-name').value);
+  localStorage.setItem('kc_student_id', document.getElementById('student-id').value);
+}
+
+// ====== RENDER ======
+function render() {
+  const prob = PROBLEMS[currentIdx];
+  const pid = prob.id;
+  const ann = annotations[pid] || { gaps: [], notes: '' };
+
+  // Header
+  document.getElementById('counter').textContent = `Problem ${currentIdx + 1} of ${PROBLEMS.length}`;
+  const doneCount = Object.keys(annotations).length;
+  document.getElementById('done-count').textContent = `${doneCount} done`;
+  document.getElementById('progress').style.width = `${(doneCount / PROBLEMS.length) * 100}%`;
+
+  // Question
+  document.getElementById('prob-id').textContent = pid;
+  document.getElementById('assign-id').textContent = prob.a;
+  document.getElementById('question-text').textContent = prob.r;
+
+  // Required KCs
+  const kcReqEl = document.getElementById('kc-required');
+  kcReqEl.innerHTML = '<span style="font-size:11px;color:#888;margin-right:4px;">Required KCs:</span>' +
+    prob.kcs.map(kc => `<span class="kc-required-tag">${kc}</span>`).join('');
+
+  // Student code & score
+// Auto-loaded from embedded data
+  const sd2 = STUDENT_DATA[String(pid)];
+  if (sd2) {
+    document.getElementById('student-code').textContent = sd2.code;
+    document.getElementById('student-code').classList.remove('empty');
+    const score = sd2.score;
+    const scoreEl = document.getElementById('score-display');
+    scoreEl.textContent = Math.round(score * 100) + '%';
+    scoreEl.className = 'score-value ' + (score >= 1 ? 'pass' : score > 0 ? 'partial' : 'fail');
+    document.getElementById('score-label').textContent = 
+      score >= 1 ? '(all test cases passed)' : score > 0 ? '(partial)' : '(zero)';
+  } else {
+    document.getElementById('student-code').textContent = 'No submission for this problem';
+    document.getElementById('student-code').classList.add('empty');
+    document.getElementById('score-display').textContent = '\u2014';
+    document.getElementById('score-display').className = 'score-value';
+    document.getElementById('score-label').textContent = '';
+  }
+
+  // Reference solutions
+  const ref = REFERENCE_SOLUTIONS[String(pid)];
+  if (ref) {
+    document.getElementById('reference-code').textContent = 
+      '// Solution 1:\n' + ref.solution1 + '\n\n// Solution 2:\n' + ref.solution2;
+    document.getElementById('reference-code').classList.remove('empty');
+  } else {
+    document.getElementById('reference-code').textContent = 'No reference solutions for this problem';
+    document.getElementById('reference-code').classList.add('empty');
+  }
+  // END auto-loaded
+
+  // KC buttons
+  const kcBtnEl = document.getElementById('kc-buttons');
+  kcBtnEl.innerHTML = ALL_KCS.map(kc =>
+    `<button class="kc-btn ${ann.gaps.includes(kc) ? 'selected' : ''}" onclick="toggleKC('${kc}')">${kc}</button>`
+  ).join('');
+
+  // Selected gaps display
+  renderSelectedGaps(ann.gaps);
+
+  // Notes
+  document.getElementById('notes').value = ann.notes || '';
+
+  // Nav buttons
+  document.getElementById('prev-btn').disabled = currentIdx === 0;
+
+  // Problem grid
+  const gridEl = document.getElementById('problem-grid');
+  gridEl.innerHTML = PROBLEMS.map((p, i) => {
+    let cls = 'problem-dot';
+    if (i === currentIdx) cls += ' current';
+    else if (annotations[p.id]) cls += ' done';
+    return `<div class="${cls}" onclick="goTo(${i})" title="Problem ${p.id}">${p.id}</div>`;
+  }).join('');
+}
+
+function renderSelectedGaps(gaps) {
+  const el = document.getElementById('selected-gaps');
+  if (gaps.length === 0) {
+    el.innerHTML = '<span class="no-gaps">No gaps selected — click KC buttons above, or leave empty if code is correct</span>';
+  } else {
+    el.innerHTML = gaps.map(kc =>
+      `<span class="selected-gap-tag">${kc} <span class="remove" onclick="toggleKC('${kc}')">×</span></span>`
+    ).join('');
+  }
+}
+
+function toggleKC(kc) {
+  const pid = PROBLEMS[currentIdx].id;
+  if (!annotations[pid]) annotations[pid] = { gaps: [], notes: '' };
+  const gaps = annotations[pid].gaps;
+  const idx = gaps.indexOf(kc);
+  if (idx >= 0) gaps.splice(idx, 1);
+  else gaps.push(kc);
+  saveState();
+  render();
+}
+
+function saveCurrent() {
+  const pid = PROBLEMS[currentIdx].id;
+  if (!annotations[pid]) annotations[pid] = { gaps: [], notes: '' };
+  annotations[pid].notes = document.getElementById('notes').value;
+  annotations[pid].timestamp = new Date().toISOString();
+  annotations[pid].rater = document.getElementById('rater-name').value;
+  annotations[pid].studentId = document.getElementById('student-id').value;
+  saveState();
+}
+
+function navigate(dir) {
+  saveCurrent();
+  showToast('Saved!');
+  currentIdx = Math.max(0, Math.min(PROBLEMS.length - 1, currentIdx + dir));
+  render();
+  window.scrollTo(0, 0);
+}
+
+function goTo(idx) {
+  saveCurrent();
+  currentIdx = idx;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function loadStudentData() {
+  // Placeholder — in real usage, you'd load from a CSV/JSON file
+  // For now, show instructions
+  const sid = document.getElementById('student-id').value;
+  if (!sid) {
+    showToast('Enter a Student ID first');
+    return;
+  }
+  showToast(`To load student ${sid}'s code, export their submissions to student_data.json and place it in the same folder. See README.`);
+  localStorage.setItem('kc_student_id', sid);
+}
+
+function exportJSON() {
+  saveCurrent();
+  const output = {
+    rater: document.getElementById('rater-name').value,
+    studentId: document.getElementById('student-id').value,
+    exportDate: new Date().toISOString(),
+    totalAnnotated: Object.keys(annotations).length,
+    annotations: annotations
+  };
+  const blob = new Blob([JSON.stringify(output, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `kc_annotations_${output.rater || 'unknown'}_${output.studentId || 'unknown'}_${Date.now()}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exported!');
+}
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2000);
+}
+
+// ====== INIT ======
+loadState();
+render();
+
+// Auto-save notes on change
+document.getElementById('notes').addEventListener('input', () => {
+  const pid = PROBLEMS[currentIdx].id;
+  if (!annotations[pid]) annotations[pid] = { gaps: [], notes: '' };
+  annotations[pid].notes = document.getElementById('notes').value;
+  saveState();
+});
+
+// Save rater name on change
+document.getElementById('rater-name').addEventListener('input', () => {
+  localStorage.setItem('kc_rater', document.getElementById('rater-name').value);
+});
+</script>
+</body>
+</html>
