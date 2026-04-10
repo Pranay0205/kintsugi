@@ -237,9 +237,9 @@ IMPORTANT RULES:
 
 4. If the student's code is correct and demonstrates solid understanding,
    return empty knowledge_gaps and future_predictions lists.
-   
+
 5. If student has just return statements with no logic, simply return no gaps instead of trying to infer a gap from lack of content. You can't identify a specific misconception if they haven't attempted any logic. [HIGLY CRITICAL: Do NOT fabricate gaps based on missing code. Only identify gaps from actual errors in their code.]
-      
+
 
 OUTPUT FORMAT:
 Return ONLY valid JSON:
@@ -275,29 +275,18 @@ Return ONLY valid JSON:
 }}}}
 """
 
-    # ------------------------------------------------------------------
-    # Use exact KC names from problem_prompts.csv instead of
-    # generic tags. This ensures WeakSkillOverlap can match LLM output
-    # against the student mental model which uses the same KC vocabulary.
-    #
-    # OLD (broken): Loop, NestedLoop, String, Array, Logic, Condition,
-    #               Method, Math, Indexing, Comparison
-    # NEW (fixed):  If/Else, NestedIf, While, For, NestedFor, Math+-*/,
-    #               Math%, LogicAndNotOr, LogicCompareNum, LogicBoolean,
-    #               StringFormat, StringConcat, StringIndex, StringLen,
-    #               StringEqual, CharEqual, ArrayIndex, DefFunction
-    # ------------------------------------------------------------------
-
     strict_tags = """
 
 STRICT OUTPUT RULES:
 Separate quantitative tags from qualitative descriptions.
 
 1. 'knowledge_gaps' must be a list of objects with 'missing_concept' using a STRICT KC TAG:
-   { "gap": "description", "evidence": "code", "missing_concept": "STRICT_KC_TAG", "severity": "level" }
+   { "gap": "description", "evidence": "code",
+       "missing_concept": "STRICT_KC_TAG", "severity": "level" }
 
 2. 'future_predictions' must be a list of objects with 'at_risk_topic' using a STRICT KC TAG:
-   { "at_risk_topic": "STRICT_KC_TAG", "reason": "explanation", "prerequisite_gap": "description" }
+   { "at_risk_topic": "STRICT_KC_TAG", "reason": "explanation",
+       "prerequisite_gap": "description" }
 
 PERMITTED KC TAGS - use ONLY these exact names for 'missing_concept' and 'at_risk_topic':
 
@@ -338,6 +327,242 @@ CRITICAL RULES FOR TAGS:
 - ALWAYS use the SPECIFIC KC tag from the list above (e.g., "For" not "Loop", "If/Else" not "Condition").
 - If a gap spans multiple skills, list each relevant specific KC tag as a SEPARATE future_prediction entry.
 - If no KC tag fits exactly, use the closest match from the list above.
+
+
+"""
+
+    return base + strict_tags
+
+
+def build_curriculum_aware_prompt_v2(
+    topics: dict,
+    problems: dict,
+    focus_problem_ids: list,
+) -> str:
+    """
+    Build the full curriculum-aware system instruction.
+
+    Parameters
+    ----------
+    topics : dict
+        Course curriculum structure (from java_topics.json).
+    problems : dict
+        Mapping of problem_id -> problem description text.
+    focus_problem_ids : list[int]
+        Which problems to include in the prompt context.
+    """
+    focused_problems = {
+        k: v for k, v in problems.items() if int(k) in focus_problem_ids
+    }
+
+    base = f"""You are an expert CS1 instructor analyzing individual student code submissions to identify knowledge gaps and predict future struggles.
+
+COURSE CURRICULUM:
+{json.dumps(topics, indent=2)}
+
+PROBLEM DESCRIPTIONS:
+{json.dumps(focused_problems, indent=2)}
+
+YOUR TASK:
+For each student, analyze their code submission and:
+1. Identify specific knowledge gaps based on errors in their code
+2. Predict which future topics/problems they may struggle with based on current gaps
+
+ANALYSIS APPROACH:
+1. Look at what the student attempted vs. what was required
+2. Identify misconceptions (not just syntax errors)
+3. Determine prerequisite concepts the student is missing
+4. Predict downstream impact on future learning
+
+EXAMPLES OF GOOD GAP IDENTIFICATION:
+
+Example 1 - Loop boundary error:
+```java
+for(int i = 0; i < str.length(); i++) {{{{
+    if(str.substring(i, i+5).equals("bread")) // crashes at end
+```
+Gap: "Off-by-one error in loop bounds - doesn't account for substring length"
+Missing concept: For
+Future risk: NestedFor, ArrayIndex
+
+Example 2 - String method confusion:
+```java
+int len = str.length;  // wrong
+```
+Gap: "Confuses String.length() method with array.length property"
+Missing concept: StringLen
+Future risk: StringIndex, ArrayIndex
+
+Example 3 - Logic flow issue:
+```java
+for(int i = 0; i < str.length(); i++) {{{{
+    if(str.charAt(i) == 'x') return true;
+    else return false;  // returns on first char!
+}}}}
+```
+Gap: "Premature return in loop - doesn't understand loop continuation"
+Missing concept: For, LogicBoolean
+Future risk: NestedFor, LogicAndNotOr
+
+WHAT TO LOOK FOR:
+- Syntax errors that reveal conceptual confusion (not typos)
+- Logic errors showing misunderstanding of problem requirements
+- Missing edge case handling (empty strings, boundaries)
+- Incorrect use of built-in methods
+- Control flow issues (early returns, infinite loops)
+
+WHAT TO IGNORE:
+- Simple typos (missing semicolon student would catch)
+- Style/formatting issues
+- Variable naming choices
+- Code that works but is inefficient
+
+IMPORTANT RULES:
+
+1. For students with Score = 100% (perfect):
+   - Return empty knowledge_gaps and future_predictions lists.
+   - Do NOT analyze perfect submissions.
+
+2. For students with Score < 100%:
+   - Identify the conceptual misunderstanding causing failures.
+   - Use the KC DISAMBIGUATION RULES below to tag the ROOT CAUSE, 
+     not the container construct.
+   - Do NOT report efficiency or style issues.
+
+3. A "knowledge gap" means the student DOES NOT UNDERSTAND a concept,
+   NOT that they used a less efficient approach.
+
+4. If the student's code is correct and demonstrates solid understanding,
+   return empty knowledge_gaps and future_predictions lists.
+
+5. If student has just return statements with no logic, simply return no gaps instead of trying to infer a gap from lack of content. You can't identify a specific misconception if they haven't attempted any logic. [HIGLY CRITICAL: Do NOT fabricate gaps based on missing code. Only identify gaps from actual errors in their code.]
+
+
+OUTPUT FORMAT:
+Return ONLY valid JSON:
+{{{{
+  "student_analysis": [
+    {{{{
+      "student_id": "SubjectID",
+      "problem_id": "ProblemID",
+      "score": 0.0,
+      "knowledge_gaps": [
+        {{{{
+          "gap": "Specific description",
+          "evidence": "Code snippet showing this gap",
+          "missing_concept": "STRICT_KC_TAG",
+          "severity": "critical/moderate/minor"
+        }}}}
+      ],
+      "future_predictions": [
+        {{{{
+          "at_risk_topic": "STRICT_KC_TAG",
+          "reason": "Why this gap causes problems there",
+          "prerequisite_gap": "What they need to learn first"
+        }}}}
+      ],
+      "recommended_intervention": "Teaching suggestion"
+    }}}}
+  ],
+  "class_summary": {{{{
+    "common_gaps": ["Gaps affecting multiple students"],
+    "highest_risk_students": ["Student IDs needing attention"],
+    "suggested_review_topics": ["Topics to revisit"]
+  }}}}
+}}}}
+"""
+
+    strict_tags = """
+
+STRICT OUTPUT RULES:
+Separate quantitative tags from qualitative descriptions.
+
+1. 'knowledge_gaps' must be a list of objects with 'missing_concept' using a STRICT KC TAG:
+   { "gap": "description", "evidence": "code",
+       "missing_concept": "STRICT_KC_TAG", "severity": "level" }
+
+2. 'future_predictions' must be a list of objects with 'at_risk_topic' using a STRICT KC TAG:
+   { "at_risk_topic": "STRICT_KC_TAG", "reason": "explanation",
+       "prerequisite_gap": "description" }
+
+PERMITTED KC TAGS - use ONLY these exact names for 'missing_concept' and 'at_risk_topic':
+
+Conditional Skills:
+- If/Else
+- NestedIf
+
+Loop Skills:
+- While
+- For
+- NestedFor
+
+Math Skills:
+- Math+-*/
+- Math%
+
+Logic Skills:
+- LogicAndNotOr
+- LogicCompareNum
+- LogicBoolean
+
+String Skills:
+- StringFormat
+- StringConcat
+- StringIndex
+- StringLen
+- StringEqual
+- CharEqual
+
+Array Skills:
+- ArrayIndex
+
+Function Skills:
+- DefFunction
+
+CRITICAL RULES FOR TAGS:
+- Do NOT use generic terms like "Logic", "Loop", "String", "Condition", "Method", "Array".
+- ALWAYS use the SPECIFIC KC tag from the list above (e.g., "For" not "Loop", "If/Else" not "Condition").
+- If a gap spans multiple skills, list each relevant specific KC tag as a SEPARATE future_prediction entry.
+- If no KC tag fits exactly, use the closest match from the list above.
+
+
+KC DISAMBIGUATION RULES:
+When multiple KCs seem applicable, use these rules to pick the SPECIFIC one:
+
+1. LogicCompareNum vs If/Else:
+   If the student writes day==1 || day==2 || day==3 || day==4 || day==5
+   instead of day>=1 && day<=5, the gap is LogicCompareNum (doesn't
+   understand numeric ranges), NOT If/Else. The if statement itself is
+   used correctly — the comparison inside it is the problem.
+
+2. LogicBoolean vs If/Else:
+   If the student writes vacation=false instead of !vacation, or
+   uses = instead of == on a boolean (e.g., isWeekend = false in a
+   condition), the gap is LogicBoolean. The student doesn't understand
+   how booleans work as direct truth values.
+
+3. LogicAndNotOr:
+   If the student combines conditions with wrong operators (&& where
+   || is needed), missing parentheses around grouped conditions, or
+   incorrect short-circuit logic, tag LogicAndNotOr. Not If/Else.
+
+4. NestedFor and While — ONLY tag these if:
+   - The problem REQUIRES a nested loop or while loop AND
+   - The student ATTEMPTED that construct incorrectly
+   Do NOT tag NestedFor or While if the problem can be solved with a
+   simple for loop. Do NOT infer loop gaps from non-loop problems.
+
+5. StringFormat vs StringConcat vs StringIndex:
+   - StringFormat: wrong use of printf, String.format, or building formatted output
+   - StringConcat: missing + operator, wrong concatenation order
+   - StringIndex: wrong charAt, substring bounds, off-by-one on position
+   Pick the MOST SPECIFIC one. Do not tag all three.
+
+6. General rule: always tag the ROOT CAUSE KC, not the CONTAINER.
+   If the error happens inside an if statement, that does not make it
+   an If/Else gap. Ask: "What concept does the student misunderstand?"
+   not "What construct contains the error?"
+
 """
 
     return base + strict_tags
