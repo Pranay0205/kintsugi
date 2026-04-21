@@ -1,0 +1,161 @@
+{
+  "studentId": "14362",
+  "submissions": {
+    "17": {
+      "code": "public int redTicket(int a, int b, int c)\r\n{\r\n    if (a == 2 && b == 2 && c == 2)\r\n    {\r\n        return 10;\r\n    }\r\n    else if (a == b && a == c && b == c)\r\n    {\r\n        return 5;\r\n    }\r\n    else if (a != b && a != c)\r\n    {\r\n        return 1;\r\n    }\r\n    else\r\n    {\r\n        return 0;\r\n    }\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public class Solution {\n    public int redTicket(int a, int b, int c) {\n        if (a == 2 && b == 2 && c == 2) {\n            return 10;\n        } else if (a == b && b == c) {\n            return 5;\n        } else if (b != a && c != a) {\n            return 1;\n        } else {\n            return 0;\n        }\n    }\n}",
+      "solution2": "public class Solution {\n    public int redTicket(int a, int b, int c) {\n        int result = 0;\n        if (a == b && b == c) {\n            result = (a == 2) ? 10 : 5;\n        } else if (b != a && c != a) {\n            result = 1;\n        }\n        return result;\n    }\n}"
+    },
+    "20": {
+      "code": "public int loneSum(int a, int b, int c)\r\n{\r\n    if (a == b && a == c)\r\n    {\r\n        return 0;\r\n    }\r\n    else if (a == b)\r\n    {\r\n        return c;\r\n    }\r\n    else if (a == c)\r\n    {\r\n        return b;\r\n    }\r\n    else if (b == c)\r\n    {\r\n        return a;\r\n    }\r\n    else\r\n    {\r\n        return (a + b + c);\r\n    }\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public int loneSum(int a, int b, int c) {\n    int sum = 0;\n    if (a != b && a != c) {\n      sum += a;\n    }\n    if (b != a && b != c) {\n      sum += b;\n    }\n    if (c != a && c != b) {\n      sum += c;\n    }\n    return sum;\n}",
+      "solution2": "public int loneSum(int a, int b, int c) {\n    int sum = a + b + c;\n    if (a == b && b == c) {\n        return 0;\n    } else if (a == b) {\n        return c;\n    } else if (a == c) {\n        return b;\n    } else if (b == c) {\n        return a;\n    }\n    return sum;\n}"
+    },
+    "21": {
+      "code": "public int luckySum(int a, int b, int c)\r\n{\r\n    if (a ==13)\r\n    {\r\n        return 0;\r\n    }\r\n    else if (b == 13)\r\n    {\r\n        return a;\r\n    }\r\n    else if (c == 13)\r\n    {\r\n        return (a + b);\r\n    }\r\n    else\r\n    {\r\n        return (a + b + c);\r\n    }\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public int luckySum(int a, int b, int c) {\n    if (a == 13) {\n      return 0;\n    } else if (b == 13) {\n      return a;\n    } else if (c == 13) {\n      return a + b;\n    } else {\n      return a + b + c;\n    }\n}",
+      "solution2": "public int luckySum(int a, int b, int c) {\n    int sum = 0;\n    sum += (a != 13) ? a : 0;\n    sum += (a != 13 && b != 13) ? b : 0;\n    sum += (a != 13 && b != 13 && c != 13) ? c : 0;\n    return sum;\n}"
+    },
+    "22": {
+      "code": "public int noTeenSum(int a, int b, int c)\r\n{\r\n    int d;\r\n    int e;\r\n    int f;\r\n    d = fixTeen(a);\r\n    e = fixTeen(b);\r\n    f = fixTeen(c);\r\n    \r\n    return (d + e + f);\r\n}\r\n\r\npublic int fixTeen(int n)\r\n{\r\n    if (n >= 13 && n <= 19)\r\n    {\r\n        if (n == 15 || n == 16)\r\n        {\r\n            return n;\r\n        }\r\n        else\r\n        {\r\n            return 0;\r\n        }\r\n    }\r\n    else\r\n    {\r\n        return n;\r\n    }\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public class Solution {\n    public int noTeenSum(int a, int b, int c) {\n        return fixTeen(a) + fixTeen(b) + fixTeen(c);\n    }\n\n    public int fixTeen(int n) {\n        if (n >= 13 && n <= 19) {\n            if (n == 15 || n == 16) {\n                return n;\n            } else {\n                return 0;\n            }\n        } else {\n            return n;\n        }\n    }\n}",
+      "solution2": "public class Solution {\n    public int noTeenSum(int a, int b, int c) {\n        return fixTeen(a) + fixTeen(b) + fixTeen(c);\n    }\n\n    public int fixTeen(int n) {\n        return (n >= 13 && n <= 19 && n != 15 && n != 16) ? 0 : n;\n    }\n}"
+    },
+    "24": {
+      "code": "public int blackjack(int a, int b)\r\n{\r\n   \r\n\r\n    if (a == 21)\r\n    {\r\n        return a;\r\n    }\r\n    else if (b == 21)\r\n    {\r\n        return b;\r\n    }\r\n    else if (a<21 && b<21){\r\n\tif (b>a)\r\n        {\r\n            return b;\r\n        }\r\n        else\r\n        {\r\n            return a;\r\n        }\r\n    }\r\n    else if (a < 21 || b < 21)\r\n    {\r\n        if (a < 21 && b > 21)\r\n        {\r\n            return a;\r\n        }\r\n        else\r\n        {\r\n            return b; // THIS BRANCH HAS A LOGIC ERROR\r\n        }\r\n    }\r\n    else\r\n    {\r\n\treturn 0;\r\n    }\r\n}",
+      "score": 1.0,
+      "solution1": "public class Near21 {\n public int near21(int a, int b) {\n if (a > 21 && b > 21) {\n return 0;\n }\n if (a > 21) {\n return b;\n }\n if (b > 21) {\n return a;\n }\n if (21 - a < 21 - b) {\n return a;\n } else {\n return b;\n }\n }\n}",
+      "solution2": "public class Near21 {\n public int near21(int a, int b) {\n int aDiff = (a <= 21) ? 21 - a : Integer.MAX_VALUE;\n int bDiff = (b <= 21) ? 21 - b : Integer.MAX_VALUE;\n\n if (aDiff == Integer.MAX_VALUE && bDiff == Integer.MAX_VALUE) {\n return 0;\n } else if (aDiff < bDiff) {\n return a;\n } else {\n return b;\n }\n }\n}"
+    },
+    "25": {
+      "code": "public boolean evenlySpaced(int a, int b, int c)\r\n{\r\n    \r\n    int s;\r\n    int m;\r\n    int l;\r\n    \r\n    if (a > b && a > c)\r\n    {\r\n        l = a;\r\n    }\r\n    else if (b > a && b > c)\r\n    {\r\n        l = b;\r\n    }\r\n    else\r\n    {\r\n        l = c;\r\n    }\r\n    \r\n    if (c < b && c < a)\r\n    {\r\n        s = c;\r\n    }\r\n    else if (b < a && b < c)\r\n    {\r\n        s = b;\r\n    }\r\n    else \r\n    {\r\n        s = a;\r\n    }\r\n    \r\n    \r\n\r\n    \r\n    \r\n    \r\n    \r\n    if (a > s && a < l)\r\n    {\r\n        m = a;\r\n    }\r\n    else if (b > s && b < l)\r\n    {\r\n        m = b;\r\n    }\r\n    else \r\n    {\r\n        m = c;\r\n    }\r\n    \r\n    \r\n    \r\n    if (m - s == l - m)\r\n    {\r\n        return true;\r\n    }\r\n    else\r\n    {\r\n        return false;\r\n    }\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public boolean evenlySpaced(int a, int b, int c) {\n  int small = Math.min(a, Math.min(b, c));\n  int large = Math.max(a, Math.max(b, c));\n  int medium = a + b + c - small - large;\n  return (medium - small) == (large - medium);\n}",
+      "solution2": "public boolean evenlySpaced(int a, int b, int c) {\n  if ((a <= b && b <= c) || (c <= b && b <= a)) {\n    return (b - a) == (c - b);\n  } else if ((a <= c && c <= b) || (b <= c && c <= a)) {\n    return (c - a) == (b - c);\n  } else {\n    return (a - b) == (c - a);\n  }\n}"
+    },
+    "28": {
+      "code": "public String atFirst(String str)\r\n{\r\n    String firstLetters;\r\n    firstLetters = str.substring(0, 2);\r\n    \r\n    String oneLetter;\r\n    oneLetter = str.substring(0, str.length() - 1);\r\n    \r\n    if (str.length() >= 2)\r\n    {\r\n        return firstLetters;\r\n    }\r\n    else if (str.length() == 1)\r\n    {\r\n        return oneLetter + \"@\";\r\n    }\r\n    else\r\n    {\r\n        return \"@@\";\r\n    }\r\n}\r\n",
+      "score": 0.6,
+      "solution1": "public String firstTwo(String str) {\n  if (str.length() >= 2) {\n    return str.substring(0, 2);\n  } else if (str.length() == 1) {\n    return str.charAt(0) + \"@\";\n  } else {\n    return \"@@\";\n  }\n}",
+      "solution2": "public String firstTwo(String str) {\n  String result = \"\";\n  result += (str.length() > 0) ? str.charAt(0) : '@';\n  result += (str.length() > 1) ? str.charAt(1) : '@';\n  return result;\n}"
+    },
+    "31": {
+      "code": "public String repeatEnd(String str, int n) // str and n are parameter defined \r\n{\r\n    String lastLetters;\r\n    lastLetters = str.substring(str.length() - n);\r\n    \r\n    String lastLettersRepeat;\r\n    lastLettersRepeat = \"\";\r\n    \r\n    for (int i = 0; i < n; i++)\r\n    {\r\n        lastLettersRepeat = lastLettersRepeat + lastLetters;\r\n    }\r\n    \r\n    return lastLettersRepeat;\r\n    \r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public String repeatEnd(String str, int n) {\n    String end = str.substring(str.length() - n);\n    String result = \"\";\n    for (int i = 0; i < n; i++) {\n      result += end;\n    }\n    return result;\n  }",
+      "solution2": "public String repeatEnd(String str, int n) {\n    String suffix = str.substring(str.length() - n);\n    return String.format(\"%\" + n + \"s\", \"\").replace(\" \", suffix);\n  }"
+    },
+    "32": {
+      "code": "public String plusOut(String str, String word)\r\n{\r\n    for (int i = 0; i < str.length(); i++)\r\n    {\r\n        if (!str.substring(i, i + word.length()).equals(word))\r\n        {\r\n            String plusString;\r\n            plusString = str.replace(str.charAt(i), '+');\r\n        }\r\n    }\r\n    return plusString;\r\n}",
+      "score": 0.0,
+      "solution1": "public String plusOut(String str, String word) {\n  String result = \"\";\n  int i = 0;\n  while (i < str.length()) {\n    if (i + word.length() <= str.length() && str.substring(i, i + word.length()).equals(word)) {\n      result += word;\n      i += word.length();\n    } else {\n      result += \"+\";\n      i++;\n    }\n  }\n  return result;\n}",
+      "solution2": "public String plusOut(String str, String word) {\n  StringBuilder result = new StringBuilder();\n  for (int i = 0; i < str.length(); i++) {\n    if (str.startsWith(word, i)) {\n      result.append(word);\n      i += word.length() - 1;\n    } else {\n      result.append(\"+\");\n    }\n  }\n  return result.toString();\n}"
+    },
+    "33": {
+      "code": "public String mixString(String a, String b)\r\n{\r\n    char charLet1;\r\n    charLet1 = a.charAt(0);\r\n    String stringLet1;\r\n    stringLet1 = String.valueOf(charLet1);\r\n    \r\n    String initialMix;\r\n    initialMix = stringLet1; \r\n    \r\n    for (int i = 0; i < b.length(); i++)\r\n    {\r\n        char charLet;\r\n        charLet = b.charAt(i);\r\n        String stringLet;\r\n        stringLet = String.valueOf(charLet);\r\n        \r\n        \r\n        for (int j = 0; j < a.length(); i++)\r\n        {\r\n            \r\n            // make a new string containing old string and a new letter\r\n        }\r\n    }\r\n}\r\n",
+      "score": 0.0,
+      "solution1": "public String mixString(String a, String b) {\n    String result = \"\";\n    int i = 0;\n    while (i < a.length() || i < b.length()) {\n      if (i < a.length()) {\n        result += a.substring(i, i + 1);\n      }\n      if (i < b.length()) {\n        result += b.substring(i, i + 1);\n      }\n      i++;\n    }\n    return result;\n  }",
+      "solution2": "public String mixString(String a, String b) {\n    StringBuilder result = new StringBuilder();\n    int lenA = a.length();\n    int lenB = b.length();\n    int maxLength = Math.max(lenA, lenB);\n\n    for (int i = 0; i < maxLength; i++) {\n      result.append((i < lenA) ? a.charAt(i) : \"\");\n      result.append((i < lenB) ? b.charAt(i) : \"\");\n    }\n\n    return result.toString();\n  }"
+    },
+    "34": {
+      "code": "public String zipZap(String str)\r\n{\r\n    char strChar;\r\n    strChar = char.valueOf(str);\r\n}\r\n",
+      "score": 0.0,
+      "solution1": "public class Solution {\n public String zipZap(String str) {\n String result = \"\";\n if (str.length() < 3) {\n return str;\n }\n for (int i = 0; i < str.length(); i++) {\n if (i + 2 < str.length() && str.charAt(i) == 'z' && str.charAt(i + 2) == 'p') {\n result += \"zp\";\n i += 2;\n } else {\n result += str.charAt(i);\n }\n }\n return result;\n }\n}",
+      "solution2": "public class Solution {\n public String zipZap(String str) {\n String result = \"\";\n for (int i = 0; i < str.length(); i++) {\n result += (i + 2 < str.length() && str.charAt(i) == 'z' && str.charAt(i + 2) == 'p') ? \"zp\" : String.valueOf(str.charAt(i));\n i += (i + 2 < str.length() && str.charAt(i) == 'z' && str.charAt(i + 2) == 'p') ? 2 : 0;\n }\n return result;\n }\n}"
+    },
+    "37": {
+      "code": "public boolean endOther(String a, String b)\r\n{\r\n    String A;\r\n    A = a.toLowerCase();\r\n    String B;\r\n    B = b.toLowerCase();\r\n    \r\n    if (A.endsWith(B) || B.endsWith(A))\r\n    {\r\n        return true;\r\n    }\r\n    else\r\n    {\r\n        return false;\r\n    }\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public class StringEnd {\n public boolean endOther(String a, String b) {\n String aLower = a.toLowerCase();\n String bLower = b.toLowerCase();\n int aLen = aLower.length();\n int bLen = bLower.length();\n if (aLen > bLen) {\n return aLower.substring(aLen - bLen).equals(bLower);\n } else {\n return bLower.substring(bLen - aLen).equals(aLower);\n }\n }\n}",
+      "solution2": "public class StringEnd {\n public boolean endOther(String a, String b) {\n String aLower = a.toLowerCase();\n String bLower = b.toLowerCase();\n int aLen = aLower.length();\n int bLen = bLower.length();\n return (aLen >= bLen) ? aLower.substring(aLen - bLen).equals(bLower) : bLower.substring(bLen - aLen).equals(aLower);\n }\n}"
+    },
+    "40": {
+      "code": "public String getSandwich(String str)\r\n{\r\n   \r\n    if (str.startsWith(\"bread\") && str.endsWith(\"bread\"))\r\n    {\r\n        return str.substring(5, str.length() - 5);\r\n    }\r\n    else\r\n    {\r\n        return \"\";\r\n    }\r\n    \r\n}\r\n",
+      "score": 0.769231,
+      "solution1": "public String getSandwich(String str) {\n int firstBread = str.indexOf(\"bread\");\n int lastBread = str.lastIndexOf(\"bread\");\n if (firstBread != -1 && lastBread != -1 && firstBread != lastBread) {\n return str.substring(firstBread + 5, lastBread);\n } else {\n return \"\";\n }\n}",
+      "solution2": "public String getSandwich(String str) {\n int first = str.indexOf(\"bread\");\n int last = str.lastIndexOf(\"bread\");\n return (first != -1 && last != -1 && first != last) ? str.substring(first + 5, last) : \"\";\n}"
+    },
+    "41": {
+      "code": "public int sum3(int[] nums)\r\n{\r\n    return nums[0] + nums[1] + nums[2];\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public int sum3(int[] nums) {\n  int sum = 0;\n  for (int i = 0; i < nums.length; i++) {\n    sum += nums[i];\n  }\n  return sum;\n}",
+      "solution2": "public int sum3(int[] nums) {\n  return nums[0] + nums[1] + nums[2];\n}"
+    },
+    "43": {
+      "code": "public int[] frontPiece(int[] nums)\r\n{\r\n    \r\n    \r\n    if (nums.length < 2)\r\n    {\r\n        return nums;\r\n    }\r\n    \r\n    \r\n    int [] grid = new int[2];\r\n    for (int i = 0; i < 2; i++)\r\n    {\r\n        grid[i] = nums[i];\r\n    }\r\n    return grid;\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public int[] frontPiece(int[] nums) {\n  if (nums.length >= 2) {\n    int[] result = new int[2];\n    result[0] = nums[0];\n    result[1] = nums[1];\n    return result;\n  } else {\n    return nums;\n  }\n}",
+      "solution2": "public int[] frontPiece(int[] nums) {\n  int len = Math.min(2, nums.length);\n  int[] result = new int[len];\n  for (int i = 0; i < len; i++) {\n    result[i] = nums[i];\n  }\n  return result;\n}"
+    },
+    "44": {
+      "code": "public int countEvens(int[] nums)\r\n{\r\n    int count;\r\n    count = 0;\r\n    \r\n    \r\n    for (int i = 0; i < nums.length; i++)\r\n    {\r\n        if (nums[i] % 2 == 0)\r\n        {\r\n            count = count + 1;\r\n        }\r\n    }\r\n    \r\n    return count;\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public class Solution {\n public int countEven(int[] nums) {\n  int count = 0;\n  for (int i = 0; i < nums.length; i++) {\n   if (nums[i] % 2 == 0) {\n    count++;\n   }\n  }\n  return count;\n }\n}",
+      "solution2": "public class Solution {\n public int countEven(int[] nums) {\n  int count = 0;\n  for (int num : nums) {\n   count += (num % 2 == 0) ? 1 : 0;\n  }\n  return count;\n }\n}"
+    },
+    "46": {
+      "code": "public boolean isEverywhere(int[] nums, int val)\r\n{\r\n    for (int i = 0; i < nums.length - 1; i++)\r\n    {\r\n        if (nums[i] != val && nums[i + 1] != val)\r\n        {\r\n            return false;\r\n        }\r\n    }\r\n    return true;\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public boolean isEverywhere(int[] nums, int val) {\n    if (nums.length == 0) return true;\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (nums[i] != val && nums[i+1] != val) {\n        return false;\n      }\n    }\n    return true;\n  }",
+      "solution2": "public boolean isEverywhere(int[] nums, int val) {\n    if (nums.length == 0) return true;\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (!(nums[i] == val || nums[i+1] == val)) return false;\n    }\n    return true;\n  }"
+    },
+    "49": {
+      "code": "public int sum13(int[] nums)\r\n{\r\n    int sum;\r\n    sum = 0;\r\n    \r\n    for (int i = 0; i < nums.length; i++)\r\n    {\r\n        if (nums[i] == 13)\r\n        {\r\n            i++;\r\n        }\r\n        else\r\n        {\r\n            sum = sum + nums[i];\r\n        }\r\n    }\r\n    return sum;\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public class Solution {\n    public int sum13(int[] nums) {\n        int sum = 0;\n        if (nums == null || nums.length == 0) {\n            return 0;\n        }\n        for (int i = 0; i < nums.length; i++) {\n            if (nums[i] == 13) {\n                i++;\n            } else {\n                sum += nums[i];\n            }\n        }\n        return sum;\n    }\n}",
+      "solution2": "public class Solution {\n    public int sum13(int[] nums) {\n        int sum = 0;\n        boolean skipNext = false;\n        if (nums == null || nums.length == 0) return 0;\n        for (int num : nums) {\n            if (skipNext) {\n                skipNext = false;\n                continue;\n            }\n            if (num == 13) {\n                skipNext = true;\n            } else {\n                sum += num;\n            }\n        }\n        return sum;\n    }\n}"
+    },
+    "67": {
+      "code": "public boolean has77(int[] nums)\r\n{\r\n    for (int i = 0; i < nums.length - 1; i++)\r\n    {\r\n        if (nums[i] == 7 && nums[i + 1] == 7)\r\n        {\r\n            return true;\r\n        }\r\n        else if (i + 2 == nums.length)\r\n        {\r\n            return false;\r\n        }\r\n        else if (nums[i] == 7 && nums[i + 2] == 7)\r\n        {\r\n            return true;\r\n        }\r\n    }\r\n    return false;\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public class Solution {\n public boolean has77(int[] nums) {\n  for (int i = 0; i < nums.length - 1; i++) {\n   if (nums[i] == 7) {\n    if (nums[i + 1] == 7) {\n     return true;\n    } else if (i + 2 < nums.length && nums[i + 2] == 7) {\n     return true;\n    }\n   }\n  }\n  return false;\n }\n}",
+      "solution2": "public class Solution {\n public boolean has77(int[] nums) {\n  for (int i = 0; i < nums.length - 1; i++) {\n   if (nums[i] == 7 && (i + 1 < nums.length && nums[i + 1] == 7 || i + 2 < nums.length && nums[i + 2] == 7)) {\n    return true;\n   }\n  }\n  return false;\n }\n}"
+    },
+    "100": {
+      "code": "public int roundSum(int a, int b, int c)\r\n{\r\n    int roundA;\r\n    roundA = round10(a);\r\n    int roundB;\r\n    roundB = round10(b);\r\n    int roundC;\r\n    roundC = round10(c);\r\n    \r\n    int sum;\r\n    sum = roundA + roundB + roundC;\r\n    return sum;\r\n}\r\n\r\npublic int round10(int num)\r\n{\r\n    int r;\r\n    r = num % 10;\r\n    \r\n    if (r > 5)\r\n    {\r\n        num = num + (10 - r); /////////////////////////////////////\r\n        return num;\r\n    }\r\n    else if (r == 5)\r\n    {\r\n        num = num + 5;\r\n        return num;\r\n    }\r\n    else\r\n    {\r\n        num = num - r;\r\n        return num;\r\n    }\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public class Solution {\n public int roundSum(int a, int b, int c) {\n return round10(a) + round10(b) + round10(c);\n }\n\n public int round10(int num) {\n int remainder = num % 10;\n if (remainder >= 5) {\n return num + (10 - remainder);\n } else {\n return num - remainder;\n }\n }\n}",
+      "solution2": "public class Solution {\n public int roundSum(int a, int b, int c) {\n return round10(a) + round10(b) + round10(c);\n }\n\n public int round10(int num) {\n int remainder = num % 10;\n return (remainder >= 5) ? (num + (10 - remainder)) : (num - remainder);\n }\n}"
+    },
+    "101": {
+      "code": "public int makeChocolate(int small, int big, int goal)\r\n{\r\n    int r;\r\n    r = goal % 5;\r\n    \r\n    \r\n    if (5*big >= goal && r == 0)\r\n    {\r\n        return 0;\r\n    }\r\n    else if (5*big < goal)\r\n    {\r\n        if (5*big + small == goal)\r\n        {\r\n            return small;\r\n        }\r\n        else if (5*big + small > goal)\r\n        {\r\n            return r;\r\n        }\r\n        else\r\n        {\r\n            return -1;\r\n        }\r\n    }\r\n    else\r\n    {\r\n        return -1;\r\n    }\r\n}",
+      "score": 0.68,
+      "solution1": "public class Chocolate { public int makeChocolate(int small, int big, int goal) { int bigNeeded = Math.min(big, goal / 5); goal -= bigNeeded * 5; if (small >= goal) { return goal; } else { return -1; } } }",
+      "solution2": "public class Chocolate { public int makeChocolate(int small, int big, int goal) { int remainder = goal % 5; int bigUsed = (goal / 5 <= big) ? goal / 5 : big; int remainingGoal = goal - (bigUsed * 5); return (small >= remainingGoal) ? remainingGoal : -1; } }"
+    },
+    "102": {
+      "code": "public String without2(String str) \r\n{\r\n    String startLetters;\r\n    startLetters = str.substring(0, 2); // good\r\n    \r\n    String middleLetters;\r\n    middleLetters = str.substring(2, str.length() - 2); // good\r\n    \r\n    String endLetters;\r\n    endLetters = str.substring(str.length() - 2);\r\n    \r\n    String noStartLetters;\r\n    noStartLetters = middleLetters + endLetters;\r\n    \r\n    if (endLetters.equals(startLetters))\r\n    {\r\n        return noStartLetters; // not returning ? \r\n    }\r\n    else \r\n    {\r\n        return str; \r\n    }\r\n}\r\n",
+      "score": 0.461538,
+      "solution1": "public String without2(String str) {\n  if (str.length() < 2) {\n    return str;\n  }\n  String firstTwo = str.substring(0, 2);\n  String lastTwo;\n  if (str.length() >= 2) {\n      lastTwo = str.substring(str.length() - 2);\n  } else {\n      lastTwo = \"\";\n  }\n  if (firstTwo.equals(lastTwo)) {\n    return str.substring(2);\n  } else {\n    return str;\n  }\n}",
+      "solution2": "public String without2(String str) {\n  return (str.length() >= 2 && str.substring(0, 2).equals(str.substring(str.length() - 2))) ? str.substring(2) : str;\n}"
+    },
+    "104": {
+      "code": "public int[] zeroMax(int[] nums)\r\n{\r\n    int largestOdd;\r\n    largestOdd = 0;\r\n    \r\n    for (int i = nums.length - 1; i >= 0; i--)\r\n    {\r\n        if (nums[i] == 0)\r\n        {\r\n            nums[i] = largestOdd;\r\n        }\r\n        if (nums[i] % 2 != 0 && nums[i] > largestOdd)\r\n        {\r\n            largestOdd = nums[i];\r\n        }\r\n        \r\n    }\r\n    return nums;\r\n   \r\n}\r\n\r\n",
+      "score": 1.0,
+      "solution1": "public class Solution {\n public int[] zeroMax(int[] nums) {\n  for (int i = 0; i < nums.length; i++) {\n   if (nums[i] == 0) {\n    int maxOdd = 0;\n    for (int j = i + 1; j < nums.length; j++) {\n     if (nums[j] % 2 != 0 && nums[j] > maxOdd) {\n      maxOdd = nums[j];\n     }\n    }\n    nums[i] = maxOdd;\n   }\n  }\n  return nums;\n }\n}",
+      "solution2": "public class Solution {\n public int[] zeroMax(int[] nums) {\n  for (int i = 0; i < nums.length; i++) {\n   if (nums[i] == 0) {\n    int largestOdd = 0;\n    for (int j = i + 1; j < nums.length; j++) {\n     largestOdd = (nums[j] % 2 != 0 && nums[j] > largestOdd) ? nums[j] : largestOdd;\n    }\n    nums[i] = largestOdd;\n   }\n  }\n  return nums;\n }\n}"
+    },
+    "106": {
+      "code": "public boolean sameEnds(int[] nums, int n)\r\n{\r\n    if (n <= 1)\r\n    {\r\n    \tfor (int i = 0; i < n; i++)\r\n    \t{\r\n            if (nums[i] != nums[nums.length - 1 - i])\r\n        \t{\r\n            \treturn false;\r\n        \t}\r\n    \t}\r\n    }\r\n    else\r\n    {\r\n        for (int i = 0; i < n; i++)\r\n    \t{\r\n            \r\n            if (nums[i] != nums[nums.length - n + i])\r\n        \t{\r\n            \treturn false;\r\n        \t}\r\n    \t}\r\n        \r\n    }\r\n    return true;\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public boolean sameEnds(int[] nums, int n) {\n  if (n == 0) return true;\n  for (int i = 0; i < n; i++) {\n    if (nums[i] != nums[nums.length - n + i]) {\n      return false;\n    }\n  }\n  return true;\n}",
+      "solution2": "public boolean sameEnds(int[] nums, int n) {\n  boolean same = true;\n  for (int i = 0; i < n; i++) {\n    same = (nums[i] == nums[nums.length - n + i]) && same;\n  }\n  return same;\n}"
+    },
+    "107": {
+      "code": "public int countClumps(int[] nums)\r\n{\r\n    int clump;\r\n    clump = 0;\r\n    \r\n    for (int i = 0; i < nums.length - 1; i++)\r\n    {\r\n        if (nums[i] == nums[i + 1])\r\n        {\r\n            for (int b = i; b != nums.length -1 && nums[b] == nums[b + 1]; b++)\r\n            {\r\n                i = b;\r\n            }\r\n            clump = clump + 1;\r\n        }\r\n    }\r\n    return clump;\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public int countClumps(int[] nums) {\n    int clumps = 0;\n    boolean inClump = false;\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (nums[i] == nums[i + 1]) {\n        if (!inClump) {\n          clumps++;\n          inClump = true;\n        }\n      } else {\n        inClump = false;\n      }\n    }\n    return clumps;\n  }",
+      "solution2": "public int countClumps(int[] nums) {\n    int clumps = 0;\n    for (int i = 0; i < nums.length - 1; i++) {\n      if (nums[i] == nums[i + 1]) {\n        clumps++;\n        int j = i + 1;\n        while (j < nums.length - 1 && nums[j] == nums[j + 1]) {\n          j++;\n        }\n        i = j;\n      }\n    }\n    return clumps;\n  }"
+    },
+    "128": {
+      "code": "public boolean bobThere(String str)\r\n{\r\n    for (int i = 0; i < str.length() - 2; i++)\r\n    {\r\n        char charLetter1;\r\n        charLetter1 = str.charAt(i);\r\n        String stringLetter1;\r\n        stringLetter1 = String.valueOf(charLetter1);\r\n        \r\n        char charLetter2; // declaration of character\r\n        charLetter2 = str.charAt(i + 1); // initialization of character\r\n        String stringLetter2;\r\n        stringLetter2 = String.valueOf(charLetter2);\r\n        \r\n        char charLetter3;\r\n        charLetter3 = str.charAt(i + 2);\r\n        String stringLetter3;\r\n        stringLetter3 = String.valueOf(charLetter3);\r\n        \r\n        String bob;\r\n        bob = (stringLetter1 + stringLetter2 + stringLetter3);\r\n        \r\n        if (bob.startsWith(\"b\") && bob.endsWith(\"b\"))\r\n        {\r\n            return true;\r\n        }\r\n        \r\n    }\r\n    return false;\r\n}\r\n",
+      "score": 1.0,
+      "solution1": "public boolean bobThere(String str) {\n  if (str.length() < 3) {\n    return false;\n  }\n  for (int i = 0; i < str.length() - 2; i++) {\n    if (str.charAt(i) == 'b' && str.charAt(i + 2) == 'b') {\n      return true;\n    }\n  }\n  return false;\n}",
+      "solution2": "public boolean bobThere(String str) {\n  return (str.length() < 3) ? false : (java.util.stream.IntStream.range(0, str.length() - 2).anyMatch(i -> str.charAt(i) == 'b' && str.charAt(i + 2) == 'b'));\n}"
+    }
+  }
+}
