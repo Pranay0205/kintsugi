@@ -12,6 +12,8 @@ Defines four prompt engineering approaches compared in the thesis:
 import json
 from typing import Callable
 
+from .v3_prompt import build_v3_prompt
+
 
 # ---------------------------------------------------------------------------
 # KC Vocabulary (single source of truth - matches problem_prompts.csv columns)
