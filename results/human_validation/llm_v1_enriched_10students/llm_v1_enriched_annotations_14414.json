@@ -1,0 +1,1148 @@
+{
+  "rater": "LLM_Gemini_V1_Enriched",
+  "studentId": "14414",
+  "student_id": "14414",
+  "prompt_variant": "v1_enriched",
+  "model_id": "gemini-2.5-flash",
+  "temperature": 0.3,
+  "include_future_predictions": false,
+  "exportDate": "2026-05-20T23:15:44.887941",
+  "total_problems": 41,
+  "totalAnnotated": 41,
+  "total_calls": 15,
+  "errors": [],
+  "annotations": {
+    "1": {
+      "gaps": []
+    },
+    "3": {
+      "gaps": []
+    },
+    "5": {
+      "gaps": []
+    },
+    "12": {
+      "gaps": []
+    },
+    "13": {
+      "gaps": []
+    },
+    "17": {
+      "gaps": []
+    },
+    "20": {
+      "gaps": []
+    },
+    "21": {
+      "gaps": []
+    },
+    "22": {
+      "gaps": []
+    },
+    "24": {
+      "gaps": []
+    },
+    "25": {
+      "gaps": []
+    },
+    "28": {
+      "gaps": [
+        "DefFunction",
+        "StringConcat",
+        "StringIndex",
+        "While"
+      ]
+    },
+    "31": {
+      "gaps": []
+    },
+    "32": {
+      "gaps": [
+        "For",
+        "StringConcat",
+        "StringEqual",
+        "StringIndex"
+      ]
+    },
+    "33": {
+      "gaps": [
+        "For",
+        "StringConcat",
+        "StringIndex"
+      ]
+    },
+    "36": {
+      "gaps": [
+        "StringEqual",
+        "StringIndex"
+      ]
+    },
+    "37": {
+      "gaps": []
+    },
+    "38": {
+      "gaps": [
+        "For",
+        "StringIndex"
+      ]
+    },
+    "39": {
+      "gaps": []
+    },
+    "40": {
+      "gaps": [
+        "If/Else",
+        "StringIndex"
+      ]
+    },
+    "41": {
+      "gaps": []
+    },
+    "43": {
+      "gaps": []
+    },
+    "44": {
+      "gaps": []
+    },
+    "45": {
+      "gaps": [
+        "For",
+        "LogicCompareNum"
+      ]
+    },
+    "46": {
+      "gaps": []
+    },
+    "48": {
+      "gaps": [
+        "ArrayIndex"
+      ]
+    },
+    "49": {
+      "gaps": []
+    },
+    "67": {
+      "gaps": [
+        "ArrayIndex"
+      ]
+    },
+    "100": {
+      "gaps": []
+    },
+    "101": {
+      "gaps": []
+    },
+    "102": {
+      "gaps": [
+        "If/Else",
+        "StringEqual",
+        "StringIndex"
+      ]
+    },
+    "104": {
+      "gaps": [
+        "For",
+        "LogicCompareNum"
+      ]
+    },
+    "106": {
+      "gaps": [
+        "ArrayIndex",
+        "LogicCompareNum"
+      ]
+    },
+    "107": {
+      "gaps": [
+        "For"
+      ]
+    },
+    "108": {
+      "gaps": [
+        "ArrayIndex",
+        "For"
+      ]
+    },
+    "128": {
+      "gaps": [
+        "For",
+        "StringIndex"
+      ]
+    },
+    "232": {
+      "gaps": []
+    },
+    "233": {
+      "gaps": []
+    },
+    "234": {
+      "gaps": []
+    },
+    "235": {
+      "gaps": []
+    },
+    "236": {
+      "gaps": []
+    }
+  },
+  "raw_responses": {
+    "28": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"28\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding of String immutability and how to construct new strings. The student attempts to 'modify' a string in place or assign to an indexed part of a string, and ultimately returns the original unmodified string instead of a newly constructed one.\",\n          \"evidence\": \"String str(len) = \\\"@\\\"; and return str; after the loop.\",\n          \"missing_concept\": \"StringConcat\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incorrect syntax for invoking String methods. The student uses 'str(0,1)' instead of 'str.substring(0,2)' to call a method on a String object.\",\n          \"evidence\": \"return str(0,1);\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Misunderstanding of 'substring' method parameters. The student attempts to get two characters using 'substring(0,1)', which only returns one character (from index 0 up to, but not including, index 1).\",\n          \"evidence\": \"str(0,1) (assuming the syntax was correct, the indices are wrong for the problem)\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"moderate\"\n        },\n        {\n          \"gap\": \"Incorrect application of a 'while' loop for string manipulation. The loop attempts to pad the string but fails to correctly build and return a new string, instead returning the original 'str' parameter.\",\n          \"evidence\": \"The while (len != 2) loop attempts to 'pad' the string but doesn't correctly build a new string, instead returning the original str.\",\n          \"missing_concept\": \"While\",\n          \"severity\": \"moderate\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringConcat\",\n          \"reason\": \"The student's code demonstrates a fundamental misunderstanding of how to build and manipulate strings in Java, particularly regarding string immutability and the use of concatenation to create new string objects. This is directly aligned with their lowest mastery skill.\",\n          \"prerequisite_gap\": \"Understanding that Java Strings are immutable and operations that appear to 'modify' a string actually return a new string. Learning how to use the '+' operator for concatenation or StringBuilder for more complex string construction.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student incorrectly uses substring parameters and shows a general lack of understanding of how to access or refer to specific parts of a string using indices. This aligns with their weak skill in StringIndex.\",\n          \"prerequisite_gap\": \"Understanding zero-based indexing for strings and the correct usage of substring(beginIndex, endIndex) where endIndex is exclusive.\"\n        },\n        {\n          \"at_risk_topic\": \"DefFunction\",\n          \"reason\": \"The student's use of 'str(0,1)' instead of 'str.substring(0,2)' indicates a basic syntax error in calling methods on objects, which is a foundational concept in Java, even if their general function definition skill is strong.\",\n          \"prerequisite_gap\": \"Correct syntax for calling instance methods on objects (e.g., object.methodName(arguments)).\"\n        },\n        {\n          \"at_risk_topic\": \"While\",\n          \"reason\": \"The student's 'while' loop logic, while attempting to iterate, fails to correctly implement the string building process due to the underlying misunderstanding of string immutability and concatenation. This indicates a weakness in applying loops to construct results.\",\n          \"prerequisite_gap\": \"Understanding how to use loops effectively to accumulate or build results, especially when dealing with immutable types where a new result object must be explicitly constructed and updated in each iteration.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review String immutability and the correct methods for string manipulation (e.g., concatenation with '+' or StringBuilder, and substring). Emphasize the correct syntax for calling instance methods on objects. Practice using loops to build new data structures or strings.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"String immutability and concatenation (StringConcat)\",\n      \"Correct String method invocation and parameter usage (DefFunction, StringIndex)\",\n      \"Applying loops for building results (While)\"\n    ],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"Chapter 2: String type basics, Assignment statements and expressions\",\n      \"Chapter 4: while loop (specifically for building results)\",\n      \"Chapter 5: Calling methods, Method abstraction\",\n      \"Chapter 9: String class and its methods (especially substring, concatenation, immutability)\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "28",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding of String immutability and how to construct new strings. The student attempts to 'modify' a string in place or assign to an indexed part of a string, and ultimately returns the original unmodified string instead of a newly constructed one.",
+                "evidence": "String str(len) = \"@\"; and return str; after the loop.",
+                "missing_concept": "StringConcat",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incorrect syntax for invoking String methods. The student uses 'str(0,1)' instead of 'str.substring(0,2)' to call a method on a String object.",
+                "evidence": "return str(0,1);",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              },
+              {
+                "gap": "Misunderstanding of 'substring' method parameters. The student attempts to get two characters using 'substring(0,1)', which only returns one character (from index 0 up to, but not including, index 1).",
+                "evidence": "str(0,1) (assuming the syntax was correct, the indices are wrong for the problem)",
+                "missing_concept": "StringIndex",
+                "severity": "moderate"
+              },
+              {
+                "gap": "Incorrect application of a 'while' loop for string manipulation. The loop attempts to pad the string but fails to correctly build and return a new string, instead returning the original 'str' parameter.",
+                "evidence": "The while (len != 2) loop attempts to 'pad' the string but doesn't correctly build a new string, instead returning the original str.",
+                "missing_concept": "While",
+                "severity": "moderate"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringConcat",
+                "reason": "The student's code demonstrates a fundamental misunderstanding of how to build and manipulate strings in Java, particularly regarding string immutability and the use of concatenation to create new string objects. This is directly aligned with their lowest mastery skill.",
+                "prerequisite_gap": "Understanding that Java Strings are immutable and operations that appear to 'modify' a string actually return a new string. Learning how to use the '+' operator for concatenation or StringBuilder for more complex string construction."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student incorrectly uses substring parameters and shows a general lack of understanding of how to access or refer to specific parts of a string using indices. This aligns with their weak skill in StringIndex.",
+                "prerequisite_gap": "Understanding zero-based indexing for strings and the correct usage of substring(beginIndex, endIndex) where endIndex is exclusive."
+              },
+              {
+                "at_risk_topic": "DefFunction",
+                "reason": "The student's use of 'str(0,1)' instead of 'str.substring(0,2)' indicates a basic syntax error in calling methods on objects, which is a foundational concept in Java, even if their general function definition skill is strong.",
+                "prerequisite_gap": "Correct syntax for calling instance methods on objects (e.g., object.methodName(arguments))."
+              },
+              {
+                "at_risk_topic": "While",
+                "reason": "The student's 'while' loop logic, while attempting to iterate, fails to correctly implement the string building process due to the underlying misunderstanding of string immutability and concatenation. This indicates a weakness in applying loops to construct results.",
+                "prerequisite_gap": "Understanding how to use loops effectively to accumulate or build results, especially when dealing with immutable types where a new result object must be explicitly constructed and updated in each iteration."
+              }
+            ],
+            "recommended_intervention": "Review String immutability and the correct methods for string manipulation (e.g., concatenation with '+' or StringBuilder, and substring). Emphasize the correct syntax for calling instance methods on objects. Practice using loops to build new data structures or strings."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "String immutability and concatenation (StringConcat)",
+            "Correct String method invocation and parameter usage (DefFunction, StringIndex)",
+            "Applying loops for building results (While)"
+          ],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "Chapter 2: String type basics, Assignment statements and expressions",
+            "Chapter 4: while loop (specifically for building results)",
+            "Chapter 5: Calling methods, Method abstraction",
+            "Chapter 9: String class and its methods (especially substring, concatenation, immutability)"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 23.693,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "32": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"32\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Failure to implement iterative string processing logic. The student did not attempt to loop through the input string to examine characters or substrings, which is fundamental to solving this problem.\",\n          \"evidence\": \"The absence of 'for' or 'while' loops and 'charAt()' or 'substring()' calls for iteration in the code.\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Misunderstanding of string comparison and substring identification. The student's code does not attempt to find or compare the 'word' within the 'str', which is a core requirement of the problem.\",\n          \"evidence\": \"Absence of 'str.equals(word)' or 'str.substring(...).equals(word)' logic.\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inability to construct a new string based on character-by-character or substring-by-substring processing. The problem requires building a result string by selectively adding '+' characters or preserving the 'word'.\",\n          \"evidence\": \"The code directly returns a modified version of the input string (after regex replacement) rather than building a new result string incrementally.\",\n          \"missing_concept\": \"StringConcat\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inappropriate use of advanced Java libraries (java.util.regex.Pattern and Matcher) for a problem solvable with fundamental string and loop constructs. This suggests a lack of understanding of appropriate tools for the task or an over-reliance on external resources without comprehension of basic string manipulation.\",\n          \"evidence\": \"Pattern pattern = Pattern.compile(\\\"\\\\\\\\s*|\\\\t|\\\\r|\\\\n\\\"); Matcher matcher = pattern.matcher(str); String result = matcher.replaceAll(\\\"\\\");\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The problem requires identifying and preserving a 'word' within 'str', which necessitates accessing specific parts of the string using indexing (e.g., charAt(), substring()). The student's current approach bypasses this fundamental operation.\",\n          \"prerequisite_gap\": \"Understanding how characters and substrings are located within a string.\"\n        },\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"The core logic of the problem is to check for occurrences of 'word'. Without understanding 'equals()' for strings, this comparison cannot be made, leading to failure in any problem requiring string content comparison.\",\n          \"prerequisite_gap\": \"Understanding how to compare string content, not just references.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"Many string manipulation tasks, especially those involving character-by-character or substring-by-substring processing, rely heavily on loops. Without this, complex string problems are unsolvable.\",\n          \"prerequisite_gap\": \"Understanding how to control repetitive actions and iterate over data structures like strings.\"\n        },\n        {\n          \"at_risk_topic\": \"StringConcat\",\n          \"reason\": \"Most string transformation problems require building a new result string by concatenating characters or substrings. The student's inability to do this will hinder solving any problem that requires constructing a modified string.\",\n          \"prerequisite_gap\": \"Understanding how to combine strings to form a new one.\"\n        }\n      ],\n      \"recommended_intervention\": \"The student needs to revisit fundamental string manipulation techniques and control flow. They should be guided to break down the problem into smaller steps: 1) How to iterate through a string (e.g., using a 'for' loop and 'charAt(i)' or 'substring(i, i + length)'). 2) How to check if a substring matches a given word (e.g., 'str.substring(i, i + word.length()).equals(word)'). 3) How to build a new result string incrementally (e.g., using '+= operator' or 'StringBuilder'). 4) How to handle the two cases: when the word is found, and when it's not. Emphasize using basic CS1 tools before resorting to advanced libraries.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"StringIndex\",\n      \"StringEqual\",\n      \"StringConcat\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "32",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Failure to implement iterative string processing logic. The student did not attempt to loop through the input string to examine characters or substrings, which is fundamental to solving this problem.",
+                "evidence": "The absence of 'for' or 'while' loops and 'charAt()' or 'substring()' calls for iteration in the code.",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "Misunderstanding of string comparison and substring identification. The student's code does not attempt to find or compare the 'word' within the 'str', which is a core requirement of the problem.",
+                "evidence": "Absence of 'str.equals(word)' or 'str.substring(...).equals(word)' logic.",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inability to construct a new string based on character-by-character or substring-by-substring processing. The problem requires building a result string by selectively adding '+' characters or preserving the 'word'.",
+                "evidence": "The code directly returns a modified version of the input string (after regex replacement) rather than building a new result string incrementally.",
+                "missing_concept": "StringConcat",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inappropriate use of advanced Java libraries (java.util.regex.Pattern and Matcher) for a problem solvable with fundamental string and loop constructs. This suggests a lack of understanding of appropriate tools for the task or an over-reliance on external resources without comprehension of basic string manipulation.",
+                "evidence": "Pattern pattern = Pattern.compile(\"\\\\s*|\\t|\\r|\\n\"); Matcher matcher = pattern.matcher(str); String result = matcher.replaceAll(\"\");",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The problem requires identifying and preserving a 'word' within 'str', which necessitates accessing specific parts of the string using indexing (e.g., charAt(), substring()). The student's current approach bypasses this fundamental operation.",
+                "prerequisite_gap": "Understanding how characters and substrings are located within a string."
+              },
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "The core logic of the problem is to check for occurrences of 'word'. Without understanding 'equals()' for strings, this comparison cannot be made, leading to failure in any problem requiring string content comparison.",
+                "prerequisite_gap": "Understanding how to compare string content, not just references."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "Many string manipulation tasks, especially those involving character-by-character or substring-by-substring processing, rely heavily on loops. Without this, complex string problems are unsolvable.",
+                "prerequisite_gap": "Understanding how to control repetitive actions and iterate over data structures like strings."
+              },
+              {
+                "at_risk_topic": "StringConcat",
+                "reason": "Most string transformation problems require building a new result string by concatenating characters or substrings. The student's inability to do this will hinder solving any problem that requires constructing a modified string.",
+                "prerequisite_gap": "Understanding how to combine strings to form a new one."
+              }
+            ],
+            "recommended_intervention": "The student needs to revisit fundamental string manipulation techniques and control flow. They should be guided to break down the problem into smaller steps: 1) How to iterate through a string (e.g., using a 'for' loop and 'charAt(i)' or 'substring(i, i + length)'). 2) How to check if a substring matches a given word (e.g., 'str.substring(i, i + word.length()).equals(word)'). 3) How to build a new result string incrementally (e.g., using '+= operator' or 'StringBuilder'). 4) How to handle the two cases: when the word is found, and when it's not. Emphasize using basic CS1 tools before resorting to advanced libraries."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "StringIndex",
+            "StringEqual",
+            "StringConcat"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 16.846,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "33": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"33\",\n      \"score\": 40.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Lack of iterative approach using loops for string processing. The student attempts to solve the problem using a series of if-else statements for specific string lengths rather than a general loop to interleave characters.\",\n          \"evidence\": \"public String mixString(String a, String b)\\n{\\n    String c = a.substring(2, a.length());\\n    String d = b.substring(2, b.length());\\n    if (a.length() == 0 && b.length() ==0)\\n    {\\n        return \\\"\\\";\\n    }\\n    else if (a.length() ==0)\\n    {\\n        return b;\\n    }\\n    else if (b.length() == 0)\\n    {\\n        return a;\\n    }\\n    else if (a.length() == 1)\\n        \\n    {\\n       String result = \\\"\\\"+ a.charAt(0) + b.charAt(0) +b.charAt(1) +c +d;\\n    return result; \\n    }\\n    else if (b.length() == 1)\\n    {\\n        String result = \\\"\\\"+ a.charAt(0) + b.charAt(0) + a.charAt(1) +c +d;\\n    return result;\\n    }\\n    else\\n    {\\n        String result = \\\"\\\"+ a.charAt(0) + b.charAt(0) + a.charAt(1) +b.charAt(1) +c +d;\\n    return result;\\n    }\\n    \\n}\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Misunderstanding of string indexing and boundary conditions, leading to potential IndexOutOfBoundsException. The student uses fixed indices (e.g., 2 for substring, 1 for charAt) without ensuring the string is long enough.\",\n          \"evidence\": \"String c = a.substring(2, a.length());\\nString d = b.substring(2, b.length());\\n... b.charAt(1) ... (in a.length() == 1 branch)\\n... a.charAt(1) ... (in b.length() == 1 branch)\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incorrect logical approach to building the interleaved string. The student attempts to concatenate fixed initial characters and then append fixed 'remaining' substrings, rather than dynamically interleaving character by character as required by the problem.\",\n          \"evidence\": \"String result = \\\"\\\"+ a.charAt(0) + b.charAt(0) +b.charAt(1) +c +d;\",\n          \"missing_concept\": \"StringConcat\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student failed to use a loop for this iterative string problem, relying instead on complex conditional logic. This indicates a fundamental weakness in applying iterative control structures.\",\n          \"prerequisite_gap\": \"Understanding the need for iteration in repetitive tasks.\"\n        },\n        {\n          \"at_risk_topic\": \"While\",\n          \"reason\": \"Similar to the 'For' loop, the student's inability to apply an iterative solution suggests a general weakness in using any loop construct for dynamic processing.\",\n          \"prerequisite_gap\": \"Understanding the need for iteration in repetitive tasks.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"If the student struggles with single loops, they will face significant challenges with nested loops, which require a deeper understanding of iterative control flow and problem decomposition.\",\n          \"prerequisite_gap\": \"Mastery of single 'For' or 'While' loops.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"Demonstrated difficulty in correctly using charAt() and substring() with respect to string lengths and valid indices, leading to IndexOutOfBoundsException risks. This will be a recurring issue in any string manipulation problem.\",\n          \"prerequisite_gap\": \"Understanding that string indices are 0-based and go up to length() - 1.\"\n        },\n        {\n          \"at_risk_topic\": \"StringLen\",\n          \"reason\": \"Directly related to StringIndex issues; the student doesn't seem to fully grasp how length() should be used to determine valid access ranges for charAt() and substring() within loops or conditional checks.\",\n          \"prerequisite_gap\": \"Understanding the definition and use of String.length() in relation to indices.\"\n        },\n        {\n          \"at_risk_topic\": \"StringConcat\",\n          \"reason\": \"While the student uses the '+' operator, the logic of how they concatenate characters to form the desired interleaved string is incorrect. This indicates a struggle with building complex strings programmatically, especially when the pattern is dynamic.\",\n          \"prerequisite_gap\": \"Understanding how to incrementally build a string based on a dynamic pattern.\"\n        },\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The issues with string indexing and boundary conditions are directly transferable to array indexing, where similar off-by-one errors or out-of-bounds access can occur.\",\n          \"prerequisite_gap\": \"Solid understanding of 0-based indexing and length property for sequential data structures.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review iterative string processing using 'for' or 'while' loops. Provide examples where 'charAt()' and 'length()' are used within loops to build new strings or process characters. Emphasize boundary conditions and how 'length()' relates to the maximum valid index. Introduce the concept of using a loop to iterate as long as both strings have characters, and then appending any remaining characters from the longer string.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"While\",\n      \"StringIndex\",\n      \"StringLen\",\n      \"StringConcat\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "33",
+            "score": 40.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Lack of iterative approach using loops for string processing. The student attempts to solve the problem using a series of if-else statements for specific string lengths rather than a general loop to interleave characters.",
+                "evidence": "public String mixString(String a, String b)\n{\n    String c = a.substring(2, a.length());\n    String d = b.substring(2, b.length());\n    if (a.length() == 0 && b.length() ==0)\n    {\n        return \"\";\n    }\n    else if (a.length() ==0)\n    {\n        return b;\n    }\n    else if (b.length() == 0)\n    {\n        return a;\n    }\n    else if (a.length() == 1)\n        \n    {\n       String result = \"\"+ a.charAt(0) + b.charAt(0) +b.charAt(1) +c +d;\n    return result; \n    }\n    else if (b.length() == 1)\n    {\n        String result = \"\"+ a.charAt(0) + b.charAt(0) + a.charAt(1) +c +d;\n    return result;\n    }\n    else\n    {\n        String result = \"\"+ a.charAt(0) + b.charAt(0) + a.charAt(1) +b.charAt(1) +c +d;\n    return result;\n    }\n    \n}",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "Misunderstanding of string indexing and boundary conditions, leading to potential IndexOutOfBoundsException. The student uses fixed indices (e.g., 2 for substring, 1 for charAt) without ensuring the string is long enough.",
+                "evidence": "String c = a.substring(2, a.length());\nString d = b.substring(2, b.length());\n... b.charAt(1) ... (in a.length() == 1 branch)\n... a.charAt(1) ... (in b.length() == 1 branch)",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incorrect logical approach to building the interleaved string. The student attempts to concatenate fixed initial characters and then append fixed 'remaining' substrings, rather than dynamically interleaving character by character as required by the problem.",
+                "evidence": "String result = \"\"+ a.charAt(0) + b.charAt(0) +b.charAt(1) +c +d;",
+                "missing_concept": "StringConcat",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "For",
+                "reason": "The student failed to use a loop for this iterative string problem, relying instead on complex conditional logic. This indicates a fundamental weakness in applying iterative control structures.",
+                "prerequisite_gap": "Understanding the need for iteration in repetitive tasks."
+              },
+              {
+                "at_risk_topic": "While",
+                "reason": "Similar to the 'For' loop, the student's inability to apply an iterative solution suggests a general weakness in using any loop construct for dynamic processing.",
+                "prerequisite_gap": "Understanding the need for iteration in repetitive tasks."
+              },
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "If the student struggles with single loops, they will face significant challenges with nested loops, which require a deeper understanding of iterative control flow and problem decomposition.",
+                "prerequisite_gap": "Mastery of single 'For' or 'While' loops."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "Demonstrated difficulty in correctly using charAt() and substring() with respect to string lengths and valid indices, leading to IndexOutOfBoundsException risks. This will be a recurring issue in any string manipulation problem.",
+                "prerequisite_gap": "Understanding that string indices are 0-based and go up to length() - 1."
+              },
+              {
+                "at_risk_topic": "StringLen",
+                "reason": "Directly related to StringIndex issues; the student doesn't seem to fully grasp how length() should be used to determine valid access ranges for charAt() and substring() within loops or conditional checks.",
+                "prerequisite_gap": "Understanding the definition and use of String.length() in relation to indices."
+              },
+              {
+                "at_risk_topic": "StringConcat",
+                "reason": "While the student uses the '+' operator, the logic of how they concatenate characters to form the desired interleaved string is incorrect. This indicates a struggle with building complex strings programmatically, especially when the pattern is dynamic.",
+                "prerequisite_gap": "Understanding how to incrementally build a string based on a dynamic pattern."
+              },
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The issues with string indexing and boundary conditions are directly transferable to array indexing, where similar off-by-one errors or out-of-bounds access can occur.",
+                "prerequisite_gap": "Solid understanding of 0-based indexing and length property for sequential data structures."
+              }
+            ],
+            "recommended_intervention": "Review iterative string processing using 'for' or 'while' loops. Provide examples where 'charAt()' and 'length()' are used within loops to build new strings or process characters. Emphasize boundary conditions and how 'length()' relates to the maximum valid index. Introduce the concept of using a loop to iterate as long as both strings have characters, and then appending any remaining characters from the longer string."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "While",
+            "StringIndex",
+            "StringLen",
+            "StringConcat"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 21.664,
+      "score": 0.4,
+      "invalid_kcs": []
+    },
+    "36": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"36\",\n      \"score\": 29.4,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Student attempts to compare a String literal with a char value returned by `charAt()` using the `equals()` method. This is a type mismatch and incorrect for character comparison. `char` values should be compared using `==` with `char` literals.\",\n          \"evidence\": \"if (ch.equals(str.charAt(i)) && cc.equals(str.charAt(i+1)) && bc.equals(str.charAt(i+3)))\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The loop iterates up to `str.length() - 1`, but accesses `str.charAt(i+3)`. This will cause an `IndexOutOfBoundsException` when `i` is too close to the end of the string (e.g., for strings shorter than 4 characters, or when `i` is `str.length() - 1`, `str.length() - 2`, or `str.length() - 3`). The loop condition should account for the maximum index accessed within the loop to prevent out-of-bounds errors.\",\n          \"evidence\": \"for(int i=0;i<str.length();i++) { ... str.charAt(i+3) ... }\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"The student demonstrates a fundamental misunderstanding of how to correctly compare `char` and `String` types, and when to use `==` versus `.equals()`. This confusion will impact any future problem involving string or character manipulation and comparison.\",\n          \"prerequisite_gap\": \"Clear distinction between primitive types (`char`) and reference types (`String`) and their respective comparison mechanisms.\"\n        },\n        {\n          \"at_risk_topic\": \"CharEqual\",\n          \"reason\": \"Despite a high mastery score in `CharEqual`, the student's choice to use `String.equals(char)` indicates a contextual confusion when `String` objects are involved, which could lead to errors in more complex character-based logic.\",\n          \"prerequisite_gap\": \"Reinforce the direct comparison of `char` types using `==` and when to convert `char` to `String` if `String` methods are truly needed.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student struggles with correctly determining loop bounds when accessing elements at offsets from the current loop index. This is a common source of errors in array and string processing, especially when patterns span multiple indices.\",\n          \"prerequisite_gap\": \"Understanding how to calculate safe upper bounds for loops that access multiple elements ahead of the current index.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The inability to correctly manage string indices, particularly when looking ahead in a string, will lead to persistent `IndexOutOfBoundsException` errors in problems requiring pattern matching or substring extraction.\",\n          \"prerequisite_gap\": \"Solid understanding of zero-based indexing and the relationship between `str.length()` and valid indices.\"\n        },\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The issues with string indexing are directly transferable to array indexing. The student will likely make similar off-by-one or boundary errors when processing arrays, especially multi-dimensional arrays or when searching for patterns.\",\n          \"prerequisite_gap\": \"Mastery of string indexing as a foundation for array indexing.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the fundamental differences between `char` and `String` data types, focusing on their storage, behavior, and correct comparison methods (`==` for `char` primitives, `.equals()` for `String` objects). Provide practice problems that require careful calculation of loop bounds when accessing multiple characters or elements ahead of the current index within a string or array.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"StringEqual\",\n      \"CharEqual\",\n      \"For\",\n      \"StringIndex\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "36",
+            "score": 29.4,
+            "knowledge_gaps": [
+              {
+                "gap": "Student attempts to compare a String literal with a char value returned by `charAt()` using the `equals()` method. This is a type mismatch and incorrect for character comparison. `char` values should be compared using `==` with `char` literals.",
+                "evidence": "if (ch.equals(str.charAt(i)) && cc.equals(str.charAt(i+1)) && bc.equals(str.charAt(i+3)))",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              },
+              {
+                "gap": "The loop iterates up to `str.length() - 1`, but accesses `str.charAt(i+3)`. This will cause an `IndexOutOfBoundsException` when `i` is too close to the end of the string (e.g., for strings shorter than 4 characters, or when `i` is `str.length() - 1`, `str.length() - 2`, or `str.length() - 3`). The loop condition should account for the maximum index accessed within the loop to prevent out-of-bounds errors.",
+                "evidence": "for(int i=0;i<str.length();i++) { ... str.charAt(i+3) ... }",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "The student demonstrates a fundamental misunderstanding of how to correctly compare `char` and `String` types, and when to use `==` versus `.equals()`. This confusion will impact any future problem involving string or character manipulation and comparison.",
+                "prerequisite_gap": "Clear distinction between primitive types (`char`) and reference types (`String`) and their respective comparison mechanisms."
+              },
+              {
+                "at_risk_topic": "CharEqual",
+                "reason": "Despite a high mastery score in `CharEqual`, the student's choice to use `String.equals(char)` indicates a contextual confusion when `String` objects are involved, which could lead to errors in more complex character-based logic.",
+                "prerequisite_gap": "Reinforce the direct comparison of `char` types using `==` and when to convert `char` to `String` if `String` methods are truly needed."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "The student struggles with correctly determining loop bounds when accessing elements at offsets from the current loop index. This is a common source of errors in array and string processing, especially when patterns span multiple indices.",
+                "prerequisite_gap": "Understanding how to calculate safe upper bounds for loops that access multiple elements ahead of the current index."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The inability to correctly manage string indices, particularly when looking ahead in a string, will lead to persistent `IndexOutOfBoundsException` errors in problems requiring pattern matching or substring extraction.",
+                "prerequisite_gap": "Solid understanding of zero-based indexing and the relationship between `str.length()` and valid indices."
+              },
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The issues with string indexing are directly transferable to array indexing. The student will likely make similar off-by-one or boundary errors when processing arrays, especially multi-dimensional arrays or when searching for patterns.",
+                "prerequisite_gap": "Mastery of string indexing as a foundation for array indexing."
+              }
+            ],
+            "recommended_intervention": "Review the fundamental differences between `char` and `String` data types, focusing on their storage, behavior, and correct comparison methods (`==` for `char` primitives, `.equals()` for `String` objects). Provide practice problems that require careful calculation of loop bounds when accessing multiple characters or elements ahead of the current index within a string or array."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "StringEqual",
+            "CharEqual",
+            "For",
+            "StringIndex"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 23.733,
+      "score": 0.294118,
+      "invalid_kcs": []
+    },
+    "38": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"38\",\n      \"score\": 93.3,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student's solution relies on finding only the first and last occurrences of 'xyz' and the first occurrence of '.' using `indexOf` and `lastIndexOf`. This approach fails to systematically iterate through the string to check all possible 'xyz' occurrences against the preceding character condition. Consequently, the code incorrectly handles cases where an 'xyz' is preceded by a '.' but another 'xyz' in the same string is not (e.g., 'x.xyz.xyz').\",\n          \"evidence\": \"int index = str.indexOf(\\\"xyz\\\");\\nint indexa = str. indexOf(\\\".\\\");\\nint indexx = str.lastIndexOf(\\\"xyz\\\");\\nif (indexa +1 == index && indexa != -1)\\n{\\n    return false;\\n}\\nelse if (index != -1)\\n{\\n    return true;\\n}\\n else if (indexx != -1)\\n{\\n    return true;\\n}\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The student demonstrates a limited understanding of how to dynamically access and evaluate characters at specific positions relative to a found substring within an iterative process. The current logic only checks the character immediately preceding the *first* 'xyz' found by `indexOf` and does not generalize this check to other 'xyz' occurrences throughout the string.\",\n          \"evidence\": \"if (indexa +1 == index && indexa != -1)\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"Problems requiring iteration over strings or arrays to find patterns, count occurrences, or apply conditions to multiple elements will be challenging if the student cannot correctly set up and manage loop iterations to cover all relevant parts of the data structure.\",\n          \"prerequisite_gap\": \"Understanding how to use a 'for' loop to systematically examine each part of a string or collection, rather than relying on single-shot index methods.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"Any problem that requires character-by-character analysis or extracting specific substrings based on dynamic positions within a loop will be difficult without a solid grasp of string indexing and substring methods.\",\n          \"prerequisite_gap\": \"Ability to use `charAt()` or `substring()` within a loop to inspect and compare parts of a string.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"If the student struggles with single loops for comprehensive string processing, problems requiring nested loops (e.g., finding complex patterns, processing 2D arrays, or comparing elements within a single string/array) will be significantly more complex.\",\n          \"prerequisite_gap\": \"Mastery of single 'for' loops for sequential processing and conditional evaluation.\"\n        }\n      ],\n      \"recommended_intervention\": \"Guide the student to review how to iterate through a string using a `for` loop. Emphasize using `str.substring(i, i + length)` or `str.charAt(i)` to check conditions for all possible occurrences of a pattern, rather than relying solely on `indexOf` for the first match. Provide examples where multiple matches exist and only some satisfy a preceding character condition, requiring a loop to find the correct one.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\"14414\"],\n    \"suggested_review_topics\": [\"For\", \"StringIndex\"]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "38",
+            "score": 93.3,
+            "knowledge_gaps": [
+              {
+                "gap": "The student's solution relies on finding only the first and last occurrences of 'xyz' and the first occurrence of '.' using `indexOf` and `lastIndexOf`. This approach fails to systematically iterate through the string to check all possible 'xyz' occurrences against the preceding character condition. Consequently, the code incorrectly handles cases where an 'xyz' is preceded by a '.' but another 'xyz' in the same string is not (e.g., 'x.xyz.xyz').",
+                "evidence": "int index = str.indexOf(\"xyz\");\nint indexa = str. indexOf(\".\");\nint indexx = str.lastIndexOf(\"xyz\");\nif (indexa +1 == index && indexa != -1)\n{\n    return false;\n}\nelse if (index != -1)\n{\n    return true;\n}\n else if (indexx != -1)\n{\n    return true;\n}",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "The student demonstrates a limited understanding of how to dynamically access and evaluate characters at specific positions relative to a found substring within an iterative process. The current logic only checks the character immediately preceding the *first* 'xyz' found by `indexOf` and does not generalize this check to other 'xyz' occurrences throughout the string.",
+                "evidence": "if (indexa +1 == index && indexa != -1)",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "For",
+                "reason": "Problems requiring iteration over strings or arrays to find patterns, count occurrences, or apply conditions to multiple elements will be challenging if the student cannot correctly set up and manage loop iterations to cover all relevant parts of the data structure.",
+                "prerequisite_gap": "Understanding how to use a 'for' loop to systematically examine each part of a string or collection, rather than relying on single-shot index methods."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "Any problem that requires character-by-character analysis or extracting specific substrings based on dynamic positions within a loop will be difficult without a solid grasp of string indexing and substring methods.",
+                "prerequisite_gap": "Ability to use `charAt()` or `substring()` within a loop to inspect and compare parts of a string."
+              },
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "If the student struggles with single loops for comprehensive string processing, problems requiring nested loops (e.g., finding complex patterns, processing 2D arrays, or comparing elements within a single string/array) will be significantly more complex.",
+                "prerequisite_gap": "Mastery of single 'for' loops for sequential processing and conditional evaluation."
+              }
+            ],
+            "recommended_intervention": "Guide the student to review how to iterate through a string using a `for` loop. Emphasize using `str.substring(i, i + length)` or `str.charAt(i)` to check conditions for all possible occurrences of a pattern, rather than relying solely on `indexOf` for the first match. Provide examples where multiple matches exist and only some satisfy a preceding character condition, requiring a loop to find the correct one."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "StringIndex"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 19.528,
+      "score": 0.933333,
+      "invalid_kcs": []
+    },
+    "40": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"40\",\n      \"score\": 76.9,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student does not demonstrate understanding of how to dynamically locate the first and last occurrences of a specific substring ('bread') within a larger string. Instead, they use hardcoded start and end indices for substring extraction.\",\n          \"evidence\": \"return str.substring(5, str.length()-5);\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The student's conditional logic for returning an empty string is based on an arbitrary string length (<= 10) rather than checking for the actual presence of two 'bread' substrings as required by the problem.\",\n          \"evidence\": \"if (str.length() <= 10)\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"Without understanding how to use methods like indexOf() and lastIndexOf() to find substring positions, the student will struggle with any problem requiring dynamic parsing, extraction, or manipulation of string content based on patterns.\",\n          \"prerequisite_gap\": \"Understanding how string methods like indexOf() and lastIndexOf() work to locate substrings.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"Problems requiring iteration through a string to find multiple occurrences of a pattern, count specific characters, or build new strings based on content will be challenging if the student cannot dynamically locate and process substrings within a loop.\",\n          \"prerequisite_gap\": \"Ability to dynamically locate substrings within a string.\"\n        },\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"If the student cannot correctly identify and extract relevant substrings, they will also struggle with comparing those extracted parts to other strings or patterns, which is a common requirement in string processing tasks.\",\n          \"prerequisite_gap\": \"Ability to locate and extract specific substrings for comparison.\"\n        }\n      ],\n      \"recommended_intervention\": \"Focus on string manipulation methods, specifically `indexOf()`, `lastIndexOf()`, and `substring()`. Provide exercises that require finding specific patterns, extracting content based on delimiters, and handling edge cases where patterns might not exist. Emphasize how `length()` relates to valid indices and substring boundaries, and how to translate problem requirements into appropriate conditional logic for string content.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"StringIndex\",\n      \"If/Else\"\n    ],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"String methods for searching and extracting (indexOf, lastIndexOf, substring)\",\n      \"Translating complex problem requirements into conditional logic\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "40",
+            "score": 76.9,
+            "knowledge_gaps": [
+              {
+                "gap": "The student does not demonstrate understanding of how to dynamically locate the first and last occurrences of a specific substring ('bread') within a larger string. Instead, they use hardcoded start and end indices for substring extraction.",
+                "evidence": "return str.substring(5, str.length()-5);",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "The student's conditional logic for returning an empty string is based on an arbitrary string length (<= 10) rather than checking for the actual presence of two 'bread' substrings as required by the problem.",
+                "evidence": "if (str.length() <= 10)",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "Without understanding how to use methods like indexOf() and lastIndexOf() to find substring positions, the student will struggle with any problem requiring dynamic parsing, extraction, or manipulation of string content based on patterns.",
+                "prerequisite_gap": "Understanding how string methods like indexOf() and lastIndexOf() work to locate substrings."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "Problems requiring iteration through a string to find multiple occurrences of a pattern, count specific characters, or build new strings based on content will be challenging if the student cannot dynamically locate and process substrings within a loop.",
+                "prerequisite_gap": "Ability to dynamically locate substrings within a string."
+              },
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "If the student cannot correctly identify and extract relevant substrings, they will also struggle with comparing those extracted parts to other strings or patterns, which is a common requirement in string processing tasks.",
+                "prerequisite_gap": "Ability to locate and extract specific substrings for comparison."
+              }
+            ],
+            "recommended_intervention": "Focus on string manipulation methods, specifically `indexOf()`, `lastIndexOf()`, and `substring()`. Provide exercises that require finding specific patterns, extracting content based on delimiters, and handling edge cases where patterns might not exist. Emphasize how `length()` relates to valid indices and substring boundaries, and how to translate problem requirements into appropriate conditional logic for string content."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "StringIndex",
+            "If/Else"
+          ],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "String methods for searching and extracting (indexOf, lastIndexOf, substring)",
+            "Translating complex problem requirements into conditional logic"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 15.476,
+      "score": 0.769231,
+      "invalid_kcs": []
+    },
+    "45": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"45\",\n      \"score\": 33.3,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misinterprets the problem's core requirement to ignore 'sections' of numbers (a sequence from 6 to 7) as ignoring individual numbers whose *first digit* is 6 or 7. This demonstrates a fundamental misunderstanding of how to apply conditional logic to sequential data within an array.\",\n          \"evidence\": \"for (int a=1;a <String.valueOf(nums[i]).length(); a++) { first = first/10; } if (first != 6 && first != 7)\",\n          \"missing_concept\": \"LogicCompareNum\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Fails to implement state-based logic within a loop to track and manage a 'skip' condition across iterations. The student's `for` loop processes each element independently, without using a boolean flag or similar mechanism to remember if it's currently within a section that should be ignored.\",\n          \"evidence\": \"The absence of a boolean flag to track the 'in 6-7 section' state. The `for` loop iterates simply, without conditional skipping logic.\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"Problems requiring `NestedFor` often involve more complex state management or pattern recognition across multiple dimensions or sequences. The student's current struggle with state management in a single loop suggests they will struggle with the increased complexity of nested loops.\",\n          \"prerequisite_gap\": \"Understanding how to use `For` loops with `If/Else` and `LogicBoolean` to manage state and control accumulation based on sequential conditions.\"\n        },\n        {\n          \"at_risk_topic\": \"While\",\n          \"reason\": \"`While` loops are often used when the number of iterations is not known beforehand or when loop termination depends on complex conditions or state changes. The student's difficulty with state management in `For` loops will directly translate to `While` loops, which often rely heavily on explicit state variables for control.\",\n          \"prerequisite_gap\": \"Understanding how to use `If/Else` and `LogicBoolean` to manage state and control loop execution.\"\n        },\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The student's current approach processes each element in isolation. Problems requiring `ArrayIndex` often involve looking at adjacent elements or elements at specific offsets to identify patterns or sections. The student's current logic doesn't demonstrate this ability.\",\n          \"prerequisite_gap\": \"Understanding how to use `For` loops to iterate through arrays and access elements relative to the current index, combined with `If/Else` for conditional processing.\"\n        },\n        {\n          \"at_risk_topic\": \"StringLen\",\n          \"reason\": \"The student used `String.valueOf(nums[i]).length()` in an irrelevant and complex way, indicating a potential misunderstanding of when and how to apply string methods, especially `length()`, and when to convert between numeric and string types. This is also a weak skill according to their mental model.\",\n          \"prerequisite_gap\": \"Clearer understanding of the `String` class and its methods, particularly `StringLen`, and appropriate use cases for converting between numeric and string types.\"\n        }\n      ],\n      \"recommended_intervention\": \"Provide targeted practice problems that require tracking state within a loop using boolean flags (e.g., 'find longest sequence of even numbers', 'sum numbers until a negative is encountered'). Emphasize careful reading of problem statements to distinguish between individual element properties and sequential/sectional conditions. Review examples of using `if/else` and boolean variables to control `for` loop behavior for state management.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"LogicCompareNum\",\n      \"If/Else\",\n      \"LogicBoolean\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "45",
+            "score": 33.3,
+            "knowledge_gaps": [
+              {
+                "gap": "Misinterprets the problem's core requirement to ignore 'sections' of numbers (a sequence from 6 to 7) as ignoring individual numbers whose *first digit* is 6 or 7. This demonstrates a fundamental misunderstanding of how to apply conditional logic to sequential data within an array.",
+                "evidence": "for (int a=1;a <String.valueOf(nums[i]).length(); a++) { first = first/10; } if (first != 6 && first != 7)",
+                "missing_concept": "LogicCompareNum",
+                "severity": "critical"
+              },
+              {
+                "gap": "Fails to implement state-based logic within a loop to track and manage a 'skip' condition across iterations. The student's `for` loop processes each element independently, without using a boolean flag or similar mechanism to remember if it's currently within a section that should be ignored.",
+                "evidence": "The absence of a boolean flag to track the 'in 6-7 section' state. The `for` loop iterates simply, without conditional skipping logic.",
+                "missing_concept": "For",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "Problems requiring `NestedFor` often involve more complex state management or pattern recognition across multiple dimensions or sequences. The student's current struggle with state management in a single loop suggests they will struggle with the increased complexity of nested loops.",
+                "prerequisite_gap": "Understanding how to use `For` loops with `If/Else` and `LogicBoolean` to manage state and control accumulation based on sequential conditions."
+              },
+              {
+                "at_risk_topic": "While",
+                "reason": "`While` loops are often used when the number of iterations is not known beforehand or when loop termination depends on complex conditions or state changes. The student's difficulty with state management in `For` loops will directly translate to `While` loops, which often rely heavily on explicit state variables for control.",
+                "prerequisite_gap": "Understanding how to use `If/Else` and `LogicBoolean` to manage state and control loop execution."
+              },
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The student's current approach processes each element in isolation. Problems requiring `ArrayIndex` often involve looking at adjacent elements or elements at specific offsets to identify patterns or sections. The student's current logic doesn't demonstrate this ability.",
+                "prerequisite_gap": "Understanding how to use `For` loops to iterate through arrays and access elements relative to the current index, combined with `If/Else` for conditional processing."
+              },
+              {
+                "at_risk_topic": "StringLen",
+                "reason": "The student used `String.valueOf(nums[i]).length()` in an irrelevant and complex way, indicating a potential misunderstanding of when and how to apply string methods, especially `length()`, and when to convert between numeric and string types. This is also a weak skill according to their mental model.",
+                "prerequisite_gap": "Clearer understanding of the `String` class and its methods, particularly `StringLen`, and appropriate use cases for converting between numeric and string types."
+              }
+            ],
+            "recommended_intervention": "Provide targeted practice problems that require tracking state within a loop using boolean flags (e.g., 'find longest sequence of even numbers', 'sum numbers until a negative is encountered'). Emphasize careful reading of problem statements to distinguish between individual element properties and sequential/sectional conditions. Review examples of using `if/else` and boolean variables to control `for` loop behavior for state management."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "LogicCompareNum",
+            "If/Else",
+            "LogicBoolean"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 31.206,
+      "score": 0.333333,
+      "invalid_kcs": []
+    },
+    "48": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"48\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding the fixed-size nature of primitive arrays (`int[]`) in Java. The student attempts to use `remove()` and `add()` methods, which are properties of dynamic collections like `ArrayList`, not fixed-size arrays.\",\n          \"evidence\": \"nums.remove(i);\\nnums.add(0);\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The student's fundamental misunderstanding of how to manipulate elements within a fixed-size array (e.g., shifting, assigning values by index) will cause significant issues in any problem requiring array traversal, modification, or element rearrangement. They will struggle to implement solutions that require manual index management.\",\n          \"prerequisite_gap\": \"Understanding the distinction between primitive arrays and dynamic data structures like `ArrayList`.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"While the student correctly uses the `for` loop syntax, their inability to correctly manipulate array elements *within* the loop (due to the `ArrayIndex` gap) means they will struggle with any problem requiring iterative array processing, such as shifting elements, sorting, or searching, where manual index management is key.\",\n          \"prerequisite_gap\": \"Correct understanding of array element assignment and shifting within a loop.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the fundamental differences between primitive arrays (fixed-size) and dynamic collections (`ArrayList`). Emphasize how to manually shift elements within a fixed-size array using loops and direct index assignment, rather than relying on `add()`/`remove()` methods.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"ArrayIndex\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "48",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding the fixed-size nature of primitive arrays (`int[]`) in Java. The student attempts to use `remove()` and `add()` methods, which are properties of dynamic collections like `ArrayList`, not fixed-size arrays.",
+                "evidence": "nums.remove(i);\nnums.add(0);",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The student's fundamental misunderstanding of how to manipulate elements within a fixed-size array (e.g., shifting, assigning values by index) will cause significant issues in any problem requiring array traversal, modification, or element rearrangement. They will struggle to implement solutions that require manual index management.",
+                "prerequisite_gap": "Understanding the distinction between primitive arrays and dynamic data structures like `ArrayList`."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "While the student correctly uses the `for` loop syntax, their inability to correctly manipulate array elements *within* the loop (due to the `ArrayIndex` gap) means they will struggle with any problem requiring iterative array processing, such as shifting elements, sorting, or searching, where manual index management is key.",
+                "prerequisite_gap": "Correct understanding of array element assignment and shifting within a loop."
+              }
+            ],
+            "recommended_intervention": "Review the fundamental differences between primitive arrays (fixed-size) and dynamic collections (`ArrayList`). Emphasize how to manually shift elements within a fixed-size array using loops and direct index assignment, rather than relying on `add()`/`remove()` methods."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "ArrayIndex"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 13.888,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "67": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"67\",\n      \"score\": 90.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student's loop condition `i < nums.length - 1` does not correctly account for accessing `nums[i+2]` within the loop body. When `i` reaches `nums.length - 2`, the expression `nums[i+2]` attempts to access an index (`nums.length`) that is out of bounds, leading to an `ArrayIndexOutOfBoundsException` for arrays of length 2 or 3 (e.g., {7, 7} or {1, 7, 7}). This indicates a misunderstanding of how loop bounds must be set to safely access elements at varying offsets from the current loop index.\",\n          \"evidence\": \"for (int i = 0; i < nums.length - 1;i++)\\n{\\n    if (nums[i] == 7 && (nums[i+1] == 7 || nums[i+2] ==7))\\n    {\\n        return true;\\n    }\\n}\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"Problems requiring iteration through arrays and accessing elements at `i+k` (where k > 1) will likely lead to similar off-by-one errors and `ArrayIndexOutOfBoundsException`s if the loop bounds are not carefully adjusted. This aligns with their identified weakness in `StringIndex` which involves similar boundary considerations.\",\n          \"prerequisite_gap\": \"Understanding the relationship between array length, valid indices, and loop termination conditions.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student struggles with setting precise loop termination conditions to prevent out-of-bounds access, which is a fundamental aspect of `For` loop control, especially when dealing with look-ahead patterns in arrays.\",\n          \"prerequisite_gap\": \"Correctly defining loop ranges based on the maximum index accessed within the loop body.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review array indexing rules, focusing on the maximum valid index (`array.length - 1`). Practice problems that require accessing elements at `i+1`, `i+2`, etc., and explicitly determine the correct loop termination condition (`i < array.length - k`) or add explicit boundary checks (`if (i + k < array.length)`) before accessing `array[i+k]`.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"ArrayIndex\",\n      \"For\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "67",
+            "score": 90.0,
+            "knowledge_gaps": [
+              {
+                "gap": "The student's loop condition `i < nums.length - 1` does not correctly account for accessing `nums[i+2]` within the loop body. When `i` reaches `nums.length - 2`, the expression `nums[i+2]` attempts to access an index (`nums.length`) that is out of bounds, leading to an `ArrayIndexOutOfBoundsException` for arrays of length 2 or 3 (e.g., {7, 7} or {1, 7, 7}). This indicates a misunderstanding of how loop bounds must be set to safely access elements at varying offsets from the current loop index.",
+                "evidence": "for (int i = 0; i < nums.length - 1;i++)\n{\n    if (nums[i] == 7 && (nums[i+1] == 7 || nums[i+2] ==7))\n    {\n        return true;\n    }\n}",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "Problems requiring iteration through arrays and accessing elements at `i+k` (where k > 1) will likely lead to similar off-by-one errors and `ArrayIndexOutOfBoundsException`s if the loop bounds are not carefully adjusted. This aligns with their identified weakness in `StringIndex` which involves similar boundary considerations.",
+                "prerequisite_gap": "Understanding the relationship between array length, valid indices, and loop termination conditions."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "The student struggles with setting precise loop termination conditions to prevent out-of-bounds access, which is a fundamental aspect of `For` loop control, especially when dealing with look-ahead patterns in arrays.",
+                "prerequisite_gap": "Correctly defining loop ranges based on the maximum index accessed within the loop body."
+              }
+            ],
+            "recommended_intervention": "Review array indexing rules, focusing on the maximum valid index (`array.length - 1`). Practice problems that require accessing elements at `i+1`, `i+2`, etc., and explicitly determine the correct loop termination condition (`i < array.length - k`) or add explicit boundary checks (`if (i + k < array.length)`) before accessing `array[i+k]`."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "ArrayIndex",
+            "For"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 29.181,
+      "score": 0.9,
+      "invalid_kcs": []
+    },
+    "102": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"102\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Incorrect syntax for accessing characters or substrings in a String. The student used `str(index)` which is not valid Java syntax for String objects.\",\n          \"evidence\": \"str(0) == str(len - 2) && str(1) == str(len - 1)\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Misunderstanding of how to compare String content. The problem requires comparing 2-character substrings, but the student attempted character-by-character comparison using `==` (which is fine for `char` but not for `String` objects, and the syntax was wrong anyway). This indicates a lack of understanding of `String.equals()` for comparing string content.\",\n          \"evidence\": \"str(0) == str(len - 2) && str(1) == str(len - 1)\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"moderate\"\n        },\n        {\n          \"gap\": \"Failure to handle edge cases for string length. The code attempts to access characters at `len - 2` and `len - 1` without checking if the string is long enough (i.e., `len < 2`), which would lead to an `IndexOutOfBoundsException` if the syntax were correct.\",\n          \"evidence\": \"if (str(0) == str(len - 2) && str(1) == str(len - 1))\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"moderate\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student fundamentally misunderstands how to access individual characters or extract substrings from a String object, using incorrect syntax. This is a foundational skill for almost all String manipulation.\",\n          \"prerequisite_gap\": \"Understanding String methods like `charAt()` and `substring()`.\"\n        },\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"The student's approach to comparing string segments is character-by-character and doesn't utilize `String.equals()`, which is crucial for comparing String objects. This will cause issues in any problem requiring robust string content comparison.\",\n          \"prerequisite_gap\": \"Understanding the difference between `==` and `equals()` for object comparison, specifically for Strings.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"While the student has a strong grasp of basic `If/Else` structures, they failed to apply conditional logic to guard against `IndexOutOfBoundsException` for short strings. This indicates a gap in applying `If/Else` for boundary checks and error prevention, which is common in many programming problems.\",\n          \"prerequisite_gap\": \"Understanding how to use `String.length()` to determine valid index ranges and apply conditional checks.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review String methods for character and substring access (`charAt()`, `substring()`) and String comparison (`equals()`). Emphasize the importance of checking string length before attempting to access characters at specific indices to prevent runtime errors.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"StringIndex\",\n      \"StringEqual\",\n      \"If/Else\"\n    ],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"Chapter 9: String class and its methods (charAt(), substring(), equals(), length())\",\n      \"Chapter 3: Selections (applying if statements for boundary conditions and error handling)\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "102",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Incorrect syntax for accessing characters or substrings in a String. The student used `str(index)` which is not valid Java syntax for String objects.",
+                "evidence": "str(0) == str(len - 2) && str(1) == str(len - 1)",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Misunderstanding of how to compare String content. The problem requires comparing 2-character substrings, but the student attempted character-by-character comparison using `==` (which is fine for `char` but not for `String` objects, and the syntax was wrong anyway). This indicates a lack of understanding of `String.equals()` for comparing string content.",
+                "evidence": "str(0) == str(len - 2) && str(1) == str(len - 1)",
+                "missing_concept": "StringEqual",
+                "severity": "moderate"
+              },
+              {
+                "gap": "Failure to handle edge cases for string length. The code attempts to access characters at `len - 2` and `len - 1` without checking if the string is long enough (i.e., `len < 2`), which would lead to an `IndexOutOfBoundsException` if the syntax were correct.",
+                "evidence": "if (str(0) == str(len - 2) && str(1) == str(len - 1))",
+                "missing_concept": "If/Else",
+                "severity": "moderate"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student fundamentally misunderstands how to access individual characters or extract substrings from a String object, using incorrect syntax. This is a foundational skill for almost all String manipulation.",
+                "prerequisite_gap": "Understanding String methods like `charAt()` and `substring()`."
+              },
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "The student's approach to comparing string segments is character-by-character and doesn't utilize `String.equals()`, which is crucial for comparing String objects. This will cause issues in any problem requiring robust string content comparison.",
+                "prerequisite_gap": "Understanding the difference between `==` and `equals()` for object comparison, specifically for Strings."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "While the student has a strong grasp of basic `If/Else` structures, they failed to apply conditional logic to guard against `IndexOutOfBoundsException` for short strings. This indicates a gap in applying `If/Else` for boundary checks and error prevention, which is common in many programming problems.",
+                "prerequisite_gap": "Understanding how to use `String.length()` to determine valid index ranges and apply conditional checks."
+              }
+            ],
+            "recommended_intervention": "Review String methods for character and substring access (`charAt()`, `substring()`) and String comparison (`equals()`). Emphasize the importance of checking string length before attempting to access characters at specific indices to prevent runtime errors."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "StringIndex",
+            "StringEqual",
+            "If/Else"
+          ],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "Chapter 9: String class and its methods (charAt(), substring(), equals(), length())",
+            "Chapter 3: Selections (applying if statements for boundary conditions and error handling)"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 16.942,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "104": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"104\",\n      \"score\": 86.7,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student attempts to find the largest odd value to the right of a zero but incorrectly assigns the last encountered odd value instead of tracking and updating the maximum. The logic for comparing current odd values with a running maximum is missing.\",\n          \"evidence\": \"for (int a = i; a < nums.length;a++)\\n{\\n    if (nums[a]%2 == 1)\\n    {\\n        nums[i]=nums[a];\\n    }\\n}\",\n          \"missing_concept\": \"LogicCompareNum\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"While the loop structure is syntactically correct, the student demonstrates a conceptual misunderstanding of how to use a loop to maintain and update a state variable (like a maximum value) across iterations. The current implementation overwrites the target value with the last valid candidate, rather than the largest.\",\n          \"evidence\": \"for (int a = i; a < nums.length;a++)\\n{\\n    if (nums[a]%2 == 1)\\n    {\\n        nums[i]=nums[a];\\n    }\\n}\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"Many array manipulation problems, such as sorting, searching for specific criteria, or complex transformations, require correctly identifying and updating elements based on comparisons and tracking state within loops. The student's current approach to finding a maximum will lead to errors in such tasks.\",\n          \"prerequisite_gap\": \"Understanding how to use a temporary variable and conditional logic (If/Else, LogicCompareNum) within a loop (For) to find and store the maximum or minimum value in a range.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"While the student correctly structured the nested loop, the inner loop's logic for finding the maximum is flawed. More complex nested loop problems (e.g., 2D array processing, advanced searching/sorting) will exacerbate this issue if the inner logic for state tracking is not solid.\",\n          \"prerequisite_gap\": \"Mastering the use of If/Else and LogicCompareNum within a single For loop to correctly identify and store specific values (like maximums, sums, counts) before attempting more complex nested loop scenarios.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the pattern for finding the maximum or minimum value within a loop. Provide examples where the largest value is not the last one encountered, emphasizing the need for a temporary variable to store the current maximum and an 'if' statement to update it only if a larger value is found.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Logic for finding maximum/minimum within a loop\",\n      \"Correctly updating state variables within loops\"\n    ],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"LogicCompareNum\",\n      \"If/Else\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "104",
+            "score": 86.7,
+            "knowledge_gaps": [
+              {
+                "gap": "The student attempts to find the largest odd value to the right of a zero but incorrectly assigns the last encountered odd value instead of tracking and updating the maximum. The logic for comparing current odd values with a running maximum is missing.",
+                "evidence": "for (int a = i; a < nums.length;a++)\n{\n    if (nums[a]%2 == 1)\n    {\n        nums[i]=nums[a];\n    }\n}",
+                "missing_concept": "LogicCompareNum",
+                "severity": "critical"
+              },
+              {
+                "gap": "While the loop structure is syntactically correct, the student demonstrates a conceptual misunderstanding of how to use a loop to maintain and update a state variable (like a maximum value) across iterations. The current implementation overwrites the target value with the last valid candidate, rather than the largest.",
+                "evidence": "for (int a = i; a < nums.length;a++)\n{\n    if (nums[a]%2 == 1)\n    {\n        nums[i]=nums[a];\n    }\n}",
+                "missing_concept": "For",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "Many array manipulation problems, such as sorting, searching for specific criteria, or complex transformations, require correctly identifying and updating elements based on comparisons and tracking state within loops. The student's current approach to finding a maximum will lead to errors in such tasks.",
+                "prerequisite_gap": "Understanding how to use a temporary variable and conditional logic (If/Else, LogicCompareNum) within a loop (For) to find and store the maximum or minimum value in a range."
+              },
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "While the student correctly structured the nested loop, the inner loop's logic for finding the maximum is flawed. More complex nested loop problems (e.g., 2D array processing, advanced searching/sorting) will exacerbate this issue if the inner logic for state tracking is not solid.",
+                "prerequisite_gap": "Mastering the use of If/Else and LogicCompareNum within a single For loop to correctly identify and store specific values (like maximums, sums, counts) before attempting more complex nested loop scenarios."
+              }
+            ],
+            "recommended_intervention": "Review the pattern for finding the maximum or minimum value within a loop. Provide examples where the largest value is not the last one encountered, emphasizing the need for a temporary variable to store the current maximum and an 'if' statement to update it only if a larger value is found."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Logic for finding maximum/minimum within a loop",
+            "Correctly updating state variables within loops"
+          ],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "LogicCompareNum",
+            "If/Else"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 16.839,
+      "score": 0.866667,
+      "invalid_kcs": []
+    },
+    "106": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"106\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Incorrect array initialization size: The student attempts to create arrays to hold 'n' elements but initializes them with a size of 'n-1'. This leads to an ArrayIndexOutOfBoundsException when attempting to store the 'n'-th element (at index 'n-1') and a NegativeArraySizeException when 'n' is 0.\",\n          \"evidence\": \"int[] numss = new int[n-1];\\nint[] numsss = new int[n-1];\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inadequate handling of edge cases, specifically when 'n' is 0: The problem statement explicitly allows 'n=0', but the student's code attempts to create an array of size -1, resulting in a NegativeArraySizeException.\",\n          \"evidence\": \"int[] numss = new int[n-1]; // Fails when n=0\",\n          \"missing_concept\": \"LogicCompareNum\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The student's fundamental misunderstanding of how to correctly size an array to hold a given number of elements (n vs n-1) and the resulting runtime errors (ArrayIndexOutOfBoundsException, NegativeArraySizeException) indicate a weak grasp of array indexing, capacity, and creation. This will impact any problem involving array manipulation, especially when creating new arrays, resizing, or iterating through them with specific bounds.\",\n          \"prerequisite_gap\": \"Correct array declaration and initialization, understanding array length and zero-based indexing.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"While the loop syntax is correct, the student's inability to correctly size the arrays *before* the loop implies they may struggle with how loop bounds interact with array capacities, leading to off-by-one errors in loop conditions or array access within loops. The loop iterates 'n' times, but the arrays are sized for 'n-1' elements, indicating a disconnect between the intended number of iterations/elements and the allocated storage.\",\n          \"prerequisite_gap\": \"Understanding loop termination conditions and how they relate to array indexing and capacity.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicCompareNum\",\n          \"reason\": \"The failure to account for the 'n=0' edge case, which is explicitly mentioned as valid and causes a runtime error, suggests difficulty in thoroughly analyzing problem constraints and handling boundary conditions. Problems often have specific edge cases (like empty inputs, zero counts, maximum/minimum values) that require careful conditional logic or specific initialization.\",\n          \"prerequisite_gap\": \"Developing a systematic approach to identify and address edge cases in problem solving.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review array declaration, initialization, length property, and zero-based indexing. Provide practice problems where array size depends on input parameters, emphasizing the difference between count 'n' and array index 'n-1'. Focus on systematically testing with edge cases like n=0, n=1, and n=nums.length to ensure robust solutions.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"ArrayIndex (incorrect array sizing and indexing)\",\n      \"LogicCompareNum (inadequate handling of edge cases)\"\n    ],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"Single-Dimensional Arrays (Array basics and declaration, Creating and initializing arrays, Array indexing)\",\n      \"Elementary Programming (Common programming errors - runtime errors, logic errors)\",\n      \"Selections (Logical operators and handling boundary conditions)\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "106",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Incorrect array initialization size: The student attempts to create arrays to hold 'n' elements but initializes them with a size of 'n-1'. This leads to an ArrayIndexOutOfBoundsException when attempting to store the 'n'-th element (at index 'n-1') and a NegativeArraySizeException when 'n' is 0.",
+                "evidence": "int[] numss = new int[n-1];\nint[] numsss = new int[n-1];",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inadequate handling of edge cases, specifically when 'n' is 0: The problem statement explicitly allows 'n=0', but the student's code attempts to create an array of size -1, resulting in a NegativeArraySizeException.",
+                "evidence": "int[] numss = new int[n-1]; // Fails when n=0",
+                "missing_concept": "LogicCompareNum",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The student's fundamental misunderstanding of how to correctly size an array to hold a given number of elements (n vs n-1) and the resulting runtime errors (ArrayIndexOutOfBoundsException, NegativeArraySizeException) indicate a weak grasp of array indexing, capacity, and creation. This will impact any problem involving array manipulation, especially when creating new arrays, resizing, or iterating through them with specific bounds.",
+                "prerequisite_gap": "Correct array declaration and initialization, understanding array length and zero-based indexing."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "While the loop syntax is correct, the student's inability to correctly size the arrays *before* the loop implies they may struggle with how loop bounds interact with array capacities, leading to off-by-one errors in loop conditions or array access within loops. The loop iterates 'n' times, but the arrays are sized for 'n-1' elements, indicating a disconnect between the intended number of iterations/elements and the allocated storage.",
+                "prerequisite_gap": "Understanding loop termination conditions and how they relate to array indexing and capacity."
+              },
+              {
+                "at_risk_topic": "LogicCompareNum",
+                "reason": "The failure to account for the 'n=0' edge case, which is explicitly mentioned as valid and causes a runtime error, suggests difficulty in thoroughly analyzing problem constraints and handling boundary conditions. Problems often have specific edge cases (like empty inputs, zero counts, maximum/minimum values) that require careful conditional logic or specific initialization.",
+                "prerequisite_gap": "Developing a systematic approach to identify and address edge cases in problem solving."
+              }
+            ],
+            "recommended_intervention": "Review array declaration, initialization, length property, and zero-based indexing. Provide practice problems where array size depends on input parameters, emphasizing the difference between count 'n' and array index 'n-1'. Focus on systematically testing with edge cases like n=0, n=1, and n=nums.length to ensure robust solutions."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "ArrayIndex (incorrect array sizing and indexing)",
+            "LogicCompareNum (inadequate handling of edge cases)"
+          ],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "Single-Dimensional Arrays (Array basics and declaration, Creating and initializing arrays, Array indexing)",
+            "Elementary Programming (Common programming errors - runtime errors, logic errors)",
+            "Selections (Logical operators and handling boundary conditions)"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 18.185,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "107": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"107\",\n      \"score\": 45.5,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The outer `for` loop is missing its increment statement in the loop header. The loop control variable `i` is only updated conditionally inside an `if` block. If the `if` condition (`nums[i] == nums[i+1]`) is false, `i` will never increment, leading to an infinite loop. This demonstrates a fundamental misunderstanding of `for` loop structure and how to ensure loop termination and progress.\",\n          \"evidence\": \"for (int i = 0; i < nums.length -1;)\\n{\\n    if (nums[i] == nums[i+1])\\n    {\\n        // ... logic ...\\n        i = i + count +1;\\n        // ...\\n    }\\n}\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The student mismanages loop variables and array indices when attempting to identify and process contiguous segments (clumps). The `count` variable is intended to help advance the main loop index `i` but is incorrectly calculated: it accumulates the number of adjacent pairs from the current `i` to the end of the array, rather than identifying the length of the *current* clump. This leads to `i` being advanced by an incorrect amount, causing miscounts and skipping over valid clumps or processing elements redundantly. Additionally, `count` is not reset for each potential clump, leading to further accumulation errors.\",\n          \"evidence\": \"int count = 0;\\n// ...\\nfor (int a = i; a < nums.length -1; a++)\\n{\\n    if (nums[a] == nums[a+1])\\n    {\\n        count = count + 1;\\n    }\\n}\\ni = i + count +1;\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"The student's attempt at using a nested loop to identify and process a sub-segment (the clump) was fundamentally flawed in its logic and variable management. They will likely struggle with any problem requiring correct use of nested loops for pattern matching, processing 2D arrays, or managing inner loop indices relative to an outer loop.\",\n          \"prerequisite_gap\": \"For (correct loop control and variable management)\"\n        },\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The incorrect advancement of the main loop index `i` and the misuse of the `count` variable demonstrate difficulty in managing array indices to correctly identify and skip over processed segments. This skill is crucial for efficient array traversal and pattern recognition problems.\",\n          \"prerequisite_gap\": \"For (understanding how loop variables control array access)\"\n        },\n        {\n          \"at_risk_topic\": \"While\",\n          \"reason\": \"The problem of advancing a loop index past a variable-length segment (like a clump) is often effectively solved using `while` loops. Given the student's current struggles with `for` loop control for this task and their low mastery of `While` (0.467), they are likely to find similar problems challenging when `while` loops are the more natural or efficient solution.\",\n          \"prerequisite_gap\": \"For (understanding loop termination and progression based on conditions)\"\n        }\n      ],\n      \"recommended_intervention\": \"Review `for` loop structure, paying close attention to the initialization, condition, and update parts. Practice problems that involve iterating through arrays to find and process contiguous patterns (like clumps or runs), focusing on how to correctly advance the main loop index to skip over the processed pattern. Explore how `while` loops can be used effectively for scenarios where the number of iterations or the step size is determined dynamically by the data itself.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"For (incorrect loop structure and control flow)\",\n      \"For (mismanagement of loop variables and array indices for pattern identification)\"\n    ],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"Loops (For, While)\",\n      \"Single-Dimensional Arrays (processing with loops, index management)\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "107",
+            "score": 45.5,
+            "knowledge_gaps": [
+              {
+                "gap": "The outer `for` loop is missing its increment statement in the loop header. The loop control variable `i` is only updated conditionally inside an `if` block. If the `if` condition (`nums[i] == nums[i+1]`) is false, `i` will never increment, leading to an infinite loop. This demonstrates a fundamental misunderstanding of `for` loop structure and how to ensure loop termination and progress.",
+                "evidence": "for (int i = 0; i < nums.length -1;)\n{\n    if (nums[i] == nums[i+1])\n    {\n        // ... logic ...\n        i = i + count +1;\n        // ...\n    }\n}",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "The student mismanages loop variables and array indices when attempting to identify and process contiguous segments (clumps). The `count` variable is intended to help advance the main loop index `i` but is incorrectly calculated: it accumulates the number of adjacent pairs from the current `i` to the end of the array, rather than identifying the length of the *current* clump. This leads to `i` being advanced by an incorrect amount, causing miscounts and skipping over valid clumps or processing elements redundantly. Additionally, `count` is not reset for each potential clump, leading to further accumulation errors.",
+                "evidence": "int count = 0;\n// ...\nfor (int a = i; a < nums.length -1; a++)\n{\n    if (nums[a] == nums[a+1])\n    {\n        count = count + 1;\n    }\n}\ni = i + count +1;",
+                "missing_concept": "For",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "The student's attempt at using a nested loop to identify and process a sub-segment (the clump) was fundamentally flawed in its logic and variable management. They will likely struggle with any problem requiring correct use of nested loops for pattern matching, processing 2D arrays, or managing inner loop indices relative to an outer loop.",
+                "prerequisite_gap": "For (correct loop control and variable management)"
+              },
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The incorrect advancement of the main loop index `i` and the misuse of the `count` variable demonstrate difficulty in managing array indices to correctly identify and skip over processed segments. This skill is crucial for efficient array traversal and pattern recognition problems.",
+                "prerequisite_gap": "For (understanding how loop variables control array access)"
+              },
+              {
+                "at_risk_topic": "While",
+                "reason": "The problem of advancing a loop index past a variable-length segment (like a clump) is often effectively solved using `while` loops. Given the student's current struggles with `for` loop control for this task and their low mastery of `While` (0.467), they are likely to find similar problems challenging when `while` loops are the more natural or efficient solution.",
+                "prerequisite_gap": "For (understanding loop termination and progression based on conditions)"
+              }
+            ],
+            "recommended_intervention": "Review `for` loop structure, paying close attention to the initialization, condition, and update parts. Practice problems that involve iterating through arrays to find and process contiguous patterns (like clumps or runs), focusing on how to correctly advance the main loop index to skip over the processed pattern. Explore how `while` loops can be used effectively for scenarios where the number of iterations or the step size is determined dynamically by the data itself."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "For (incorrect loop structure and control flow)",
+            "For (mismanagement of loop variables and array indices for pattern identification)"
+          ],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "Loops (For, While)",
+            "Single-Dimensional Arrays (processing with loops, index management)"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 36.333,
+      "score": 0.454545,
+      "invalid_kcs": []
+    },
+    "108": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"108\",\n      \"score\": 26.3,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Incomplete 'for' loop structure: The student has omitted the increment/decrement expression from the 'for' loop header. While 'i' is conditionally incremented within the loop body, this approach is unconventional and leads to logical errors, as the loop variable's progression is not consistently managed, potentially skipping elements or causing incorrect iteration.\",\n          \"evidence\": \"for(int i = 0;i< nums.length-1;)\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Flawed array manipulation logic for rearrangement: The student attempts to use a single temporary variable 'a' to facilitate rearrangement, but the logic for storing and retrieving values is incorrect. The variable 'a' is frequently overwritten, and its value does not consistently represent the element that needs to fill a '5's original position. The strategy of placing a '5' after a '4' and then filling a later '5's spot with 'a' (which holds the value originally after the '4') does not correctly solve the problem's requirement of moving existing '5's.\",\n          \"evidence\": \"if (nums[i] == 4 && nums[i+1] != 5)\\n{\\n    a = nums[i+1];\\n    nums[i+1] = 5;\\n    i = i + 2;\\n}\\nelse if (nums[i] == 5)\\n{\\n    nums[i] = a;\\n    i = 1 + i;\\n}\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"A fundamental misunderstanding of basic 'for' loop structure and control flow (as evidenced by the missing increment expression) will make it very difficult to manage the more complex iteration patterns required for nested loops.\",\n          \"prerequisite_gap\": \"For\"\n        },\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The student struggles with complex array rearrangement logic, particularly in correctly identifying elements to move, tracking their original positions, and ensuring proper placement without data loss. This will impede their ability to solve problems requiring more sophisticated array traversal, searching, or sorting algorithms.\",\n          \"prerequisite_gap\": \"ArrayIndex\"\n        },\n        {\n          \"at_risk_topic\": \"While\",\n          \"reason\": \"The issue with managing the loop variable's progression in a 'for' loop suggests a broader conceptual gap in loop control. This could lead to similar problems in 'while' loops, where explicit management of the loop condition and variable updates is crucial to prevent infinite loops or incorrect iteration.\",\n          \"prerequisite_gap\": \"For\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the standard structure and execution flow of 'for' loops, emphasizing the roles of initialization, condition, and increment/decrement expressions. Practice array manipulation problems that require finding and moving specific elements, focusing on using multiple indices or a separate temporary variable correctly to track elements that need to be swapped or relocated, ensuring that no data is lost or overwritten prematurely. Break down complex array problems into smaller, manageable steps.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"ArrayIndex\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "108",
+            "score": 26.3,
+            "knowledge_gaps": [
+              {
+                "gap": "Incomplete 'for' loop structure: The student has omitted the increment/decrement expression from the 'for' loop header. While 'i' is conditionally incremented within the loop body, this approach is unconventional and leads to logical errors, as the loop variable's progression is not consistently managed, potentially skipping elements or causing incorrect iteration.",
+                "evidence": "for(int i = 0;i< nums.length-1;)",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "Flawed array manipulation logic for rearrangement: The student attempts to use a single temporary variable 'a' to facilitate rearrangement, but the logic for storing and retrieving values is incorrect. The variable 'a' is frequently overwritten, and its value does not consistently represent the element that needs to fill a '5's original position. The strategy of placing a '5' after a '4' and then filling a later '5's spot with 'a' (which holds the value originally after the '4') does not correctly solve the problem's requirement of moving existing '5's.",
+                "evidence": "if (nums[i] == 4 && nums[i+1] != 5)\n{\n    a = nums[i+1];\n    nums[i+1] = 5;\n    i = i + 2;\n}\nelse if (nums[i] == 5)\n{\n    nums[i] = a;\n    i = 1 + i;\n}",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "A fundamental misunderstanding of basic 'for' loop structure and control flow (as evidenced by the missing increment expression) will make it very difficult to manage the more complex iteration patterns required for nested loops.",
+                "prerequisite_gap": "For"
+              },
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The student struggles with complex array rearrangement logic, particularly in correctly identifying elements to move, tracking their original positions, and ensuring proper placement without data loss. This will impede their ability to solve problems requiring more sophisticated array traversal, searching, or sorting algorithms.",
+                "prerequisite_gap": "ArrayIndex"
+              },
+              {
+                "at_risk_topic": "While",
+                "reason": "The issue with managing the loop variable's progression in a 'for' loop suggests a broader conceptual gap in loop control. This could lead to similar problems in 'while' loops, where explicit management of the loop condition and variable updates is crucial to prevent infinite loops or incorrect iteration.",
+                "prerequisite_gap": "For"
+              }
+            ],
+            "recommended_intervention": "Review the standard structure and execution flow of 'for' loops, emphasizing the roles of initialization, condition, and increment/decrement expressions. Practice array manipulation problems that require finding and moving specific elements, focusing on using multiple indices or a separate temporary variable correctly to track elements that need to be swapped or relocated, ensuring that no data is lost or overwritten prematurely. Break down complex array problems into smaller, manageable steps."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "ArrayIndex"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 24.086,
+      "score": 0.263158,
+      "invalid_kcs": []
+    },
+    "128": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14414\",\n      \"problem_id\": \"128\",\n      \"score\": 77.8,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding of string pattern matching logic. The student attempts to solve the problem by only checking the first and last occurrences of the character 'b' using `indexOf` and `lastIndexOf`, rather than iterating through the string to find all possible 'b_b' patterns. This approach fails to identify patterns that are not aligned with the absolute first and last 'b's in the string, or when multiple 'b_b' patterns exist.\",\n          \"evidence\": \"int index = str.indexOf(\\\"b\\\");\\nint indexx = str.lastIndexOf(\\\"b\\\");\\nif (index + 2 == indexx)\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Lack of understanding of how to systematically check characters at specific relative positions within a string (e.g., charAt(i) and charAt(i+2)) in a loop to identify a pattern.\",\n          \"evidence\": \"int index = str.indexOf(\\\"b\\\");\\nint indexx = str.lastIndexOf(\\\"b\\\");\\nif (index + 2 == indexx)\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student's current solution avoids iteration, which is fundamental for string processing and pattern matching. They will struggle with any problem requiring systematic traversal of strings or collections.\",\n          \"prerequisite_gap\": \"Understanding the need for iterative checks for patterns.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student did not use `charAt()` or `substring()` in a loop to check characters at relative positions. This indicates a weakness in accessing and comparing individual characters or substrings within an iterative process.\",\n          \"prerequisite_gap\": \"Understanding how to access characters by index and extract substrings.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"If the student struggles with a single loop for string iteration and pattern matching, they will certainly struggle with more complex problems requiring nested loops, such as those involving 2D arrays or more intricate string patterns.\",\n          \"prerequisite_gap\": \"Mastery of single 'For' loops and StringIndex.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the concept of iterating through strings using `for` loops and accessing individual characters with `charAt(index)`. Provide examples of searching for simple patterns (e.g., 'aa', 'aba') by checking characters at `i`, `i+1`, `i+2` within a loop. Emphasize that `indexOf` and `lastIndexOf` are for finding the first/last occurrence, not for general pattern matching with variable characters.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Iterating through strings for pattern matching\",\n      \"Systematic use of StringIndex (charAt/substring) within loops\"\n    ],\n    \"highest_risk_students\": [\n      \"14414\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"StringIndex\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14414",
+            "problem_id": "128",
+            "score": 77.8,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding of string pattern matching logic. The student attempts to solve the problem by only checking the first and last occurrences of the character 'b' using `indexOf` and `lastIndexOf`, rather than iterating through the string to find all possible 'b_b' patterns. This approach fails to identify patterns that are not aligned with the absolute first and last 'b's in the string, or when multiple 'b_b' patterns exist.",
+                "evidence": "int index = str.indexOf(\"b\");\nint indexx = str.lastIndexOf(\"b\");\nif (index + 2 == indexx)",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "Lack of understanding of how to systematically check characters at specific relative positions within a string (e.g., charAt(i) and charAt(i+2)) in a loop to identify a pattern.",
+                "evidence": "int index = str.indexOf(\"b\");\nint indexx = str.lastIndexOf(\"b\");\nif (index + 2 == indexx)",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "For",
+                "reason": "The student's current solution avoids iteration, which is fundamental for string processing and pattern matching. They will struggle with any problem requiring systematic traversal of strings or collections.",
+                "prerequisite_gap": "Understanding the need for iterative checks for patterns."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student did not use `charAt()` or `substring()` in a loop to check characters at relative positions. This indicates a weakness in accessing and comparing individual characters or substrings within an iterative process.",
+                "prerequisite_gap": "Understanding how to access characters by index and extract substrings."
+              },
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "If the student struggles with a single loop for string iteration and pattern matching, they will certainly struggle with more complex problems requiring nested loops, such as those involving 2D arrays or more intricate string patterns.",
+                "prerequisite_gap": "Mastery of single 'For' loops and StringIndex."
+              }
+            ],
+            "recommended_intervention": "Review the concept of iterating through strings using `for` loops and accessing individual characters with `charAt(index)`. Provide examples of searching for simple patterns (e.g., 'aa', 'aba') by checking characters at `i`, `i+1`, `i+2` within a loop. Emphasize that `indexOf` and `lastIndexOf` are for finding the first/last occurrence, not for general pattern matching with variable characters."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Iterating through strings for pattern matching",
+            "Systematic use of StringIndex (charAt/substring) within loops"
+          ],
+          "highest_risk_students": [
+            "14414"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "StringIndex"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 12.423,
+      "score": 0.777778,
+      "invalid_kcs": []
+    }
+  }
+}
