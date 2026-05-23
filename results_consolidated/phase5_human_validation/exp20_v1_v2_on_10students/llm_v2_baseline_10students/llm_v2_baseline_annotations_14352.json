@@ -1,0 +1,1165 @@
+{
+  "rater": "LLM_Gemini_V2_Baseline",
+  "studentId": "14352",
+  "student_id": "14352",
+  "prompt_variant": "v2_baseline",
+  "model_id": "gemini-2.5-flash",
+  "temperature": 0.3,
+  "include_future_predictions": false,
+  "exportDate": "2026-05-21T21:50:17.609210",
+  "total_problems": 41,
+  "totalAnnotated": 41,
+  "total_calls": 16,
+  "errors": [],
+  "annotations": {
+    "1": {
+      "gaps": []
+    },
+    "3": {
+      "gaps": []
+    },
+    "5": {
+      "gaps": []
+    },
+    "12": {
+      "gaps": []
+    },
+    "13": {
+      "gaps": []
+    },
+    "17": {
+      "gaps": []
+    },
+    "20": {
+      "gaps": []
+    },
+    "21": {
+      "gaps": [
+        "If/Else"
+      ]
+    },
+    "22": {
+      "gaps": []
+    },
+    "24": {
+      "gaps": []
+    },
+    "25": {
+      "gaps": [
+        "If/Else",
+        "Math+-*/"
+      ]
+    },
+    "28": {
+      "gaps": []
+    },
+    "32": {
+      "gaps": [
+        "DefFunction",
+        "For",
+        "LogicBoolean",
+        "StringConcat",
+        "StringIndex"
+      ]
+    },
+    "38": {
+      "gaps": [
+        "For",
+        "LogicAndNotOr",
+        "StringEqual",
+        "StringIndex"
+      ]
+    },
+    "40": {
+      "gaps": [
+        "StringEqual",
+        "StringIndex"
+      ]
+    },
+    "41": {
+      "gaps": []
+    },
+    "43": {
+      "gaps": [
+        "ArrayIndex",
+        "DefFunction",
+        "If/Else"
+      ]
+    },
+    "44": {
+      "gaps": []
+    },
+    "45": {
+      "gaps": [
+        "If/Else",
+        "LogicBoolean"
+      ]
+    },
+    "46": {
+      "gaps": [
+        "For",
+        "LogicBoolean"
+      ]
+    },
+    "48": {
+      "gaps": []
+    },
+    "49": {
+      "gaps": []
+    },
+    "51": {
+      "gaps": [
+        "ArrayIndex"
+      ]
+    },
+    "56": {
+      "gaps": []
+    },
+    "57": {
+      "gaps": []
+    },
+    "64": {
+      "gaps": []
+    },
+    "67": {
+      "gaps": [
+        "ArrayIndex",
+        "For"
+      ]
+    },
+    "70": {
+      "gaps": [
+        "ArrayIndex",
+        "For",
+        "LogicBoolean"
+      ]
+    },
+    "71": {
+      "gaps": []
+    },
+    "100": {
+      "gaps": []
+    },
+    "101": {
+      "gaps": [
+        "If/Else",
+        "Math%",
+        "Math+-*/"
+      ]
+    },
+    "102": {
+      "gaps": [
+        "If/Else",
+        "StringEqual"
+      ]
+    },
+    "107": {
+      "gaps": [
+        "LogicAndNotOr"
+      ]
+    },
+    "112": {
+      "gaps": []
+    },
+    "118": {
+      "gaps": []
+    },
+    "128": {
+      "gaps": [
+        "StringEqual"
+      ]
+    },
+    "232": {
+      "gaps": []
+    },
+    "233": {
+      "gaps": []
+    },
+    "234": {
+      "gaps": []
+    },
+    "235": {
+      "gaps": []
+    },
+    "236": {
+      "gaps": []
+    }
+  },
+  "raw_responses": {
+    "21": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"21\",\n      \"score\": 95.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student struggles with structuring `if-else if` statements to correctly implement rules with precedence. They attempted to enumerate all possible combinations of values being 13 or not, but missed a critical edge case (all three values being 13) that should have been covered by a more general or prioritized condition. This indicates a misunderstanding of how to design conditional logic for 'short-circuiting' rules where the presence of a condition (e.g., 'a is 13') negates the need to check subsequent conditions.\",\n          \"evidence\": \"The code fails for the input (13, 13, 13), where it incorrectly calculates the sum as 39 instead of 0. This happens because none of the specific `else if` conditions explicitly cover `a==13 && b==13 && c==13`, causing it to fall through to the final `else` block.\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"moderate\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"NestedIf\",\n          \"reason\": \"If the student struggles with the logical flow and prioritization in a flat `if-else if` chain, they will likely face significant challenges when conditions need to be truly nested, where the inner conditions are only relevant if outer conditions are met.\",\n          \"prerequisite_gap\": \"Understanding how to structure `if-else if` statements for rules with precedence.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"While the student used `&&` correctly in individual conditions, the overall failure to correctly model the problem's 'left-to-right' rule indicates a broader weakness in complex logical reasoning, which is crucial for effectively combining and ordering multiple conditions using logical operators.\",\n          \"prerequisite_gap\": \"Understanding how to structure `if-else if` statements for rules with precedence.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review how to structure `if-else if` statements for rules with precedence. Emphasize breaking down problems into sequential checks, starting with the most impactful or highest-priority conditions (e.g., checking `a` first, then `b`, then `c`). Discuss how a general condition (like `a == 13`) can cover multiple specific sub-cases (like `a==13 && b==13 && c==13` or `a==13 && b!=13 && c!=13`), leading to more concise and robust code.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"If/Else\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "21",
+            "score": 95.0,
+            "knowledge_gaps": [
+              {
+                "gap": "The student struggles with structuring `if-else if` statements to correctly implement rules with precedence. They attempted to enumerate all possible combinations of values being 13 or not, but missed a critical edge case (all three values being 13) that should have been covered by a more general or prioritized condition. This indicates a misunderstanding of how to design conditional logic for 'short-circuiting' rules where the presence of a condition (e.g., 'a is 13') negates the need to check subsequent conditions.",
+                "evidence": "The code fails for the input (13, 13, 13), where it incorrectly calculates the sum as 39 instead of 0. This happens because none of the specific `else if` conditions explicitly cover `a==13 && b==13 && c==13`, causing it to fall through to the final `else` block.",
+                "missing_concept": "If/Else",
+                "severity": "moderate"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "NestedIf",
+                "reason": "If the student struggles with the logical flow and prioritization in a flat `if-else if` chain, they will likely face significant challenges when conditions need to be truly nested, where the inner conditions are only relevant if outer conditions are met.",
+                "prerequisite_gap": "Understanding how to structure `if-else if` statements for rules with precedence."
+              },
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "While the student used `&&` correctly in individual conditions, the overall failure to correctly model the problem's 'left-to-right' rule indicates a broader weakness in complex logical reasoning, which is crucial for effectively combining and ordering multiple conditions using logical operators.",
+                "prerequisite_gap": "Understanding how to structure `if-else if` statements for rules with precedence."
+              }
+            ],
+            "recommended_intervention": "Review how to structure `if-else if` statements for rules with precedence. Emphasize breaking down problems into sequential checks, starting with the most impactful or highest-priority conditions (e.g., checking `a` first, then `b`, then `c`). Discuss how a general condition (like `a == 13`) can cover multiple specific sub-cases (like `a==13 && b==13 && c==13` or `a==13 && b!=13 && c!=13`), leading to more concise and robust code."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "If/Else"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 26.503,
+      "score": 0.95,
+      "invalid_kcs": []
+    },
+    "25": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"25\",\n      \"score\": 90.5,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Incomplete conditional logic for handling all permutations of input values. The student's `if-else if-else` structure attempts to cover different orderings of `a, b, c`, but the final `else` block's internal condition `(b-a) == (a-c)` only correctly evaluates a specific subset of the remaining permutations, failing to account for others (e.g., where 'a' is not the middle value). This leads to incorrect results for certain inputs.\",\n          \"evidence\": \"else\\n    {\\n     \\tif ((b-a) == (a-c))\\n        {\\n         \\twat = true;\\n        }\\n        else\\n        {\\n         \\twat = false;   \\n        }\\n    }\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inconsistent and partially incorrect application of `Math.abs` for calculating differences. `Math.abs` is used redundantly in the first two `if` blocks where the differences are already guaranteed to be positive by the explicit ordering conditions. However, it is critically omitted in the `else` block for `(b-a)` and `(a-c)`, where these differences might be negative and require `Math.abs` to correctly compare their magnitudes, especially if the numbers are not distinct or not in the assumed order.\",\n          \"evidence\": \"if (a > b && b > c)\\n    {\\n     \\tif ((a-b) == Math.abs(b-c)) // Math.abs redundant\\n    }\\n    // ...\\n    else\\n    {\\n     \\tif ((b-a) == (a-c)) // Math.abs missing\",\n          \"missing_concept\": \"Math+-*/\",\n          \"severity\": \"moderate\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The student struggled to construct a comprehensive set of conditional statements to cover all possible permutations of three numbers. This indicates difficulty in systematically breaking down a problem into distinct, exhaustive cases using `if-else if-else` constructs, which is fundamental for many programming problems.\",\n          \"prerequisite_gap\": \"Understanding how to structure `if-else if-else` statements to ensure all possible logical paths and input scenarios are correctly handled.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"The failure to correctly handle all permutations in the `else` block suggests a difficulty in reasoning about and combining multiple logical conditions to ensure full coverage of problem states. More complex problems requiring multiple conditions or nested logic will likely pose a challenge.\",\n          \"prerequisite_gap\": \"Understanding how to combine conditions effectively using logical operators (AND, OR, NOT) to represent complex scenarios and ensure complete case coverage.\"\n        },\n        {\n          \"at_risk_topic\": \"Math+-*/\",\n          \"reason\": \"The inconsistent use of `Math.abs` indicates a lack of clarity on when and why absolute values are necessary for comparing numerical differences, which is a fundamental arithmetic concept. This could lead to errors in problems involving distance, magnitude, or differences where the order of operands is not guaranteed.\",\n          \"prerequisite_gap\": \"Understanding the concept of absolute difference and its correct application in numerical comparisons, especially when the relative order of numbers is unknown or variable.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review how to systematically handle multiple cases using `if-else if-else` statements, especially when dealing with permutations or ranges of values. Practice problems that require identifying and covering all possible scenarios. Also, reinforce the concept of absolute difference and when to use `Math.abs` to ensure comparisons are based on magnitude rather than sign, particularly when the order of operands is not fixed.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Incomplete conditional logic for handling multiple permutations/cases\",\n      \"Inconsistent application of mathematical functions like `Math.abs`\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"If/Else\",\n      \"LogicAndNotOr\",\n      \"Math+-*/\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "25",
+            "score": 90.5,
+            "knowledge_gaps": [
+              {
+                "gap": "Incomplete conditional logic for handling all permutations of input values. The student's `if-else if-else` structure attempts to cover different orderings of `a, b, c`, but the final `else` block's internal condition `(b-a) == (a-c)` only correctly evaluates a specific subset of the remaining permutations, failing to account for others (e.g., where 'a' is not the middle value). This leads to incorrect results for certain inputs.",
+                "evidence": "else\n    {\n     \tif ((b-a) == (a-c))\n        {\n         \twat = true;\n        }\n        else\n        {\n         \twat = false;   \n        }\n    }",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inconsistent and partially incorrect application of `Math.abs` for calculating differences. `Math.abs` is used redundantly in the first two `if` blocks where the differences are already guaranteed to be positive by the explicit ordering conditions. However, it is critically omitted in the `else` block for `(b-a)` and `(a-c)`, where these differences might be negative and require `Math.abs` to correctly compare their magnitudes, especially if the numbers are not distinct or not in the assumed order.",
+                "evidence": "if (a > b && b > c)\n    {\n     \tif ((a-b) == Math.abs(b-c)) // Math.abs redundant\n    }\n    // ...\n    else\n    {\n     \tif ((b-a) == (a-c)) // Math.abs missing",
+                "missing_concept": "Math+-*/",
+                "severity": "moderate"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The student struggled to construct a comprehensive set of conditional statements to cover all possible permutations of three numbers. This indicates difficulty in systematically breaking down a problem into distinct, exhaustive cases using `if-else if-else` constructs, which is fundamental for many programming problems.",
+                "prerequisite_gap": "Understanding how to structure `if-else if-else` statements to ensure all possible logical paths and input scenarios are correctly handled."
+              },
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "The failure to correctly handle all permutations in the `else` block suggests a difficulty in reasoning about and combining multiple logical conditions to ensure full coverage of problem states. More complex problems requiring multiple conditions or nested logic will likely pose a challenge.",
+                "prerequisite_gap": "Understanding how to combine conditions effectively using logical operators (AND, OR, NOT) to represent complex scenarios and ensure complete case coverage."
+              },
+              {
+                "at_risk_topic": "Math+-*/",
+                "reason": "The inconsistent use of `Math.abs` indicates a lack of clarity on when and why absolute values are necessary for comparing numerical differences, which is a fundamental arithmetic concept. This could lead to errors in problems involving distance, magnitude, or differences where the order of operands is not guaranteed.",
+                "prerequisite_gap": "Understanding the concept of absolute difference and its correct application in numerical comparisons, especially when the relative order of numbers is unknown or variable."
+              }
+            ],
+            "recommended_intervention": "Review how to systematically handle multiple cases using `if-else if-else` statements, especially when dealing with permutations or ranges of values. Practice problems that require identifying and covering all possible scenarios. Also, reinforce the concept of absolute difference and when to use `Math.abs` to ensure comparisons are based on magnitude rather than sign, particularly when the order of operands is not fixed."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Incomplete conditional logic for handling multiple permutations/cases",
+            "Inconsistent application of mathematical functions like `Math.abs`"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "If/Else",
+            "LogicAndNotOr",
+            "Math+-*/"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 31.396,
+      "score": 0.904762,
+      "invalid_kcs": []
+    },
+    "32": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"32\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Overwrites the input string 'str' with 'word' at the start, losing the original string that needs to be processed. This indicates a fundamental misunderstanding of how to use function parameters and the problem's requirements.\",\n          \"evidence\": \"str = word;\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Attempts to use a character (`char`) as a boolean condition in an `if` statement, which is a type mismatch and a fundamental Java syntax error.\",\n          \"evidence\": \"if (str.charAt(x))\",\n          \"missing_concept\": \"LogicBoolean\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Off-by-one error in loop condition, `x < str.length() - 1`, which may cause the loop to miss processing the last character or lead to `IndexOutOfBoundsException` with subsequent `substring` calls.\",\n          \"evidence\": \"for (int x = 0; x < str.length() - 1; x++)\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"moderate\"\n        },\n        {\n          \"gap\": \"Incorrect usage of `substring` method parameters (e.g., `substring(1, x - 1)` which can lead to `IndexOutOfBoundsException` or incorrect results). The approach of modifying the string being iterated over in place with `substring` and concatenation is also fundamentally flawed for building a new string based on the original.\",\n          \"evidence\": \"str = str.substring(1, x - 1) + \\\"+\\\" + str.substring(x, str.length());\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The overall strategy for building the result string by modifying the input string reference iteratively with `substring` and concatenation is incorrect and inefficient for the problem's goal.\",\n          \"evidence\": \"str = str.substring(1, x - 1) + \\\"+\\\" + str.substring(x, str.length());\",\n          \"missing_concept\": \"StringConcat\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"DefFunction\",\n          \"reason\": \"The student overwrites an input parameter, indicating a lack of understanding of how function parameters are meant to be used and the scope of the problem's requirements. This will impact any problem requiring careful handling of inputs.\",\n          \"prerequisite_gap\": \"Understanding how function parameters are passed and used as inputs.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicBoolean\",\n          \"reason\": \"The student attempted to use a `char` as a boolean condition, demonstrating a lack of understanding of what constitutes a valid boolean expression. This will cause issues in any problem involving conditional logic.\",\n          \"prerequisite_gap\": \"Understanding of boolean data type and how to form boolean expressions.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The off-by-one error in the loop condition suggests difficulty with precise iteration control, which is crucial for string processing and array manipulation.\",\n          \"prerequisite_gap\": \"Correctly defining loop bounds for iteration over sequences.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"Incorrect `substring` parameters and the general approach to string modification indicate a poor grasp of string indexing and how to extract or manipulate parts of a string. This is critical for any string-based problem.\",\n          \"prerequisite_gap\": \"Understanding of zero-based indexing and the behavior of `substring` method.\"\n        },\n        {\n          \"at_risk_topic\": \"StringConcat\",\n          \"reason\": \"The student's attempt to build the result string by repeatedly modifying the original string reference with `substring` and concatenation is inefficient and incorrect for the problem's goal, indicating a lack of understanding of how to effectively construct new strings from parts.\",\n          \"prerequisite_gap\": \"Understanding how to build new strings iteratively using concatenation or `StringBuilder`.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review fundamental Java syntax for conditional statements and boolean expressions. Practice string manipulation, focusing on `charAt()`, `substring()`, and how to build a new string iteratively (e.g., using a `StringBuilder` or by concatenating to a new result string). Pay close attention to loop boundaries and how to correctly use function parameters without inadvertently overwriting them.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Misunderstanding of function parameter usage\",\n      \"Incorrect use of boolean expressions\",\n      \"Off-by-one errors in loop conditions\",\n      \"Incorrect string indexing and substring usage\",\n      \"Ineffective string construction techniques\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"DefFunction\",\n      \"LogicBoolean\",\n      \"For\",\n      \"StringIndex\",\n      \"StringConcat\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "32",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Overwrites the input string 'str' with 'word' at the start, losing the original string that needs to be processed. This indicates a fundamental misunderstanding of how to use function parameters and the problem's requirements.",
+                "evidence": "str = word;",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              },
+              {
+                "gap": "Attempts to use a character (`char`) as a boolean condition in an `if` statement, which is a type mismatch and a fundamental Java syntax error.",
+                "evidence": "if (str.charAt(x))",
+                "missing_concept": "LogicBoolean",
+                "severity": "critical"
+              },
+              {
+                "gap": "Off-by-one error in loop condition, `x < str.length() - 1`, which may cause the loop to miss processing the last character or lead to `IndexOutOfBoundsException` with subsequent `substring` calls.",
+                "evidence": "for (int x = 0; x < str.length() - 1; x++)",
+                "missing_concept": "For",
+                "severity": "moderate"
+              },
+              {
+                "gap": "Incorrect usage of `substring` method parameters (e.g., `substring(1, x - 1)` which can lead to `IndexOutOfBoundsException` or incorrect results). The approach of modifying the string being iterated over in place with `substring` and concatenation is also fundamentally flawed for building a new string based on the original.",
+                "evidence": "str = str.substring(1, x - 1) + \"+\" + str.substring(x, str.length());",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "The overall strategy for building the result string by modifying the input string reference iteratively with `substring` and concatenation is incorrect and inefficient for the problem's goal.",
+                "evidence": "str = str.substring(1, x - 1) + \"+\" + str.substring(x, str.length());",
+                "missing_concept": "StringConcat",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "DefFunction",
+                "reason": "The student overwrites an input parameter, indicating a lack of understanding of how function parameters are meant to be used and the scope of the problem's requirements. This will impact any problem requiring careful handling of inputs.",
+                "prerequisite_gap": "Understanding how function parameters are passed and used as inputs."
+              },
+              {
+                "at_risk_topic": "LogicBoolean",
+                "reason": "The student attempted to use a `char` as a boolean condition, demonstrating a lack of understanding of what constitutes a valid boolean expression. This will cause issues in any problem involving conditional logic.",
+                "prerequisite_gap": "Understanding of boolean data type and how to form boolean expressions."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "The off-by-one error in the loop condition suggests difficulty with precise iteration control, which is crucial for string processing and array manipulation.",
+                "prerequisite_gap": "Correctly defining loop bounds for iteration over sequences."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "Incorrect `substring` parameters and the general approach to string modification indicate a poor grasp of string indexing and how to extract or manipulate parts of a string. This is critical for any string-based problem.",
+                "prerequisite_gap": "Understanding of zero-based indexing and the behavior of `substring` method."
+              },
+              {
+                "at_risk_topic": "StringConcat",
+                "reason": "The student's attempt to build the result string by repeatedly modifying the original string reference with `substring` and concatenation is inefficient and incorrect for the problem's goal, indicating a lack of understanding of how to effectively construct new strings from parts.",
+                "prerequisite_gap": "Understanding how to build new strings iteratively using concatenation or `StringBuilder`."
+              }
+            ],
+            "recommended_intervention": "Review fundamental Java syntax for conditional statements and boolean expressions. Practice string manipulation, focusing on `charAt()`, `substring()`, and how to build a new string iteratively (e.g., using a `StringBuilder` or by concatenating to a new result string). Pay close attention to loop boundaries and how to correctly use function parameters without inadvertently overwriting them."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Misunderstanding of function parameter usage",
+            "Incorrect use of boolean expressions",
+            "Off-by-one errors in loop conditions",
+            "Incorrect string indexing and substring usage",
+            "Ineffective string construction techniques"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "DefFunction",
+            "LogicBoolean",
+            "For",
+            "StringIndex",
+            "StringConcat"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 20.569,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "38": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"38\",\n      \"score\": 6.7,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Incorrectly compares String objects using '==' and '!=' operators instead of the 'equals()' method. This compares object references, not their content.\",\n          \"evidence\": \"str.substring(x, x + 3) == \\\"xyz\\\" && str.substring(x -1, x) != \\\".\\\"\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Fails to correctly handle string indexing and substring bounds, leading to potential IndexOutOfBoundsException. The loop condition 'x < str.length()' allows 'x' to go too high for 'str.substring(x, x + 3)', and 'str.substring(x - 1, x)' is called without checking if 'x' is greater than 0.\",\n          \"evidence\": \"for (int x = 0; x < str.length(); x++) { if ((str.substring(x, x + 3) == \\\"xyz\\\" && str.substring(x -1, x) != \\\".\\\") ...)\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Misunderstands the evaluation order and short-circuiting of logical AND (&&) operators. A boundary check 'x < str.length() - 4' is placed after 'substring' calls that could already throw an exception, indicating a lack of understanding of how to protect against runtime errors in complex conditions.\",\n          \"evidence\": \"if ((str.substring(x, x + 3) == \\\"xyz\\\" && str.substring(x -1, x) != \\\".\\\") && x < str.length() - 4)\",\n          \"missing_concept\": \"LogicAndNotOr\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Does not correctly implement the logic for returning true as soon as a valid occurrence is found. The loop continues after setting 'duh = true', which can lead to incorrect results if a later 'xyz' is invalid, overwriting the 'duh' flag.\",\n          \"evidence\": \"duh = true; ... } else { } } return duh;\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"moderate\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"This student will struggle with any problem requiring content comparison of String objects, as they are using reference comparison which is almost always incorrect for String content.\",\n          \"prerequisite_gap\": \"StringEqual\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"Problems involving string manipulation, especially those requiring precise indexing or substring extraction near boundaries, will be difficult due to a lack of understanding of how to prevent IndexOutOfBoundsException.\",\n          \"prerequisite_gap\": \"StringIndex\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student will likely struggle with loop-based string processing, array traversals, or any task requiring careful management of loop bounds and early exit conditions (e.g., 'find first' scenarios).\",\n          \"prerequisite_gap\": \"For\"\n        },\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"Complex conditional statements, especially those involving multiple parts and potential runtime errors, will be challenging due to a misunderstanding of logical operator precedence and short-circuit evaluation.\",\n          \"prerequisite_gap\": \"LogicAndNotOr\"\n        }\n      ],\n      \"recommended_intervention\": \"Review String comparison using '.equals()' and '.equalsIgnoreCase()'. Provide exercises focused on string indexing and substring extraction, emphasizing boundary conditions and preventing IndexOutOfBoundsException. Explain logical operator short-circuiting and how to structure conditions to prevent runtime errors. Practice problems requiring early returns from loops when a condition is met.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"String comparison using '==' instead of '.equals()'\",\n      \"Incorrect handling of string indexing and substring bounds\",\n      \"Misunderstanding of logical operator short-circuiting and condition evaluation order\",\n      \"Issues with loop termination logic for 'find' operations\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"StringEqual\",\n      \"StringIndex\",\n      \"For\",\n      \"LogicAndNotOr\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "38",
+            "score": 6.7,
+            "knowledge_gaps": [
+              {
+                "gap": "Incorrectly compares String objects using '==' and '!=' operators instead of the 'equals()' method. This compares object references, not their content.",
+                "evidence": "str.substring(x, x + 3) == \"xyz\" && str.substring(x -1, x) != \".\"",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              },
+              {
+                "gap": "Fails to correctly handle string indexing and substring bounds, leading to potential IndexOutOfBoundsException. The loop condition 'x < str.length()' allows 'x' to go too high for 'str.substring(x, x + 3)', and 'str.substring(x - 1, x)' is called without checking if 'x' is greater than 0.",
+                "evidence": "for (int x = 0; x < str.length(); x++) { if ((str.substring(x, x + 3) == \"xyz\" && str.substring(x -1, x) != \".\") ...)",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Misunderstands the evaluation order and short-circuiting of logical AND (&&) operators. A boundary check 'x < str.length() - 4' is placed after 'substring' calls that could already throw an exception, indicating a lack of understanding of how to protect against runtime errors in complex conditions.",
+                "evidence": "if ((str.substring(x, x + 3) == \"xyz\" && str.substring(x -1, x) != \".\") && x < str.length() - 4)",
+                "missing_concept": "LogicAndNotOr",
+                "severity": "critical"
+              },
+              {
+                "gap": "Does not correctly implement the logic for returning true as soon as a valid occurrence is found. The loop continues after setting 'duh = true', which can lead to incorrect results if a later 'xyz' is invalid, overwriting the 'duh' flag.",
+                "evidence": "duh = true; ... } else { } } return duh;",
+                "missing_concept": "For",
+                "severity": "moderate"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "This student will struggle with any problem requiring content comparison of String objects, as they are using reference comparison which is almost always incorrect for String content.",
+                "prerequisite_gap": "StringEqual"
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "Problems involving string manipulation, especially those requiring precise indexing or substring extraction near boundaries, will be difficult due to a lack of understanding of how to prevent IndexOutOfBoundsException.",
+                "prerequisite_gap": "StringIndex"
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "The student will likely struggle with loop-based string processing, array traversals, or any task requiring careful management of loop bounds and early exit conditions (e.g., 'find first' scenarios).",
+                "prerequisite_gap": "For"
+              },
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "Complex conditional statements, especially those involving multiple parts and potential runtime errors, will be challenging due to a misunderstanding of logical operator precedence and short-circuit evaluation.",
+                "prerequisite_gap": "LogicAndNotOr"
+              }
+            ],
+            "recommended_intervention": "Review String comparison using '.equals()' and '.equalsIgnoreCase()'. Provide exercises focused on string indexing and substring extraction, emphasizing boundary conditions and preventing IndexOutOfBoundsException. Explain logical operator short-circuiting and how to structure conditions to prevent runtime errors. Practice problems requiring early returns from loops when a condition is met."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "String comparison using '==' instead of '.equals()'",
+            "Incorrect handling of string indexing and substring bounds",
+            "Misunderstanding of logical operator short-circuiting and condition evaluation order",
+            "Issues with loop termination logic for 'find' operations"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "StringEqual",
+            "StringIndex",
+            "For",
+            "LogicAndNotOr"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 16.374,
+      "score": 0.0666667,
+      "invalid_kcs": []
+    },
+    "40": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"40\",\n      \"score\": 23.1,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Uses '==' operator to compare String content instead of the '.equals()' method, which incorrectly compares object references.\",\n          \"evidence\": \"str.substring(0, 6) == \\\"bread\\\"\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incorrectly calculates substring bounds (off-by-one error for 'bread' length) and misunderstands how to dynamically locate the first and last occurrences of a substring within a larger string. The student assumes 'bread' is always at the very beginning and very end, rather than using methods like indexOf() or lastIndexOf().\",\n          \"evidence\": \"str.substring(0, 6), str.substring(str.length() -5, str.length()), return str.substring(5, str.length() - 5)\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"This is a fundamental misunderstanding of how String objects are compared in Java, which will lead to incorrect logic in any problem requiring string content comparison.\",\n          \"prerequisite_gap\": \"Understanding the difference between comparing primitive types with '==' and comparing object content with '.equals()' in Java.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student struggles with accurately determining substring start/end indices and with the conceptual approach to finding dynamic patterns within strings. This will hinder any task involving parsing, extracting, or manipulating parts of strings based on their content or position.\",\n          \"prerequisite_gap\": \"Thorough understanding of String methods like indexOf(), lastIndexOf(), and substring(), including careful attention to start and end index parameters.\"\n        }\n      ],\n      \"recommended_intervention\": \"Provide targeted exercises on String comparison, emphasizing the use of `.equals()` for content comparison. Review `String.indexOf()`, `String.lastIndexOf()`, and `String.substring()` with examples that require finding and extracting dynamic parts of a string, not just fixed positions.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"StringEqual\",\n      \"StringIndex\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "40",
+            "score": 23.1,
+            "knowledge_gaps": [
+              {
+                "gap": "Uses '==' operator to compare String content instead of the '.equals()' method, which incorrectly compares object references.",
+                "evidence": "str.substring(0, 6) == \"bread\"",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incorrectly calculates substring bounds (off-by-one error for 'bread' length) and misunderstands how to dynamically locate the first and last occurrences of a substring within a larger string. The student assumes 'bread' is always at the very beginning and very end, rather than using methods like indexOf() or lastIndexOf().",
+                "evidence": "str.substring(0, 6), str.substring(str.length() -5, str.length()), return str.substring(5, str.length() - 5)",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "This is a fundamental misunderstanding of how String objects are compared in Java, which will lead to incorrect logic in any problem requiring string content comparison.",
+                "prerequisite_gap": "Understanding the difference between comparing primitive types with '==' and comparing object content with '.equals()' in Java."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student struggles with accurately determining substring start/end indices and with the conceptual approach to finding dynamic patterns within strings. This will hinder any task involving parsing, extracting, or manipulating parts of strings based on their content or position.",
+                "prerequisite_gap": "Thorough understanding of String methods like indexOf(), lastIndexOf(), and substring(), including careful attention to start and end index parameters."
+              }
+            ],
+            "recommended_intervention": "Provide targeted exercises on String comparison, emphasizing the use of `.equals()` for content comparison. Review `String.indexOf()`, `String.lastIndexOf()`, and `String.substring()` with examples that require finding and extracting dynamic parts of a string, not just fixed positions."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "StringEqual",
+            "StringIndex"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 14.619,
+      "score": 0.230769,
+      "invalid_kcs": []
+    },
+    "43": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"43\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Attempts to use an 'add' method on a primitive int array, which is not supported. This indicates a misunderstanding of how to assign values to elements in a fixed-size array.\",\n          \"evidence\": \"newNums.add(nums[0]);\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incorrect syntax for returning an array from a method. Uses 'newNums[].class' instead of simply 'newNums'.\",\n          \"evidence\": \"return newNums[].class;\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Fails to handle the edge case where the input array 'nums' has fewer than 2 elements, leading to potential ArrayIndexOutOfBoundsException when accessing nums[0] and nums[1].\",\n          \"evidence\": \"newNums.add(nums[0]); newNums.add(nums[1]); (without length check)\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The student fundamentally misunderstands how to assign values to array elements and handle array bounds, which is critical for all array manipulations.\",\n          \"prerequisite_gap\": \"Understanding array declaration, initialization, element access, and the concept of array length.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The student did not implement conditional logic to check array length, which is essential for preventing runtime errors and handling varying input sizes in many programming problems.\",\n          \"prerequisite_gap\": \"Understanding how to use conditional statements to control program flow based on specific conditions.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"Without a clear understanding of array indexing and bounds, the student will struggle to correctly iterate over arrays using loops, which is a common task.\",\n          \"prerequisite_gap\": \"Solid understanding of ArrayIndex and If/Else for loop conditions and element access.\"\n        },\n        {\n          \"at_risk_topic\": \"DefFunction\",\n          \"reason\": \"The incorrect return statement for an array indicates a weakness in understanding method signatures, return types, and how to correctly return complex data structures from methods.\",\n          \"prerequisite_gap\": \"Understanding the basic structure of methods, including parameters and return types.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the basics of array declaration, initialization, and element assignment using index notation. Provide examples of handling array bounds with if-else statements. Revisit method return types, especially for arrays, and practice returning different data types from methods.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"ArrayIndex\",\n      \"If/Else\",\n      \"DefFunction\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"Single-Dimensional Arrays\",\n      \"Selections\",\n      \"Methods\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "43",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Attempts to use an 'add' method on a primitive int array, which is not supported. This indicates a misunderstanding of how to assign values to elements in a fixed-size array.",
+                "evidence": "newNums.add(nums[0]);",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incorrect syntax for returning an array from a method. Uses 'newNums[].class' instead of simply 'newNums'.",
+                "evidence": "return newNums[].class;",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              },
+              {
+                "gap": "Fails to handle the edge case where the input array 'nums' has fewer than 2 elements, leading to potential ArrayIndexOutOfBoundsException when accessing nums[0] and nums[1].",
+                "evidence": "newNums.add(nums[0]); newNums.add(nums[1]); (without length check)",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The student fundamentally misunderstands how to assign values to array elements and handle array bounds, which is critical for all array manipulations.",
+                "prerequisite_gap": "Understanding array declaration, initialization, element access, and the concept of array length."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The student did not implement conditional logic to check array length, which is essential for preventing runtime errors and handling varying input sizes in many programming problems.",
+                "prerequisite_gap": "Understanding how to use conditional statements to control program flow based on specific conditions."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "Without a clear understanding of array indexing and bounds, the student will struggle to correctly iterate over arrays using loops, which is a common task.",
+                "prerequisite_gap": "Solid understanding of ArrayIndex and If/Else for loop conditions and element access."
+              },
+              {
+                "at_risk_topic": "DefFunction",
+                "reason": "The incorrect return statement for an array indicates a weakness in understanding method signatures, return types, and how to correctly return complex data structures from methods.",
+                "prerequisite_gap": "Understanding the basic structure of methods, including parameters and return types."
+              }
+            ],
+            "recommended_intervention": "Review the basics of array declaration, initialization, and element assignment using index notation. Provide examples of handling array bounds with if-else statements. Revisit method return types, especially for arrays, and practice returning different data types from methods."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "ArrayIndex",
+            "If/Else",
+            "DefFunction"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "Single-Dimensional Arrays",
+            "Selections",
+            "Methods"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 10.694,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "45": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"45\",\n      \"score\": 33.3,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student's conditional logic only excludes the numbers 6 and 7 themselves, failing to implement the requirement to ignore an entire section of numbers starting with a 6 and extending to the next 7. This demonstrates a misunderstanding of how to structure `if` statements to manage a sequential state within a loop.\",\n          \"evidence\": \"if (nums[i] != 6 && nums[i] != 7)\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The student did not consider using a boolean flag or similar state variable to track whether the current iteration is within an 'ignore' section (i.e., after a 6 has been encountered but before a 7). This is a common pattern for problems requiring conditional behavior based on a sequence of inputs.\",\n          \"evidence\": \"No boolean flag or state variable used to track 'in ignore section'.\",\n          \"missing_concept\": \"LogicBoolean\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"NestedIf\",\n          \"reason\": \"Problems requiring multiple levels of conditional checks or state management (e.g., if a condition is true AND another flag is set) will be difficult, as the student struggled with basic state management in a single loop.\",\n          \"prerequisite_gap\": \"Understanding how to use If/Else statements to manage complex flow and state.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"Any loop problem requiring state management or skipping sections based on conditions will be challenging, as the student could not implement this basic state logic within a for loop.\",\n          \"prerequisite_gap\": \"Understanding how to use If/Else and LogicBoolean to control loop behavior based on sequential conditions.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicBoolean\",\n          \"reason\": \"The student's inability to conceptualize and use a boolean flag for state management indicates a fundamental gap in applying boolean logic to control program flow over time.\",\n          \"prerequisite_gap\": \"Understanding the boolean data type and its effective use in conditional expressions and state variables.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review examples of using boolean flags to manage state within loops. Provide problems that require skipping sections or performing different actions based on a sequence of inputs, emphasizing how to update and check the state variable using if/else statements.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"If/Else\",\n      \"LogicBoolean\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"Selections (Chapter 3 - especially complex conditional logic and boolean expressions)\",\n      \"Loops (Chapter 4 - focusing on controlling loop flow with conditions and state variables)\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "45",
+            "score": 33.3,
+            "knowledge_gaps": [
+              {
+                "gap": "The student's conditional logic only excludes the numbers 6 and 7 themselves, failing to implement the requirement to ignore an entire section of numbers starting with a 6 and extending to the next 7. This demonstrates a misunderstanding of how to structure `if` statements to manage a sequential state within a loop.",
+                "evidence": "if (nums[i] != 6 && nums[i] != 7)",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              },
+              {
+                "gap": "The student did not consider using a boolean flag or similar state variable to track whether the current iteration is within an 'ignore' section (i.e., after a 6 has been encountered but before a 7). This is a common pattern for problems requiring conditional behavior based on a sequence of inputs.",
+                "evidence": "No boolean flag or state variable used to track 'in ignore section'.",
+                "missing_concept": "LogicBoolean",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "NestedIf",
+                "reason": "Problems requiring multiple levels of conditional checks or state management (e.g., if a condition is true AND another flag is set) will be difficult, as the student struggled with basic state management in a single loop.",
+                "prerequisite_gap": "Understanding how to use If/Else statements to manage complex flow and state."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "Any loop problem requiring state management or skipping sections based on conditions will be challenging, as the student could not implement this basic state logic within a for loop.",
+                "prerequisite_gap": "Understanding how to use If/Else and LogicBoolean to control loop behavior based on sequential conditions."
+              },
+              {
+                "at_risk_topic": "LogicBoolean",
+                "reason": "The student's inability to conceptualize and use a boolean flag for state management indicates a fundamental gap in applying boolean logic to control program flow over time.",
+                "prerequisite_gap": "Understanding the boolean data type and its effective use in conditional expressions and state variables."
+              }
+            ],
+            "recommended_intervention": "Review examples of using boolean flags to manage state within loops. Provide problems that require skipping sections or performing different actions based on a sequence of inputs, emphasizing how to update and check the state variable using if/else statements."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "If/Else",
+            "LogicBoolean"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "Selections (Chapter 3 - especially complex conditional logic and boolean expressions)",
+            "Loops (Chapter 4 - focusing on controlling loop flow with conditions and state variables)"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 19.473,
+      "score": 0.333333,
+      "invalid_kcs": []
+    },
+    "46": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"46\",\n      \"score\": 72.2,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student incorrectly uses a boolean flag (`everywhere`) inside the loop. Instead of returning `false` immediately upon finding a failing pair, or only setting the flag to `false` and breaking, the flag is overwritten in each iteration. This means the final returned value only reflects the condition of the *last* pair checked, rather than ensuring *all* pairs satisfy the condition.\",\n          \"evidence\": \"for (int i = 0; i < nums.length - 1; i ++)\\n{\\n    if ((nums[i] == val || nums[i + 1] == val))\\n    {\\n        everywhere = true; \\n    }\\n    else\\n    {\\n        everywhere = false;   \\n    }\\n}\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The student's handling of edge cases for array lengths is inconsistent. While returning `true` for an empty array (length 0) can be considered vacuously true, for a single-element array (length 1), the code returns `true` only if the element matches `val`, and `false` otherwise. This inconsistency suggests a lack of a clear, consistent interpretation of how the 'everywhere' condition applies to arrays with fewer than two elements, which have no 'adjacent pairs'.\",\n          \"evidence\": \"if (nums.length == 1 && nums[0] == val)\\n{\\n    return true;\\n}\\nelse if (nums.length == 0)\\n{\\n return true;   \\n}\",\n          \"missing_concept\": \"LogicBoolean\",\n          \"severity\": \"moderate\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student struggles with fundamental loop patterns for checking conditions across all elements of a collection. This will impact any problem requiring iteration to verify a universal condition ('all X are Y') or to find the first instance of a failure ('find first X that is not Y').\",\n          \"prerequisite_gap\": \"Understanding how to correctly manage a boolean flag within a loop to accumulate a result that depends on all iterations, and the concept of short-circuiting a loop when a condition fails.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"If the student struggles with single loop conditions, they will likely face greater difficulty in problems requiring nested loops to check conditions across multiple dimensions or combinations of elements.\",\n          \"prerequisite_gap\": \"Mastery of single-loop logic for universal quantification and early exit conditions.\"\n        },\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"Inconsistent handling of array edge cases (empty, single-element) indicates a potential for `ArrayIndexOutOfBoundsException` in future problems if these cases are not carefully considered, especially when dealing with more complex array manipulations or multi-dimensional arrays.\",\n          \"prerequisite_gap\": \"Careful consideration of array lengths and bounds when accessing elements, and consistent interpretation of problem constraints for edge cases.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review common loop patterns for checking conditions across collections: 1) 'find any' (return true on first match, false otherwise), and 2) 'check all' (return false on first mismatch, true otherwise). Emphasize how boolean flags should be used to track state across iterations, and the importance of early exit (`return` or `break`) when a definitive answer is found. Discuss how to consistently interpret edge cases like empty or single-element arrays based on problem statements.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"LogicBoolean\",\n      \"ArrayIndex\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "46",
+            "score": 72.2,
+            "knowledge_gaps": [
+              {
+                "gap": "The student incorrectly uses a boolean flag (`everywhere`) inside the loop. Instead of returning `false` immediately upon finding a failing pair, or only setting the flag to `false` and breaking, the flag is overwritten in each iteration. This means the final returned value only reflects the condition of the *last* pair checked, rather than ensuring *all* pairs satisfy the condition.",
+                "evidence": "for (int i = 0; i < nums.length - 1; i ++)\n{\n    if ((nums[i] == val || nums[i + 1] == val))\n    {\n        everywhere = true; \n    }\n    else\n    {\n        everywhere = false;   \n    }\n}",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "The student's handling of edge cases for array lengths is inconsistent. While returning `true` for an empty array (length 0) can be considered vacuously true, for a single-element array (length 1), the code returns `true` only if the element matches `val`, and `false` otherwise. This inconsistency suggests a lack of a clear, consistent interpretation of how the 'everywhere' condition applies to arrays with fewer than two elements, which have no 'adjacent pairs'.",
+                "evidence": "if (nums.length == 1 && nums[0] == val)\n{\n    return true;\n}\nelse if (nums.length == 0)\n{\n return true;   \n}",
+                "missing_concept": "LogicBoolean",
+                "severity": "moderate"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "For",
+                "reason": "The student struggles with fundamental loop patterns for checking conditions across all elements of a collection. This will impact any problem requiring iteration to verify a universal condition ('all X are Y') or to find the first instance of a failure ('find first X that is not Y').",
+                "prerequisite_gap": "Understanding how to correctly manage a boolean flag within a loop to accumulate a result that depends on all iterations, and the concept of short-circuiting a loop when a condition fails."
+              },
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "If the student struggles with single loop conditions, they will likely face greater difficulty in problems requiring nested loops to check conditions across multiple dimensions or combinations of elements.",
+                "prerequisite_gap": "Mastery of single-loop logic for universal quantification and early exit conditions."
+              },
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "Inconsistent handling of array edge cases (empty, single-element) indicates a potential for `ArrayIndexOutOfBoundsException` in future problems if these cases are not carefully considered, especially when dealing with more complex array manipulations or multi-dimensional arrays.",
+                "prerequisite_gap": "Careful consideration of array lengths and bounds when accessing elements, and consistent interpretation of problem constraints for edge cases."
+              }
+            ],
+            "recommended_intervention": "Review common loop patterns for checking conditions across collections: 1) 'find any' (return true on first match, false otherwise), and 2) 'check all' (return false on first mismatch, true otherwise). Emphasize how boolean flags should be used to track state across iterations, and the importance of early exit (`return` or `break`) when a definitive answer is found. Discuss how to consistently interpret edge cases like empty or single-element arrays based on problem statements."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "LogicBoolean",
+            "ArrayIndex"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 28.396,
+      "score": 0.722222,
+      "invalid_kcs": []
+    },
+    "51": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"51\",\n      \"score\": 76.9,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student fails to handle array boundary conditions when a target element (a multiple of 10) is not found in the array. After a 'while' loop that searches for the first multiple of 10, the code attempts to access 'nums[count]' without checking if 'count' has reached 'nums.length', leading to an ArrayIndexOutOfBoundsException for inputs like {1, 2, 3}.\",\n          \"evidence\": \"answer = nums[count]; // This line crashes if no multiple of 10 is found and 'count' equals 'nums.length'.\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The student's current code demonstrates a fundamental misunderstanding of array boundary checks, particularly when a loop might increment an index beyond the valid range. This will lead to similar runtime errors in any problem involving array traversal, searching, or manipulation where such checks are crucial.\",\n          \"prerequisite_gap\": \"ArrayIndex\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The student needs to learn to use conditional statements to guard against invalid array accesses and to handle specific edge cases (e.g., an array with no multiples of 10). The current crash could be prevented with a simple 'if (count < nums.length)' check before accessing 'nums[count]'.\",\n          \"prerequisite_gap\": \"If/Else\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The design of the loop structure, particularly how the 'answer' variable is initialized and updated, implicitly assumes a multiple of 10 will always be found. This indicates a need for more robust loop design that explicitly manages state variables and handles scenarios where initial conditions are not met.\",\n          \"prerequisite_gap\": \"For\"\n        },\n        {\n          \"at_risk_topic\": \"While\",\n          \"reason\": \"Similar to the 'For' loop, the 'while' loop is used to find an initial state, but the subsequent code does not correctly account for the 'while' loop completing without finding the desired element. This shows a need for better understanding of how to handle post-loop conditions and the state of variables after a loop terminates.\",\n          \"prerequisite_gap\": \"While\"\n        }\n      ],\n      \"recommended_intervention\": \"Provide targeted exercises on array boundary checks and defensive programming. Focus on scenarios where loops might not find a target element, requiring explicit 'if' statements to prevent ArrayIndexOutOfBoundsExceptions. Discuss how to initialize and manage state variables (like 'answer') robustly, considering all possible input conditions, including empty arrays or arrays where the target condition is never met.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"ArrayIndex (boundary conditions)\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"Single-Dimensional Arrays (Array basics and declaration, Accessing and modifying array elements, Processing arrays with loops)\",\n      \"Selections (if statements, Common errors in selection statements)\",\n      \"Loops (while loop, Loop design and loop continuation condition)\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "51",
+            "score": 76.9,
+            "knowledge_gaps": [
+              {
+                "gap": "The student fails to handle array boundary conditions when a target element (a multiple of 10) is not found in the array. After a 'while' loop that searches for the first multiple of 10, the code attempts to access 'nums[count]' without checking if 'count' has reached 'nums.length', leading to an ArrayIndexOutOfBoundsException for inputs like {1, 2, 3}.",
+                "evidence": "answer = nums[count]; // This line crashes if no multiple of 10 is found and 'count' equals 'nums.length'.",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The student's current code demonstrates a fundamental misunderstanding of array boundary checks, particularly when a loop might increment an index beyond the valid range. This will lead to similar runtime errors in any problem involving array traversal, searching, or manipulation where such checks are crucial.",
+                "prerequisite_gap": "ArrayIndex"
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The student needs to learn to use conditional statements to guard against invalid array accesses and to handle specific edge cases (e.g., an array with no multiples of 10). The current crash could be prevented with a simple 'if (count < nums.length)' check before accessing 'nums[count]'.",
+                "prerequisite_gap": "If/Else"
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "The design of the loop structure, particularly how the 'answer' variable is initialized and updated, implicitly assumes a multiple of 10 will always be found. This indicates a need for more robust loop design that explicitly manages state variables and handles scenarios where initial conditions are not met.",
+                "prerequisite_gap": "For"
+              },
+              {
+                "at_risk_topic": "While",
+                "reason": "Similar to the 'For' loop, the 'while' loop is used to find an initial state, but the subsequent code does not correctly account for the 'while' loop completing without finding the desired element. This shows a need for better understanding of how to handle post-loop conditions and the state of variables after a loop terminates.",
+                "prerequisite_gap": "While"
+              }
+            ],
+            "recommended_intervention": "Provide targeted exercises on array boundary checks and defensive programming. Focus on scenarios where loops might not find a target element, requiring explicit 'if' statements to prevent ArrayIndexOutOfBoundsExceptions. Discuss how to initialize and manage state variables (like 'answer') robustly, considering all possible input conditions, including empty arrays or arrays where the target condition is never met."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "ArrayIndex (boundary conditions)"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "Single-Dimensional Arrays (Array basics and declaration, Accessing and modifying array elements, Processing arrays with loops)",
+            "Selections (if statements, Common errors in selection statements)",
+            "Loops (while loop, Loop design and loop continuation condition)"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 24.988,
+      "score": 0.769231,
+      "invalid_kcs": []
+    },
+    "67": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"67\",\n      \"score\": 20.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Attempts to access array elements beyond its bounds (e.g., nums[i+1], nums[i+2]) without correctly adjusting the loop's termination condition or adding sufficient boundary checks within the loop, leading to potential ArrayIndexOutOfBoundsException.\",\n          \"evidence\": \"for (int i = 0; i <nums.length; i++) { if (nums[i] == 7 && nums[i + 1] == 7 ...) else if (nums[i] == 7 && nums[i + 2] == 7 ...) }\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incorrectly resets the boolean flag 'seven' to false in the 'else' block within the loop. This causes the function to only reflect the result of the *last* iteration, overwriting any 'true' findings from earlier iterations. The student doesn't understand how to maintain a state (like 'found a match') across loop iterations or how to return early once a match is found.\",\n          \"evidence\": \"else { seven = false; }\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"Any problem requiring iteration through arrays and accessing elements with offsets (e.g., i+1, i-1, i+k) will likely result in off-by-one errors or ArrayIndexOutOfBoundsExceptions. This is a fundamental misunderstanding of array boundaries.\",\n          \"prerequisite_gap\": \"Understanding array indexing and length property\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"Problems requiring a boolean flag to track a condition across iterations, or where an early return is optimal/necessary, will be difficult. The student struggles with managing state within a loop and understanding when to terminate or preserve a result.\",\n          \"prerequisite_gap\": \"Correct use of boolean flags and control flow (return/break) within loops\"\n        },\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"If the student struggles with single-loop logic and array indexing, these issues will be compounded in nested loops, making it harder to manage multiple indices and their respective bounds.\",\n          \"prerequisite_gap\": \"Solid understanding of single 'For' loop logic and 'ArrayIndex'\"\n        },\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"While not the primary error, the boundary checks like `i <= nums.length - 1` are either redundant or incorrectly placed. A stronger grasp of combining conditions with logical operators would help in writing more robust and concise boundary checks.\",\n          \"prerequisite_gap\": \"Understanding logical operators and their application in complex conditions\"\n        }\n      ],\n      \"recommended_intervention\": \"Review array indexing thoroughly, emphasizing how `i+1` or `i+2` affects the maximum valid index. Practice drawing out array indices. Explain the correct use of boolean flags in loops: once a condition is met, either return immediately or ensure the flag is not reset by subsequent iterations. Discuss the `break` keyword and early `return` from a method.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"ArrayIndex\",\n      \"For\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"Single-Dimensional Arrays\",\n      \"Loops\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "67",
+            "score": 20.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Attempts to access array elements beyond its bounds (e.g., nums[i+1], nums[i+2]) without correctly adjusting the loop's termination condition or adding sufficient boundary checks within the loop, leading to potential ArrayIndexOutOfBoundsException.",
+                "evidence": "for (int i = 0; i <nums.length; i++) { if (nums[i] == 7 && nums[i + 1] == 7 ...) else if (nums[i] == 7 && nums[i + 2] == 7 ...) }",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incorrectly resets the boolean flag 'seven' to false in the 'else' block within the loop. This causes the function to only reflect the result of the *last* iteration, overwriting any 'true' findings from earlier iterations. The student doesn't understand how to maintain a state (like 'found a match') across loop iterations or how to return early once a match is found.",
+                "evidence": "else { seven = false; }",
+                "missing_concept": "For",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "Any problem requiring iteration through arrays and accessing elements with offsets (e.g., i+1, i-1, i+k) will likely result in off-by-one errors or ArrayIndexOutOfBoundsExceptions. This is a fundamental misunderstanding of array boundaries.",
+                "prerequisite_gap": "Understanding array indexing and length property"
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "Problems requiring a boolean flag to track a condition across iterations, or where an early return is optimal/necessary, will be difficult. The student struggles with managing state within a loop and understanding when to terminate or preserve a result.",
+                "prerequisite_gap": "Correct use of boolean flags and control flow (return/break) within loops"
+              },
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "If the student struggles with single-loop logic and array indexing, these issues will be compounded in nested loops, making it harder to manage multiple indices and their respective bounds.",
+                "prerequisite_gap": "Solid understanding of single 'For' loop logic and 'ArrayIndex'"
+              },
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "While not the primary error, the boundary checks like `i <= nums.length - 1` are either redundant or incorrectly placed. A stronger grasp of combining conditions with logical operators would help in writing more robust and concise boundary checks.",
+                "prerequisite_gap": "Understanding logical operators and their application in complex conditions"
+              }
+            ],
+            "recommended_intervention": "Review array indexing thoroughly, emphasizing how `i+1` or `i+2` affects the maximum valid index. Practice drawing out array indices. Explain the correct use of boolean flags in loops: once a condition is met, either return immediately or ensure the flag is not reset by subsequent iterations. Discuss the `break` keyword and early `return` from a method."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "ArrayIndex",
+            "For"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "Single-Dimensional Arrays",
+            "Loops"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 10.867,
+      "score": 0.2,
+      "invalid_kcs": []
+    },
+    "70": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"70\",\n      \"score\": 47.6,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Attempts to access an array element beyond its bounds (nums[i+1]) without checking if i+1 is a valid index, leading to an ArrayIndexOutOfBoundsException when 'i' is the last index.\",\n          \"evidence\": \"if (nums[i] == 2 && (nums[i + 1] == 2))\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Prematurely returns 'true' as soon as a single pair of adjacent '2's is found. The problem requires checking if *every* '2' in the array is next to another '2', meaning the loop must continue to verify all instances or find a counter-example.\",\n          \"evidence\": \"if (nums[i] == 2 && (nums[i + 1] == 2)) { bool = true; return bool; }\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Misunderstands the overall boolean logic needed to solve the problem. The current approach of setting a boolean flag based on individual elements and then returning it, or resetting it in an 'else' block, does not correctly implement the 'every X satisfies Y' condition.\",\n          \"evidence\": \"boolean bool = false; ... if (...) { bool = true; return bool; } else { bool = false; }\",\n          \"missing_concept\": \"LogicBoolean\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"Struggles with array boundary conditions will cause issues in any problem involving array traversal, especially when accessing elements relative to the current index (e.g., i-1, i+1) or in multi-dimensional arrays.\",\n          \"prerequisite_gap\": \"Understanding array length, zero-based indexing, and how to prevent off-by-one errors.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The premature return indicates a lack of understanding of how to use loops to verify conditions that must hold for *all* elements in a collection, or how to correctly find a counter-example. This will impact problems requiring full array traversal or complex state management within a loop.\",\n          \"prerequisite_gap\": \"Understanding loop continuation conditions and when to exit a loop based on problem requirements.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"The problem requires careful construction of logical conditions to identify a '2' that *does not* have an adjacent '2'. The student's current boolean logic is too simplistic, suggesting difficulty in combining multiple conditions correctly with logical operators.\",\n          \"prerequisite_gap\": \"Understanding how to combine multiple conditions using logical operators (&&, ||, !) to form complex truth statements.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedIf\",\n          \"reason\": \"Correctly handling the 'every 2 is next to another 2' condition often involves checking multiple conditions (e.g., 'is current element 2?' AND 'is left neighbor 2 OR right neighbor 2?'). This requires careful nesting or combining of if statements and logical operators, which the student's current approach does not demonstrate.\",\n          \"prerequisite_gap\": \"Solid understanding of basic if/else statements and how to structure conditional logic for complex scenarios.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review array indexing and boundary checks, emphasizing common off-by-one errors when accessing adjacent elements. Provide examples of problems where a loop must complete its full iteration to verify a condition (e.g., 'is array sorted?'). Discuss strategies for translating 'every X satisfies Y' into code, often by iterating and looking for 'an X that *does not* satisfy Y' and returning false immediately, returning true only if no such X is found after the loop completes.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"ArrayIndex\",\n      \"For\",\n      \"LogicBoolean\",\n      \"LogicAndNotOr\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "70",
+            "score": 47.6,
+            "knowledge_gaps": [
+              {
+                "gap": "Attempts to access an array element beyond its bounds (nums[i+1]) without checking if i+1 is a valid index, leading to an ArrayIndexOutOfBoundsException when 'i' is the last index.",
+                "evidence": "if (nums[i] == 2 && (nums[i + 1] == 2))",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Prematurely returns 'true' as soon as a single pair of adjacent '2's is found. The problem requires checking if *every* '2' in the array is next to another '2', meaning the loop must continue to verify all instances or find a counter-example.",
+                "evidence": "if (nums[i] == 2 && (nums[i + 1] == 2)) { bool = true; return bool; }",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "Misunderstands the overall boolean logic needed to solve the problem. The current approach of setting a boolean flag based on individual elements and then returning it, or resetting it in an 'else' block, does not correctly implement the 'every X satisfies Y' condition.",
+                "evidence": "boolean bool = false; ... if (...) { bool = true; return bool; } else { bool = false; }",
+                "missing_concept": "LogicBoolean",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "Struggles with array boundary conditions will cause issues in any problem involving array traversal, especially when accessing elements relative to the current index (e.g., i-1, i+1) or in multi-dimensional arrays.",
+                "prerequisite_gap": "Understanding array length, zero-based indexing, and how to prevent off-by-one errors."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "The premature return indicates a lack of understanding of how to use loops to verify conditions that must hold for *all* elements in a collection, or how to correctly find a counter-example. This will impact problems requiring full array traversal or complex state management within a loop.",
+                "prerequisite_gap": "Understanding loop continuation conditions and when to exit a loop based on problem requirements."
+              },
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "The problem requires careful construction of logical conditions to identify a '2' that *does not* have an adjacent '2'. The student's current boolean logic is too simplistic, suggesting difficulty in combining multiple conditions correctly with logical operators.",
+                "prerequisite_gap": "Understanding how to combine multiple conditions using logical operators (&&, ||, !) to form complex truth statements."
+              },
+              {
+                "at_risk_topic": "NestedIf",
+                "reason": "Correctly handling the 'every 2 is next to another 2' condition often involves checking multiple conditions (e.g., 'is current element 2?' AND 'is left neighbor 2 OR right neighbor 2?'). This requires careful nesting or combining of if statements and logical operators, which the student's current approach does not demonstrate.",
+                "prerequisite_gap": "Solid understanding of basic if/else statements and how to structure conditional logic for complex scenarios."
+              }
+            ],
+            "recommended_intervention": "Review array indexing and boundary checks, emphasizing common off-by-one errors when accessing adjacent elements. Provide examples of problems where a loop must complete its full iteration to verify a condition (e.g., 'is array sorted?'). Discuss strategies for translating 'every X satisfies Y' into code, often by iterating and looking for 'an X that *does not* satisfy Y' and returning false immediately, returning true only if no such X is found after the loop completes."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "ArrayIndex",
+            "For",
+            "LogicBoolean",
+            "LogicAndNotOr"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 17.544,
+      "score": 0.4761899999999999,
+      "invalid_kcs": []
+    },
+    "71": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"71\",\n      \"score\": 56.2,\n      \"knowledge_gaps\": [],\n      \"future_predictions\": [],\n      \"recommended_intervention\": \"The student has not attempted to implement any logic for the problem. The current submission simply returns a boolean literal. It is recommended to review problem decomposition strategies and basic algorithm design, focusing on how to translate problem requirements into iterative and conditional code structures.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": []\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "71",
+            "score": 56.2,
+            "knowledge_gaps": [],
+            "future_predictions": [],
+            "recommended_intervention": "The student has not attempted to implement any logic for the problem. The current submission simply returns a boolean literal. It is recommended to review problem decomposition strategies and basic algorithm design, focusing on how to translate problem requirements into iterative and conditional code structures."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": []
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 8.894,
+      "score": 0.5625,
+      "invalid_kcs": []
+    },
+    "101": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"101\",\n      \"score\": 72.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misapplication of the modulo operator to determine the required small bars. The student calculates `goal % 5` directly, failing to account for the actual number of `big` bars available to first satisfy the goal.\",\n          \"evidence\": \"small = goal % 5;\",\n          \"missing_concept\": \"Math%\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Misunderstanding of input parameters and basic arithmetic. The student incorrectly attempts to divide the `big` parameter (which is already a count of 5kg bars) by 5, indicating confusion about the problem's given values.\",\n          \"evidence\": \"int bignum = big / 5;\",\n          \"missing_concept\": \"Math+-*/\",\n          \"severity\": \"moderate\"\n        },\n        {\n          \"gap\": \"Incomplete conditional logic. The `else` block, which should contain the core calculation for the number of small bars when the goal is achievable, simply reassigns the `small` variable to its current (incorrect) value, demonstrating a lack of understanding of how to implement the solution's logic within conditional branches.\",\n          \"evidence\": \"else { small = small; }\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"Math+-*/\",\n          \"reason\": \"The student struggled to correctly apply arithmetic operators to break down the problem into sub-problems (e.g., how many big bars, what's the remainder) and misinterpreted input parameters.\",\n          \"prerequisite_gap\": \"Understanding how to use division and multiplication to calculate quantities and how to sequence these operations based on problem constraints.\"\n        },\n        {\n          \"at_risk_topic\": \"Math%\",\n          \"reason\": \"The student incorrectly used the modulo operator without considering the preceding steps of using larger units, indicating a misunderstanding of its appropriate application in multi-step problems.\",\n          \"prerequisite_gap\": \"Understanding how to use the modulo operator to find remainders in the context of available resources and remaining goals.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The student failed to implement the necessary logic within a conditional branch, indicating a gap in structuring solutions with `if-else` to handle different scenarios correctly.\",\n          \"prerequisite_gap\": \"Ability to define clear conditions and implement distinct, correct logic for each branch of a conditional statement.\"\n        }\n      ],\n      \"recommended_intervention\": \"Guide the student through a step-by-step breakdown of similar problems, emphasizing how to first maximize the use of larger units (like big bars), calculate the remainder, and then determine if smaller units can cover that remainder. Focus on translating these steps into correct arithmetic operations and complete conditional logic within the code.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Incorrect application of arithmetic operators (modulo, division) in multi-step problem-solving\",\n      \"Incomplete or incorrect logic within conditional statements\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"Elementary Programming: Arithmetic Operators and Expressions\",\n      \"Selections: if-else statements and logical flow\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "101",
+            "score": 72.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Misapplication of the modulo operator to determine the required small bars. The student calculates `goal % 5` directly, failing to account for the actual number of `big` bars available to first satisfy the goal.",
+                "evidence": "small = goal % 5;",
+                "missing_concept": "Math%",
+                "severity": "critical"
+              },
+              {
+                "gap": "Misunderstanding of input parameters and basic arithmetic. The student incorrectly attempts to divide the `big` parameter (which is already a count of 5kg bars) by 5, indicating confusion about the problem's given values.",
+                "evidence": "int bignum = big / 5;",
+                "missing_concept": "Math+-*/",
+                "severity": "moderate"
+              },
+              {
+                "gap": "Incomplete conditional logic. The `else` block, which should contain the core calculation for the number of small bars when the goal is achievable, simply reassigns the `small` variable to its current (incorrect) value, demonstrating a lack of understanding of how to implement the solution's logic within conditional branches.",
+                "evidence": "else { small = small; }",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "Math+-*/",
+                "reason": "The student struggled to correctly apply arithmetic operators to break down the problem into sub-problems (e.g., how many big bars, what's the remainder) and misinterpreted input parameters.",
+                "prerequisite_gap": "Understanding how to use division and multiplication to calculate quantities and how to sequence these operations based on problem constraints."
+              },
+              {
+                "at_risk_topic": "Math%",
+                "reason": "The student incorrectly used the modulo operator without considering the preceding steps of using larger units, indicating a misunderstanding of its appropriate application in multi-step problems.",
+                "prerequisite_gap": "Understanding how to use the modulo operator to find remainders in the context of available resources and remaining goals."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The student failed to implement the necessary logic within a conditional branch, indicating a gap in structuring solutions with `if-else` to handle different scenarios correctly.",
+                "prerequisite_gap": "Ability to define clear conditions and implement distinct, correct logic for each branch of a conditional statement."
+              }
+            ],
+            "recommended_intervention": "Guide the student through a step-by-step breakdown of similar problems, emphasizing how to first maximize the use of larger units (like big bars), calculate the remainder, and then determine if smaller units can cover that remainder. Focus on translating these steps into correct arithmetic operations and complete conditional logic within the code."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Incorrect application of arithmetic operators (modulo, division) in multi-step problem-solving",
+            "Incomplete or incorrect logic within conditional statements"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "Elementary Programming: Arithmetic Operators and Expressions",
+            "Selections: if-else statements and logical flow"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 18.829,
+      "score": 0.72,
+      "invalid_kcs": []
+    },
+    "102": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"102\",\n      \"score\": 46.2,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Uses the `==` operator to compare the content of String objects instead of the `equals()` method. This indicates a fundamental misunderstanding of how String equality works in Java, where `==` compares object references.\",\n          \"evidence\": \"if (str.substring(0,2) == str.substring(str.length()-2))\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Fails to implement conditional logic to handle edge cases where the input string length is less than 2. This leads to an `IndexOutOfBoundsException` when attempting to call `substring(0,2)` or `substring(str.length()-2)` on an invalid string length.\",\n          \"evidence\": \"if (str.substring(0,2) == str.substring(str.length()-2))\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"Any future problem requiring the comparison of string content will likely be implemented incorrectly, leading to subtle logical errors that are difficult to debug.\",\n          \"prerequisite_gap\": \"Understanding the distinction between comparing primitive values and comparing object references, and how to correctly compare object content using methods like `equals()`.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"Will struggle to write robust code that handles various input conditions and edge cases, leading to runtime errors or incorrect behavior for specific inputs (e.g., empty strings, strings of minimal length).\",\n          \"prerequisite_gap\": \"Basic understanding of conditional statements and their application for input validation and branching logic.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"Will likely encounter `IndexOutOfBoundsException` in problems involving string or array manipulation, as they do not adequately guard against invalid index access or substring operations based on input length.\",\n          \"prerequisite_gap\": \"Understanding string/array lengths and the valid range of indices for accessing characters or creating substrings.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the concepts of String object comparison (`==` vs. `equals()`) and the importance of handling edge cases, especially string lengths, using `if` statements before performing operations like `substring()`.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"String comparison using `==` instead of `equals()`\",\n      \"Lack of conditional logic (`If/Else`) for handling edge cases related to input string/array lengths\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"StringEqual\",\n      \"If/Else\",\n      \"StringIndex\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "102",
+            "score": 46.2,
+            "knowledge_gaps": [
+              {
+                "gap": "Uses the `==` operator to compare the content of String objects instead of the `equals()` method. This indicates a fundamental misunderstanding of how String equality works in Java, where `==` compares object references.",
+                "evidence": "if (str.substring(0,2) == str.substring(str.length()-2))",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              },
+              {
+                "gap": "Fails to implement conditional logic to handle edge cases where the input string length is less than 2. This leads to an `IndexOutOfBoundsException` when attempting to call `substring(0,2)` or `substring(str.length()-2)` on an invalid string length.",
+                "evidence": "if (str.substring(0,2) == str.substring(str.length()-2))",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "Any future problem requiring the comparison of string content will likely be implemented incorrectly, leading to subtle logical errors that are difficult to debug.",
+                "prerequisite_gap": "Understanding the distinction between comparing primitive values and comparing object references, and how to correctly compare object content using methods like `equals()`."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "Will struggle to write robust code that handles various input conditions and edge cases, leading to runtime errors or incorrect behavior for specific inputs (e.g., empty strings, strings of minimal length).",
+                "prerequisite_gap": "Basic understanding of conditional statements and their application for input validation and branching logic."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "Will likely encounter `IndexOutOfBoundsException` in problems involving string or array manipulation, as they do not adequately guard against invalid index access or substring operations based on input length.",
+                "prerequisite_gap": "Understanding string/array lengths and the valid range of indices for accessing characters or creating substrings."
+              }
+            ],
+            "recommended_intervention": "Review the concepts of String object comparison (`==` vs. `equals()`) and the importance of handling edge cases, especially string lengths, using `if` statements before performing operations like `substring()`."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "String comparison using `==` instead of `equals()`",
+            "Lack of conditional logic (`If/Else`) for handling edge cases related to input string/array lengths"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "StringEqual",
+            "If/Else",
+            "StringIndex"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 16.971,
+      "score": 0.461538,
+      "invalid_kcs": []
+    },
+    "107": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"107\",\n      \"score\": 54.5,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student's code incorrectly counts every adjacent pair of equal elements as a new clump, rather than identifying a continuous series of identical elements as a single clump. This leads to overcounting for clumps longer than two elements (e.g., [1,1,1] is counted as two clumps instead of one). The logic fails to distinguish between the start of a clump and subsequent elements within the same clump.\",\n          \"evidence\": \"if (nums[i + 1] == nums[i]) { count++; }\",\n          \"missing_concept\": \"LogicAndNotOr\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"Problems requiring the identification of complex patterns or sequences within data, where conditions need to be combined (e.g., 'A is true AND B is true, OR C is true') to define a specific event or state change, will be challenging. The student needs to understand how to use logical operators to create more precise conditions for pattern detection.\",\n          \"prerequisite_gap\": \"Understanding how to combine multiple boolean conditions using '&&' and '||' to precisely define an event or state change, especially when considering previous elements or array boundaries.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student struggles with using loops to manage 'state' (e.g., whether currently inside a clump) across iterations to count distinct occurrences of a pattern. This indicates a limited understanding of how to use loop variables and auxiliary variables (like a boolean flag or a 'previous value' variable) to track progress and make decisions based on prior iterations.\",\n          \"prerequisite_gap\": \"Understanding how to use loop variables and auxiliary variables to maintain state and make decisions based on previous iterations within a loop for accurate pattern counting.\"\n        }\n      ],\n      \"recommended_intervention\": \"Explain the difference between counting every instance of a condition versus counting distinct 'events' or 'groups'. Walk through examples like `[1,1,1]` and `[1,1,2,2,2]` to demonstrate why the current code overcounts. Introduce the concept of 'state' within a loop (e.g., using a boolean flag `inClump` or storing the `previousValue`) or guide them to formulate a more complex conditional statement using logical operators (`&&`, `||`) to detect only the *start* of a new clump.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"LogicAndNotOr (difficulty in combining multiple conditions for precise pattern detection)\",\n      \"For (struggle with state management within loops for distinct counting)\"\n    ],\n    \"highest_risk_students\": [\n      \"14352\"\n    ],\n    \"suggested_review_topics\": [\n      \"LogicAndNotOr\",\n      \"For\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "107",
+            "score": 54.5,
+            "knowledge_gaps": [
+              {
+                "gap": "The student's code incorrectly counts every adjacent pair of equal elements as a new clump, rather than identifying a continuous series of identical elements as a single clump. This leads to overcounting for clumps longer than two elements (e.g., [1,1,1] is counted as two clumps instead of one). The logic fails to distinguish between the start of a clump and subsequent elements within the same clump.",
+                "evidence": "if (nums[i + 1] == nums[i]) { count++; }",
+                "missing_concept": "LogicAndNotOr",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "Problems requiring the identification of complex patterns or sequences within data, where conditions need to be combined (e.g., 'A is true AND B is true, OR C is true') to define a specific event or state change, will be challenging. The student needs to understand how to use logical operators to create more precise conditions for pattern detection.",
+                "prerequisite_gap": "Understanding how to combine multiple boolean conditions using '&&' and '||' to precisely define an event or state change, especially when considering previous elements or array boundaries."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "The student struggles with using loops to manage 'state' (e.g., whether currently inside a clump) across iterations to count distinct occurrences of a pattern. This indicates a limited understanding of how to use loop variables and auxiliary variables (like a boolean flag or a 'previous value' variable) to track progress and make decisions based on prior iterations.",
+                "prerequisite_gap": "Understanding how to use loop variables and auxiliary variables to maintain state and make decisions based on previous iterations within a loop for accurate pattern counting."
+              }
+            ],
+            "recommended_intervention": "Explain the difference between counting every instance of a condition versus counting distinct 'events' or 'groups'. Walk through examples like `[1,1,1]` and `[1,1,2,2,2]` to demonstrate why the current code overcounts. Introduce the concept of 'state' within a loop (e.g., using a boolean flag `inClump` or storing the `previousValue`) or guide them to formulate a more complex conditional statement using logical operators (`&&`, `||`) to detect only the *start* of a new clump."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "LogicAndNotOr (difficulty in combining multiple conditions for precise pattern detection)",
+            "For (struggle with state management within loops for distinct counting)"
+          ],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "LogicAndNotOr",
+            "For"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 22.043,
+      "score": 0.545455,
+      "invalid_kcs": []
+    },
+    "128": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14352\",\n      \"problem_id\": \"128\",\n      \"score\": 44.4,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Incorrectly uses the '==' operator to compare String objects. In Java, '==' compares object references, not the content of the strings. For content comparison, the '.equals()' method must be used.\",\n          \"evidence\": \"if (str.substring(x - 1, x) == \\\"b\\\" && str.substring(x + 1, x + 2) == \\\"b\\\")\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"This fundamental misunderstanding of String comparison will cause logical errors in any future problem that requires checking if two strings have the same content. The code will compile but produce incorrect results.\",\n          \"prerequisite_gap\": \"Understanding the difference between reference equality (==) and content equality (.equals()) for objects in Java, especially for String literals and dynamically created String objects.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the concept of object equality in Java, specifically distinguishing between '==' for reference comparison and '.equals()' for content comparison with String objects. Provide examples where '==' and '.equals()' yield different results for strings with identical content.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\"14352\"],\n    \"suggested_review_topics\": [\"StringEqual\"]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14352",
+            "problem_id": "128",
+            "score": 44.4,
+            "knowledge_gaps": [
+              {
+                "gap": "Incorrectly uses the '==' operator to compare String objects. In Java, '==' compares object references, not the content of the strings. For content comparison, the '.equals()' method must be used.",
+                "evidence": "if (str.substring(x - 1, x) == \"b\" && str.substring(x + 1, x + 2) == \"b\")",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "This fundamental misunderstanding of String comparison will cause logical errors in any future problem that requires checking if two strings have the same content. The code will compile but produce incorrect results.",
+                "prerequisite_gap": "Understanding the difference between reference equality (==) and content equality (.equals()) for objects in Java, especially for String literals and dynamically created String objects."
+              }
+            ],
+            "recommended_intervention": "Review the concept of object equality in Java, specifically distinguishing between '==' for reference comparison and '.equals()' for content comparison with String objects. Provide examples where '==' and '.equals()' yield different results for strings with identical content."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14352"
+          ],
+          "suggested_review_topics": [
+            "StringEqual"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 12.206,
+      "score": 0.4444439999999999,
+      "invalid_kcs": []
+    }
+  }
+}

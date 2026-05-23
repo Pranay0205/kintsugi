@@ -1,0 +1,1312 @@
+{
+  "rater": "LLM_Gemini_V1_Enriched",
+  "studentId": "14474",
+  "student_id": "14474",
+  "prompt_variant": "v1_enriched",
+  "model_id": "gemini-2.5-flash",
+  "temperature": 0.3,
+  "include_future_predictions": false,
+  "exportDate": "2026-05-20T23:22:02.682319",
+  "total_problems": 32,
+  "totalAnnotated": 32,
+  "total_calls": 17,
+  "errors": [],
+  "annotations": {
+    "1": {
+      "gaps": []
+    },
+    "3": {
+      "gaps": [
+        "If/Else",
+        "LogicBoolean"
+      ]
+    },
+    "5": {
+      "gaps": [
+        "If/Else",
+        "LogicBoolean"
+      ]
+    },
+    "12": {
+      "gaps": [
+        "LogicBoolean"
+      ]
+    },
+    "13": {
+      "gaps": []
+    },
+    "22": {
+      "gaps": [
+        "DefFunction",
+        "If/Else",
+        "Math+-*/"
+      ]
+    },
+    "24": {
+      "gaps": [
+        "DefFunction",
+        "If/Else"
+      ]
+    },
+    "31": {
+      "gaps": [
+        "DefFunction"
+      ]
+    },
+    "32": {
+      "gaps": [
+        "DefFunction",
+        "StringIndex"
+      ]
+    },
+    "33": {
+      "gaps": []
+    },
+    "34": {
+      "gaps": [
+        "For",
+        "StringConcat",
+        "StringIndex"
+      ]
+    },
+    "36": {
+      "gaps": [
+        "CharEqual",
+        "For",
+        "If/Else",
+        "StringIndex",
+        "StringLen"
+      ]
+    },
+    "37": {
+      "gaps": [
+        "StringEqual"
+      ]
+    },
+    "38": {
+      "gaps": [
+        "StringFormat",
+        "StringIndex"
+      ]
+    },
+    "39": {
+      "gaps": [
+        "DefFunction"
+      ]
+    },
+    "40": {
+      "gaps": [
+        "StringIndex"
+      ]
+    },
+    "45": {
+      "gaps": []
+    },
+    "48": {
+      "gaps": []
+    },
+    "51": {
+      "gaps": []
+    },
+    "56": {
+      "gaps": []
+    },
+    "57": {
+      "gaps": []
+    },
+    "64": {
+      "gaps": [
+        "ArrayIndex",
+        "For",
+        "If/Else",
+        "StringEqual",
+        "StringFormat"
+      ]
+    },
+    "70": {
+      "gaps": []
+    },
+    "71": {
+      "gaps": []
+    },
+    "112": {
+      "gaps": []
+    },
+    "118": {
+      "gaps": []
+    },
+    "128": {
+      "gaps": [
+        "For",
+        "StringIndex"
+      ]
+    },
+    "232": {
+      "gaps": []
+    },
+    "233": {
+      "gaps": []
+    },
+    "234": {
+      "gaps": [
+        "LogicAndNotOr",
+        "LogicBoolean"
+      ]
+    },
+    "235": {
+      "gaps": []
+    },
+    "236": {
+      "gaps": []
+    }
+  },
+  "raw_responses": {
+    "3": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"3\",\n      \"score\": 75.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding of the assignment operator (=) versus the equality comparison operator (==) in conditional statements. The expressions `outsideMode = false` and `outsideMode = true` perform assignments and then evaluate to the assigned value, leading to incorrect control flow where the `if (outsideMode = false)` block never executes and the `else if (outsideMode = true)` block always executes.\",\n          \"evidence\": \"if (outsideMode = false)\\n...\\nelse if (outsideMode = true)\",\n          \"missing_concept\": \"LogicBoolean\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Uses redundant `else if` conditions where a simple `else` would suffice, indicating a potential lack of clarity on how `if-else` structures fully cover all possibilities (e.g., if a number is not in range 1-10, it must be outside that range).\",\n          \"evidence\": \"if (n >= 1 && n <= 10)\\n{\\n    num = true; \\n}\\nelse if (n < 1 || n > 10)\\n{\\n    num = false; \\n}\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"minor\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The fundamental error in using assignment instead of comparison operators for the outer `if` conditions means that the entire conditional logic is flawed. This will directly impact the student's ability to correctly implement any `if-else` or `else if` structures in future problems.\",\n          \"prerequisite_gap\": \"Understanding the distinction between assignment (`=`) and comparison (`==`) operators and how boolean expressions are evaluated in conditional statements.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedIf\",\n          \"reason\": \"Since the outer conditional logic is incorrect due to the assignment operator error, any nested `if` statements within those blocks will either not be reached or will be reached under the wrong conditions, leading to incorrect program flow in more complex scenarios.\",\n          \"prerequisite_gap\": \"Correctly forming boolean expressions for conditional statements, especially when controlling the flow of nested `if` statements.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"While the student correctly uses `&&` and `||` within the nested conditions, the core misunderstanding of how boolean expressions are evaluated (assignment vs. comparison) could extend to how logical operators combine conditions in more complex scenarios, particularly if they need to negate conditions or combine multiple boolean variables.\",\n          \"prerequisite_gap\": \"A solid grasp of boolean expression evaluation, including the correct use of comparison operators for boolean variables.\"\n        }\n      ],\n      \"recommended_intervention\": \"Provide a focused explanation and practice problems distinguishing between the assignment operator (`=`) and the equality comparison operator (`==`), especially in the context of boolean variables within `if` statements. Emphasize that `if` conditions require a boolean *expression* that evaluates to true or false. Also, review the structure of `if-else if-else` to highlight when a final `else` is sufficient for exhaustive conditional logic.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Confusion between assignment (=) and comparison (==) operators in boolean conditions\",\n      \"Redundant use of `else if` where `else` is sufficient\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"LogicBoolean\",\n      \"If/Else\",\n      \"NestedIf\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "3",
+            "score": 75.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding of the assignment operator (=) versus the equality comparison operator (==) in conditional statements. The expressions `outsideMode = false` and `outsideMode = true` perform assignments and then evaluate to the assigned value, leading to incorrect control flow where the `if (outsideMode = false)` block never executes and the `else if (outsideMode = true)` block always executes.",
+                "evidence": "if (outsideMode = false)\n...\nelse if (outsideMode = true)",
+                "missing_concept": "LogicBoolean",
+                "severity": "critical"
+              },
+              {
+                "gap": "Uses redundant `else if` conditions where a simple `else` would suffice, indicating a potential lack of clarity on how `if-else` structures fully cover all possibilities (e.g., if a number is not in range 1-10, it must be outside that range).",
+                "evidence": "if (n >= 1 && n <= 10)\n{\n    num = true; \n}\nelse if (n < 1 || n > 10)\n{\n    num = false; \n}",
+                "missing_concept": "If/Else",
+                "severity": "minor"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The fundamental error in using assignment instead of comparison operators for the outer `if` conditions means that the entire conditional logic is flawed. This will directly impact the student's ability to correctly implement any `if-else` or `else if` structures in future problems.",
+                "prerequisite_gap": "Understanding the distinction between assignment (`=`) and comparison (`==`) operators and how boolean expressions are evaluated in conditional statements."
+              },
+              {
+                "at_risk_topic": "NestedIf",
+                "reason": "Since the outer conditional logic is incorrect due to the assignment operator error, any nested `if` statements within those blocks will either not be reached or will be reached under the wrong conditions, leading to incorrect program flow in more complex scenarios.",
+                "prerequisite_gap": "Correctly forming boolean expressions for conditional statements, especially when controlling the flow of nested `if` statements."
+              },
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "While the student correctly uses `&&` and `||` within the nested conditions, the core misunderstanding of how boolean expressions are evaluated (assignment vs. comparison) could extend to how logical operators combine conditions in more complex scenarios, particularly if they need to negate conditions or combine multiple boolean variables.",
+                "prerequisite_gap": "A solid grasp of boolean expression evaluation, including the correct use of comparison operators for boolean variables."
+              }
+            ],
+            "recommended_intervention": "Provide a focused explanation and practice problems distinguishing between the assignment operator (`=`) and the equality comparison operator (`==`), especially in the context of boolean variables within `if` statements. Emphasize that `if` conditions require a boolean *expression* that evaluates to true or false. Also, review the structure of `if-else if-else` to highlight when a final `else` is sufficient for exhaustive conditional logic."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Confusion between assignment (=) and comparison (==) operators in boolean conditions",
+            "Redundant use of `else if` where `else` is sufficient"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "LogicBoolean",
+            "If/Else",
+            "NestedIf"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 20.917,
+      "score": 0.75,
+      "invalid_kcs": []
+    },
+    "5": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"5\",\n      \"score\": 62.5,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The student consistently confuses the assignment operator (=) with the equality comparison operator (==) when evaluating boolean expressions within conditional statements. This causes conditions like `if (isAsleep = true)` to always evaluate to `true` (because `true` is assigned to `isAsleep`, and the expression itself evaluates to `true`), fundamentally breaking the intended control flow and leading to incorrect program behavior.\",\n          \"evidence\": \"if (isAsleep = true)\\nelse if (isMorning = true)\\nif (isMom = true)\",\n          \"missing_concept\": \"LogicBoolean\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Due to the incorrect use of the assignment operator in the first `if` condition (`if (isAsleep = true)`), this condition always evaluates to true. Consequently, the subsequent `else if` blocks are never reached, regardless of the initial values of `isMorning` or `isMom`. This demonstrates a misunderstanding of how `if-else if` ladders control program flow when conditions are not correctly formed.\",\n          \"evidence\": \"if (isAsleep = true)\\n{\\n    answerCell = false; \\n}\\nelse if (isMorning = true) // This block is effectively unreachable\\n{\\n    // ...\\n}\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The fundamental misunderstanding of assignment vs. comparison operators will lead to incorrect conditional evaluations in any problem requiring `if/else` statements, making it difficult to implement correct decision-making logic.\",\n          \"prerequisite_gap\": \"Correctly distinguishing and using assignment (`=`) and comparison (`==`) operators for all data types.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicCompareNum\",\n          \"reason\": \"The current gap is with boolean comparison, but the underlying confusion between assignment and comparison operators is general and will likely extend to numeric comparisons (`x = 5` vs `x == 5`), leading to incorrect program behavior in problems involving numerical conditions.\",\n          \"prerequisite_gap\": \"Distinction between assignment (`=`) and comparison (`==`) operators.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"If individual boolean comparisons are flawed due to the `=` vs `==` confusion, combining them with logical operators (`&&`, `||`) will only compound the errors, making complex conditional expressions impossible to evaluate correctly.\",\n          \"prerequisite_gap\": \"Correctly forming individual boolean comparison expressions.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the fundamental difference between the assignment operator (`=`) and the equality comparison operator (`==`) in Java. Pay close attention to how these operators are used within conditional statements (`if`, `else if`) and how boolean expressions are evaluated. Practice writing simple `if` statements that compare boolean and numeric variables to solidify this distinction.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Confusion between assignment operator (=) and equality comparison operator (==)\",\n      \"Misunderstanding of `if-else if` control flow when conditions are incorrectly formed\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"LogicBoolean\",\n      \"If/Else\",\n      \"LogicCompareNum\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "5",
+            "score": 62.5,
+            "knowledge_gaps": [
+              {
+                "gap": "The student consistently confuses the assignment operator (=) with the equality comparison operator (==) when evaluating boolean expressions within conditional statements. This causes conditions like `if (isAsleep = true)` to always evaluate to `true` (because `true` is assigned to `isAsleep`, and the expression itself evaluates to `true`), fundamentally breaking the intended control flow and leading to incorrect program behavior.",
+                "evidence": "if (isAsleep = true)\nelse if (isMorning = true)\nif (isMom = true)",
+                "missing_concept": "LogicBoolean",
+                "severity": "critical"
+              },
+              {
+                "gap": "Due to the incorrect use of the assignment operator in the first `if` condition (`if (isAsleep = true)`), this condition always evaluates to true. Consequently, the subsequent `else if` blocks are never reached, regardless of the initial values of `isMorning` or `isMom`. This demonstrates a misunderstanding of how `if-else if` ladders control program flow when conditions are not correctly formed.",
+                "evidence": "if (isAsleep = true)\n{\n    answerCell = false; \n}\nelse if (isMorning = true) // This block is effectively unreachable\n{\n    // ...\n}",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The fundamental misunderstanding of assignment vs. comparison operators will lead to incorrect conditional evaluations in any problem requiring `if/else` statements, making it difficult to implement correct decision-making logic.",
+                "prerequisite_gap": "Correctly distinguishing and using assignment (`=`) and comparison (`==`) operators for all data types."
+              },
+              {
+                "at_risk_topic": "LogicCompareNum",
+                "reason": "The current gap is with boolean comparison, but the underlying confusion between assignment and comparison operators is general and will likely extend to numeric comparisons (`x = 5` vs `x == 5`), leading to incorrect program behavior in problems involving numerical conditions.",
+                "prerequisite_gap": "Distinction between assignment (`=`) and comparison (`==`) operators."
+              },
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "If individual boolean comparisons are flawed due to the `=` vs `==` confusion, combining them with logical operators (`&&`, `||`) will only compound the errors, making complex conditional expressions impossible to evaluate correctly.",
+                "prerequisite_gap": "Correctly forming individual boolean comparison expressions."
+              }
+            ],
+            "recommended_intervention": "Review the fundamental difference between the assignment operator (`=`) and the equality comparison operator (`==`) in Java. Pay close attention to how these operators are used within conditional statements (`if`, `else if`) and how boolean expressions are evaluated. Practice writing simple `if` statements that compare boolean and numeric variables to solidify this distinction."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Confusion between assignment operator (=) and equality comparison operator (==)",
+            "Misunderstanding of `if-else if` control flow when conditions are incorrectly formed"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "LogicBoolean",
+            "If/Else",
+            "LogicCompareNum"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 18.91,
+      "score": 0.625,
+      "invalid_kcs": []
+    },
+    "12": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"12\",\n      \"score\": 85.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Confuses the assignment operator (=) with the comparison operator (==) in boolean conditional statements. The expression `isSummer = true` assigns `true` to `isSummer` and then evaluates to `true`, causing the first `if` block to always execute and the `else if` block to be unreachable. This effectively ignores the original value of the `isSummer` parameter.\",\n          \"evidence\": \"if (isSummer = true)\\n...\\nelse if (isSummer = false)\",\n          \"missing_concept\": \"LogicBoolean\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"LogicBoolean\",\n          \"reason\": \"This fundamental misunderstanding of assignment vs. comparison will lead to incorrect conditional logic in any problem requiring boolean evaluation or comparison, causing unexpected program behavior.\",\n          \"prerequisite_gap\": \"Understanding the distinct roles of assignment (`=`) and comparison (`==`) operators, especially with boolean types.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"While the student uses `if/else` structures, the incorrect boolean conditions prevent the `else if` branch from ever being executed. This indicates a flaw in understanding how conditional blocks are selected based on correctly evaluated conditions, which will impact more complex branching logic.\",\n          \"prerequisite_gap\": \"Correctly forming boolean expressions for conditional statements to ensure proper control flow.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the difference between the assignment operator (`=`) and the equality comparison operator (`==`) in Java, particularly when working with boolean variables in `if` statements. Explain that `if (someBooleanVariable)` is shorthand for `if (someBooleanVariable == true)`.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"LogicBoolean\",\n      \"If/Else\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "12",
+            "score": 85.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Confuses the assignment operator (=) with the comparison operator (==) in boolean conditional statements. The expression `isSummer = true` assigns `true` to `isSummer` and then evaluates to `true`, causing the first `if` block to always execute and the `else if` block to be unreachable. This effectively ignores the original value of the `isSummer` parameter.",
+                "evidence": "if (isSummer = true)\n...\nelse if (isSummer = false)",
+                "missing_concept": "LogicBoolean",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "LogicBoolean",
+                "reason": "This fundamental misunderstanding of assignment vs. comparison will lead to incorrect conditional logic in any problem requiring boolean evaluation or comparison, causing unexpected program behavior.",
+                "prerequisite_gap": "Understanding the distinct roles of assignment (`=`) and comparison (`==`) operators, especially with boolean types."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "While the student uses `if/else` structures, the incorrect boolean conditions prevent the `else if` branch from ever being executed. This indicates a flaw in understanding how conditional blocks are selected based on correctly evaluated conditions, which will impact more complex branching logic.",
+                "prerequisite_gap": "Correctly forming boolean expressions for conditional statements to ensure proper control flow."
+              }
+            ],
+            "recommended_intervention": "Review the difference between the assignment operator (`=`) and the equality comparison operator (`==`) in Java, particularly when working with boolean variables in `if` statements. Explain that `if (someBooleanVariable)` is shorthand for `if (someBooleanVariable == true)`."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "LogicBoolean",
+            "If/Else"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 18.958,
+      "score": 0.85,
+      "invalid_kcs": []
+    },
+    "22": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"22\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding of variable declaration and assignment statement syntax. The student attempts to assign a value to an expression (`a + b + c`) and uses an undeclared variable (`d`).\",\n          \"evidence\": \"a + b + c = d;\",\n          \"missing_concept\": \"Math+-*/\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Failure to include a return statement in value-returning methods, despite the method signature indicating an `int` return type.\",\n          \"evidence\": \"public int noTeenSum(int a, int b, int c)\\n{\\n    a + b + c = d; \\n}\\n\\npublic int fixTeen(int n)\\n{\\n    if (d >= 13 && d < 15 || d > 16 && d <= 19)\\n    {\\n        //\\n    }\\n}\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Confusion regarding variable scope, attempting to use a local variable (`d`) from another method's (incorrect) declaration within the `fixTeen` method, instead of using its own parameter (`n`).\",\n          \"evidence\": \"if (d >= 13 && d < 15 || d > 16 && d <= 19)\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incomplete implementation of conditional logic; the `if` block is empty and does not contain the required logic to return 0 for teen values or the original value otherwise.\",\n          \"evidence\": \"if (d >= 13 && d < 15 || d > 16 && d <= 19)\\n    {\\n        //\\n    }\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Failure to call the helper method (`fixTeen`) from the main method (`noTeenSum`) to implement problem decomposition as specified in the problem description.\",\n          \"evidence\": \"noTeenSum method body does not contain calls to fixTeen.\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"DefFunction\",\n          \"reason\": \"The student demonstrates a fundamental misunderstanding of method structure, including return types, parameter usage, and variable scope. This will impact any problem requiring modular code.\",\n          \"prerequisite_gap\": \"Understanding how to define, call, and return values from methods, and how variables are scoped within methods.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"While the student could formulate a logical condition, they failed to implement the actions required within the conditional block, indicating a gap in translating problem requirements into complete conditional logic.\",\n          \"prerequisite_gap\": \"Understanding the full syntax and execution flow of `if-else` statements, including how to perform actions and return values based on conditions.\"\n        },\n        {\n          \"at_risk_topic\": \"Math+-*/\",\n          \"reason\": \"The basic syntax error in variable declaration and assignment (`a + b + c = d;`) suggests a very weak foundation in elementary programming syntax, which is critical for all computational tasks.\",\n          \"prerequisite_gap\": \"Basic Java syntax for variable declaration, assignment, and expressions.\"\n        }\n      ],\n      \"recommended_intervention\": \"The student needs to revisit foundational concepts from Chapter 2 (Elementary Programming) focusing on variable declaration, data types, and assignment statements. Additionally, a thorough review of Chapter 5 (Methods) is crucial, covering defining methods, method headers, return types, parameter passing, and variable scope. Practice should involve writing simple methods that take parameters, perform conditional logic, and correctly return values.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Fundamental Java syntax for variable declaration and assignment\",\n      \"Understanding of method return types and the necessity of return statements\",\n      \"Correct application of variable scope within methods\",\n      \"Completing conditional logic blocks with appropriate actions/returns\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"Elementary Programming (Variables, Data Types, Assignment Statements)\",\n      \"Methods (Defining, Calling, Return Types, Scope)\",\n      \"Selections (If/Else statements and implementing actions based on conditions)\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "22",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding of variable declaration and assignment statement syntax. The student attempts to assign a value to an expression (`a + b + c`) and uses an undeclared variable (`d`).",
+                "evidence": "a + b + c = d;",
+                "missing_concept": "Math+-*/",
+                "severity": "critical"
+              },
+              {
+                "gap": "Failure to include a return statement in value-returning methods, despite the method signature indicating an `int` return type.",
+                "evidence": "public int noTeenSum(int a, int b, int c)\n{\n    a + b + c = d; \n}\n\npublic int fixTeen(int n)\n{\n    if (d >= 13 && d < 15 || d > 16 && d <= 19)\n    {\n        //\n    }\n}",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              },
+              {
+                "gap": "Confusion regarding variable scope, attempting to use a local variable (`d`) from another method's (incorrect) declaration within the `fixTeen` method, instead of using its own parameter (`n`).",
+                "evidence": "if (d >= 13 && d < 15 || d > 16 && d <= 19)",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incomplete implementation of conditional logic; the `if` block is empty and does not contain the required logic to return 0 for teen values or the original value otherwise.",
+                "evidence": "if (d >= 13 && d < 15 || d > 16 && d <= 19)\n    {\n        //\n    }",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              },
+              {
+                "gap": "Failure to call the helper method (`fixTeen`) from the main method (`noTeenSum`) to implement problem decomposition as specified in the problem description.",
+                "evidence": "noTeenSum method body does not contain calls to fixTeen.",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "DefFunction",
+                "reason": "The student demonstrates a fundamental misunderstanding of method structure, including return types, parameter usage, and variable scope. This will impact any problem requiring modular code.",
+                "prerequisite_gap": "Understanding how to define, call, and return values from methods, and how variables are scoped within methods."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "While the student could formulate a logical condition, they failed to implement the actions required within the conditional block, indicating a gap in translating problem requirements into complete conditional logic.",
+                "prerequisite_gap": "Understanding the full syntax and execution flow of `if-else` statements, including how to perform actions and return values based on conditions."
+              },
+              {
+                "at_risk_topic": "Math+-*/",
+                "reason": "The basic syntax error in variable declaration and assignment (`a + b + c = d;`) suggests a very weak foundation in elementary programming syntax, which is critical for all computational tasks.",
+                "prerequisite_gap": "Basic Java syntax for variable declaration, assignment, and expressions."
+              }
+            ],
+            "recommended_intervention": "The student needs to revisit foundational concepts from Chapter 2 (Elementary Programming) focusing on variable declaration, data types, and assignment statements. Additionally, a thorough review of Chapter 5 (Methods) is crucial, covering defining methods, method headers, return types, parameter passing, and variable scope. Practice should involve writing simple methods that take parameters, perform conditional logic, and correctly return values."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Fundamental Java syntax for variable declaration and assignment",
+            "Understanding of method return types and the necessity of return statements",
+            "Correct application of variable scope within methods",
+            "Completing conditional logic blocks with appropriate actions/returns"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "Elementary Programming (Variables, Data Types, Assignment Statements)",
+            "Methods (Defining, Calling, Return Types, Scope)",
+            "Selections (If/Else statements and implementing actions based on conditions)"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 24.021,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "24": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"24\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Incomplete conditional logic: The student correctly identified one condition (both values over 21) but left the main 'if' block empty, indicating a failure to implement the core logic for cases where at least one value is 21 or less. This shows a significant gap in translating problem requirements into a complete set of conditional actions.\",\n          \"evidence\": \"if (a <= 21 || b <= 21)\\n{\\n    \\n}\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Missing return statement: The method is declared to return an 'int', but there are execution paths (specifically, the empty 'if' block) that do not explicitly return a value. This will cause a compilation error, demonstrating a fundamental misunderstanding of method contracts for value-returning methods.\",\n          \"evidence\": \"public int blackjack(int a, int b)\\n{\\n    if (a <= 21 || b <= 21)\\n    {\\n        \\n    }\\n    else if (a > 21 && b > 21)\\n    {\\n        return 0; \\n    }\\n}\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The student's inability to complete the logic within a conditional block suggests they will struggle with any problem requiring decision-making and different actions based on various conditions, as they are not fully implementing all necessary branches.\",\n          \"prerequisite_gap\": \"Understanding the purpose and complete implementation of conditional branches.\"\n        },\n        {\n          \"at_risk_topic\": \"DefFunction\",\n          \"reason\": \"A lack of understanding that all code paths in a value-returning method must return a value will lead to persistent compilation errors in future method implementations, hindering their ability to write functional methods.\",\n          \"prerequisite_gap\": \"Understanding method signatures, return types, and ensuring all execution paths return a value.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedIf\",\n          \"reason\": \"This problem requires further conditional checks within the main 'if' block (e.g., comparing 'a' and 'b' if both are valid, or handling cases where only one is valid). The student's failure to even attempt this logic suggests they may not be able to apply their knowledge of nested conditions to solve multi-faceted problems.\",\n          \"prerequisite_gap\": \"Complete understanding of If/Else logic and problem decomposition into sub-conditions.\"\n        }\n      ],\n      \"recommended_intervention\": \"Focus on tracing execution paths through conditional statements and ensuring all branches are handled. Emphasize the requirement for all non-void methods to return a value on all possible execution paths. Practice problems that require breaking down complex conditions into smaller, manageable if/else if/else or nested if structures, and then implementing the specific logic for each branch.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Incomplete conditional logic\",\n      \"Missing return statement in value-returning methods\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"If/Else\",\n      \"DefFunction\",\n      \"NestedIf\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "24",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Incomplete conditional logic: The student correctly identified one condition (both values over 21) but left the main 'if' block empty, indicating a failure to implement the core logic for cases where at least one value is 21 or less. This shows a significant gap in translating problem requirements into a complete set of conditional actions.",
+                "evidence": "if (a <= 21 || b <= 21)\n{\n    \n}",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              },
+              {
+                "gap": "Missing return statement: The method is declared to return an 'int', but there are execution paths (specifically, the empty 'if' block) that do not explicitly return a value. This will cause a compilation error, demonstrating a fundamental misunderstanding of method contracts for value-returning methods.",
+                "evidence": "public int blackjack(int a, int b)\n{\n    if (a <= 21 || b <= 21)\n    {\n        \n    }\n    else if (a > 21 && b > 21)\n    {\n        return 0; \n    }\n}",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The student's inability to complete the logic within a conditional block suggests they will struggle with any problem requiring decision-making and different actions based on various conditions, as they are not fully implementing all necessary branches.",
+                "prerequisite_gap": "Understanding the purpose and complete implementation of conditional branches."
+              },
+              {
+                "at_risk_topic": "DefFunction",
+                "reason": "A lack of understanding that all code paths in a value-returning method must return a value will lead to persistent compilation errors in future method implementations, hindering their ability to write functional methods.",
+                "prerequisite_gap": "Understanding method signatures, return types, and ensuring all execution paths return a value."
+              },
+              {
+                "at_risk_topic": "NestedIf",
+                "reason": "This problem requires further conditional checks within the main 'if' block (e.g., comparing 'a' and 'b' if both are valid, or handling cases where only one is valid). The student's failure to even attempt this logic suggests they may not be able to apply their knowledge of nested conditions to solve multi-faceted problems.",
+                "prerequisite_gap": "Complete understanding of If/Else logic and problem decomposition into sub-conditions."
+              }
+            ],
+            "recommended_intervention": "Focus on tracing execution paths through conditional statements and ensuring all branches are handled. Emphasize the requirement for all non-void methods to return a value on all possible execution paths. Practice problems that require breaking down complex conditions into smaller, manageable if/else if/else or nested if structures, and then implementing the specific logic for each branch."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Incomplete conditional logic",
+            "Missing return statement in value-returning methods"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "If/Else",
+            "DefFunction",
+            "NestedIf"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 19.848,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "31": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"31\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Student has not attempted to implement any of the problem's core logic. The method returns an uninitialized instance variable, indicating a fundamental misunderstanding of how to use method parameters and construct a return value based on problem requirements.\",\n          \"evidence\": \"private String something; public String repeatEnd(String str, int n) { return something; }\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The problem requires extracting the last 'n' characters of a string using methods like substring() and length(). The student's code shows no attempt at string manipulation, and their mental model indicates StringIndex as a very weak skill (mastery 0.297).\",\n          \"prerequisite_gap\": \"Understanding how to use String.length() and String.substring() to access parts of a string.\"\n        },\n        {\n          \"at_risk_topic\": \"StringConcat\",\n          \"reason\": \"The problem requires repeating a substring 'n' times, which involves concatenating strings. The student's code does not attempt to build any result string, suggesting a lack of understanding in how to combine strings.\",\n          \"prerequisite_gap\": \"Basic understanding of string concatenation using the '+' operator or StringBuilder.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"Although 'For' loops are a strong skill for this student, they haven't applied it here. This is likely because they are blocked by the initial string manipulation steps. If they cannot extract the correct substring, they cannot proceed to loop and repeat it.\",\n          \"prerequisite_gap\": \"Ability to correctly identify the substring to be repeated (StringIndex) and how to build the result string (StringConcat).\"\n        }\n      ],\n      \"recommended_intervention\": \"Provide a guided walkthrough of how to break down a problem statement into smaller, actionable coding steps. Focus on identifying inputs/outputs, necessary string operations (length, substring), and how to use a loop to build a result string incrementally. A hands-on exercise specifically using String.length(), String.substring(), and string concatenation within a for loop would be highly beneficial.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"DefFunction\",\n      \"StringIndex\",\n      \"StringConcat\",\n      \"For\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "31",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Student has not attempted to implement any of the problem's core logic. The method returns an uninitialized instance variable, indicating a fundamental misunderstanding of how to use method parameters and construct a return value based on problem requirements.",
+                "evidence": "private String something; public String repeatEnd(String str, int n) { return something; }",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The problem requires extracting the last 'n' characters of a string using methods like substring() and length(). The student's code shows no attempt at string manipulation, and their mental model indicates StringIndex as a very weak skill (mastery 0.297).",
+                "prerequisite_gap": "Understanding how to use String.length() and String.substring() to access parts of a string."
+              },
+              {
+                "at_risk_topic": "StringConcat",
+                "reason": "The problem requires repeating a substring 'n' times, which involves concatenating strings. The student's code does not attempt to build any result string, suggesting a lack of understanding in how to combine strings.",
+                "prerequisite_gap": "Basic understanding of string concatenation using the '+' operator or StringBuilder."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "Although 'For' loops are a strong skill for this student, they haven't applied it here. This is likely because they are blocked by the initial string manipulation steps. If they cannot extract the correct substring, they cannot proceed to loop and repeat it.",
+                "prerequisite_gap": "Ability to correctly identify the substring to be repeated (StringIndex) and how to build the result string (StringConcat)."
+              }
+            ],
+            "recommended_intervention": "Provide a guided walkthrough of how to break down a problem statement into smaller, actionable coding steps. Focus on identifying inputs/outputs, necessary string operations (length, substring), and how to use a loop to build a result string incrementally. A hands-on exercise specifically using String.length(), String.substring(), and string concatenation within a for loop would be highly beneficial."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "DefFunction",
+            "StringIndex",
+            "StringConcat",
+            "For"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 11.345,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "32": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"32\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Fundamental misunderstanding of how to manipulate String objects. The student attempted to use a `replace` method with incorrect arguments (confusing `String` and `char` types) and did not implement any logic to iterate, compare, or build the output string.\",\n          \"evidence\": \"//str.replace(char word, char +);\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inability to implement basic method logic to process input parameters and return a computed result. The method returns an uninitialized instance variable instead of processing the given `str` and `word`.\",\n          \"evidence\": \"private String something;\\npublic String plusOut(String str, String word)\\n{\\n    // ... comments ...\\n    return something;\\n}\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student shows no understanding of how to access individual characters or substrings within a string, which is foundational for most string manipulation tasks. This will hinder any problem requiring character-level processing.\",\n          \"prerequisite_gap\": \"Fundamental misunderstanding of how to manipulate String objects\"\n        },\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"The problem requires comparing substrings to the given 'word'. Without understanding string equality (e.g., using `.equals()`), they cannot correctly identify occurrences of the word or any other pattern.\",\n          \"prerequisite_gap\": \"Fundamental misunderstanding of how to manipulate String objects\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"While the student has a strong mastery of loops in general, they failed to apply a loop to iterate through the input string in this problem. This suggests a difficulty in combining looping constructs with string indexing/manipulation.\",\n          \"prerequisite_gap\": \"Fundamental misunderstanding of how to manipulate String objects\"\n        },\n        {\n          \"at_risk_topic\": \"StringFormat\",\n          \"reason\": \"The problem requires building a new string by concatenating parts (pluses and preserved words). Without understanding how to build strings efficiently (e.g., using concatenation or StringBuilder), they cannot construct the desired output.\",\n          \"prerequisite_gap\": \"Fundamental misunderstanding of how to manipulate String objects\"\n        }\n      ],\n      \"recommended_intervention\": \"Review Chapter 9 topics on the `String` class, focusing on methods like `length()`, `charAt()`, `substring()`, and `equals()`. Emphasize how to iterate through strings using `for` loops and how to build new strings using concatenation or `StringBuilder`. Provide practice problems that involve iterating through strings, finding patterns, and constructing new strings based on conditions.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"StringIndex\",\n      \"StringEqual\",\n      \"For\",\n      \"StringFormat\",\n      \"DefFunction\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "32",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Fundamental misunderstanding of how to manipulate String objects. The student attempted to use a `replace` method with incorrect arguments (confusing `String` and `char` types) and did not implement any logic to iterate, compare, or build the output string.",
+                "evidence": "//str.replace(char word, char +);",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inability to implement basic method logic to process input parameters and return a computed result. The method returns an uninitialized instance variable instead of processing the given `str` and `word`.",
+                "evidence": "private String something;\npublic String plusOut(String str, String word)\n{\n    // ... comments ...\n    return something;\n}",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student shows no understanding of how to access individual characters or substrings within a string, which is foundational for most string manipulation tasks. This will hinder any problem requiring character-level processing.",
+                "prerequisite_gap": "Fundamental misunderstanding of how to manipulate String objects"
+              },
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "The problem requires comparing substrings to the given 'word'. Without understanding string equality (e.g., using `.equals()`), they cannot correctly identify occurrences of the word or any other pattern.",
+                "prerequisite_gap": "Fundamental misunderstanding of how to manipulate String objects"
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "While the student has a strong mastery of loops in general, they failed to apply a loop to iterate through the input string in this problem. This suggests a difficulty in combining looping constructs with string indexing/manipulation.",
+                "prerequisite_gap": "Fundamental misunderstanding of how to manipulate String objects"
+              },
+              {
+                "at_risk_topic": "StringFormat",
+                "reason": "The problem requires building a new string by concatenating parts (pluses and preserved words). Without understanding how to build strings efficiently (e.g., using concatenation or StringBuilder), they cannot construct the desired output.",
+                "prerequisite_gap": "Fundamental misunderstanding of how to manipulate String objects"
+              }
+            ],
+            "recommended_intervention": "Review Chapter 9 topics on the `String` class, focusing on methods like `length()`, `charAt()`, `substring()`, and `equals()`. Emphasize how to iterate through strings using `for` loops and how to build new strings using concatenation or `StringBuilder`. Provide practice problems that involve iterating through strings, finding patterns, and constructing new strings based on conditions."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "StringIndex",
+            "StringEqual",
+            "For",
+            "StringFormat",
+            "DefFunction"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 13.092,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "33": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"33\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [],\n      \"future_predictions\": [],\n      \"recommended_intervention\": \"The student has submitted a placeholder method with no problem-solving logic. Encourage the student to attempt implementing the required logic, focusing on breaking down the problem into smaller steps. Reviewing basic string manipulation (String methods, character access, concatenation) and loop structures would be beneficial.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": []\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "33",
+            "score": 0.0,
+            "knowledge_gaps": [],
+            "future_predictions": [],
+            "recommended_intervention": "The student has submitted a placeholder method with no problem-solving logic. Encourage the student to attempt implementing the required logic, focusing on breaking down the problem into smaller steps. Reviewing basic string manipulation (String methods, character access, concatenation) and loop structures would be beneficial."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": []
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 17.608,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "34": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"34\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Failure to apply iterative control flow (loops) to traverse a string and identify patterns. The student's approach only checks the string's global start and end, not individual segments.\",\n          \"evidence\": \"if (str.startsWith(\\\"z\\\") && str.endsWith(\\\"p\\\")) { ... } (Absence of any for or while loop)\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Misunderstanding of how to dynamically access and compare substrings at various positions within a string. The student used global string methods (`startsWith`, `endsWith`) and a fixed substring extraction (`substring(0, 2)`) instead of iterating with dynamic indices to check for patterns.\",\n          \"evidence\": \"if (str.startsWith(\\\"z\\\") && str.endsWith(\\\"p\\\")) { ... } and something = str.substring(0, 2);\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inability to construct a new string by concatenating parts of the original string based on conditions. The student attempts to assign a fixed substring rather than building a result string iteratively.\",\n          \"evidence\": \"something = str.substring(0, 2);\",\n          \"missing_concept\": \"StringConcat\",\n          \"severity\": \"moderate\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student failed to apply a loop for string traversal and pattern matching, which is fundamental for processing sequences of data.\",\n          \"prerequisite_gap\": \"Understanding when and how to use loops for iterative processing.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student struggles with dynamically accessing characters or substrings within a string, which is crucial for most string manipulation tasks.\",\n          \"prerequisite_gap\": \"Understanding string indexing and the use of methods like charAt() and substring() with dynamic parameters.\"\n        },\n        {\n          \"at_risk_topic\": \"StringLen\",\n          \"reason\": \"The absence of a loop suggests a lack of understanding of how to determine loop bounds for string processing, which typically involves the string's length.\",\n          \"prerequisite_gap\": \"Understanding the String.length() method and its use in loop conditions.\"\n        },\n        {\n          \"at_risk_topic\": \"StringConcat\",\n          \"reason\": \"The student did not attempt to build a new string by concatenating parts, indicating a gap in constructing modified strings.\",\n          \"prerequisite_gap\": \"Understanding how to use the '+' operator or StringBuilder for string construction.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"If the student struggles with basic single loops for string processing, problems requiring nested loops will be significantly more challenging.\",\n          \"prerequisite_gap\": \"Solid understanding of single 'For' loops and string indexing.\"\n        },\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"Processing arrays often involves similar iterative logic and indexing concepts as string manipulation, which the student currently struggles with.\",\n          \"prerequisite_gap\": \"Understanding of loops and indexing for sequential data structures.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review examples of string traversal using 'for' loops and 'charAt()' or 'substring()' with dynamic indices. Practice building new strings by concatenating parts within a loop, focusing on how to identify patterns and construct the result step-by-step.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"StringIndex\",\n      \"StringLen\",\n      \"StringConcat\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "34",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Failure to apply iterative control flow (loops) to traverse a string and identify patterns. The student's approach only checks the string's global start and end, not individual segments.",
+                "evidence": "if (str.startsWith(\"z\") && str.endsWith(\"p\")) { ... } (Absence of any for or while loop)",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "Misunderstanding of how to dynamically access and compare substrings at various positions within a string. The student used global string methods (`startsWith`, `endsWith`) and a fixed substring extraction (`substring(0, 2)`) instead of iterating with dynamic indices to check for patterns.",
+                "evidence": "if (str.startsWith(\"z\") && str.endsWith(\"p\")) { ... } and something = str.substring(0, 2);",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inability to construct a new string by concatenating parts of the original string based on conditions. The student attempts to assign a fixed substring rather than building a result string iteratively.",
+                "evidence": "something = str.substring(0, 2);",
+                "missing_concept": "StringConcat",
+                "severity": "moderate"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "For",
+                "reason": "The student failed to apply a loop for string traversal and pattern matching, which is fundamental for processing sequences of data.",
+                "prerequisite_gap": "Understanding when and how to use loops for iterative processing."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student struggles with dynamically accessing characters or substrings within a string, which is crucial for most string manipulation tasks.",
+                "prerequisite_gap": "Understanding string indexing and the use of methods like charAt() and substring() with dynamic parameters."
+              },
+              {
+                "at_risk_topic": "StringLen",
+                "reason": "The absence of a loop suggests a lack of understanding of how to determine loop bounds for string processing, which typically involves the string's length.",
+                "prerequisite_gap": "Understanding the String.length() method and its use in loop conditions."
+              },
+              {
+                "at_risk_topic": "StringConcat",
+                "reason": "The student did not attempt to build a new string by concatenating parts, indicating a gap in constructing modified strings.",
+                "prerequisite_gap": "Understanding how to use the '+' operator or StringBuilder for string construction."
+              },
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "If the student struggles with basic single loops for string processing, problems requiring nested loops will be significantly more challenging.",
+                "prerequisite_gap": "Solid understanding of single 'For' loops and string indexing."
+              },
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "Processing arrays often involves similar iterative logic and indexing concepts as string manipulation, which the student currently struggles with.",
+                "prerequisite_gap": "Understanding of loops and indexing for sequential data structures."
+              }
+            ],
+            "recommended_intervention": "Review examples of string traversal using 'for' loops and 'charAt()' or 'substring()' with dynamic indices. Practice building new strings by concatenating parts within a loop, focusing on how to identify patterns and construct the result step-by-step."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "StringIndex",
+            "StringLen",
+            "StringConcat"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 19.002,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "36": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"36\",\n      \"score\": 29.4,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.\",\n          \"evidence\": \"The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.\",\n          \"evidence\": \"The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.\",\n          \"missing_concept\": \"StringLen\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.\",\n          \"evidence\": \"The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.\",\n          \"evidence\": \"The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.\",\n          \"evidence\": \"The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.\",\n          \"missing_concept\": \"CharEqual\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student failed to implement any iterative logic to traverse the string, which is fundamental for string processing tasks. This indicates a difficulty in applying loops to data structures like strings.\",\n          \"prerequisite_gap\": \"Inability to conceptualize iterating over string elements or applying loop constructs for sequential processing.\"\n        },\n        {\n          \"at_risk_topic\": \"StringLen\",\n          \"reason\": \"Understanding string length is essential for correctly defining loop bounds when iterating through a string to prevent `IndexOutOfBoundsException`.\",\n          \"prerequisite_gap\": \"Lack of understanding of how to determine the size of a string for iteration or how string indexing works.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"Accessing individual characters or substrings (e.g., using `charAt()` or `substring()`) is crucial for checking patterns within a string. Without this, pattern matching is impossible.\",\n          \"prerequisite_gap\": \"Lack of understanding of how to access specific parts of a string using indices or methods.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"Conditional statements are necessary for checking if a specific pattern ('co_e') is found at each position in the string. Without this, the counting logic cannot be implemented.\",\n          \"prerequisite_gap\": \"Inability to apply conditional logic to string elements or to combine conditions for pattern recognition.\"\n        },\n        {\n          \"at_risk_topic\": \"CharEqual\",\n          \"reason\": \"Comparing individual characters or string segments is fundamental for identifying the target pattern. This is a core operation for string pattern matching.\",\n          \"prerequisite_gap\": \"Lack of understanding of how to compare characters or string segments for equality.\"\n        },\n        {\n          \"at_risk_topic\": \"DefFunction\",\n          \"reason\": \"While the method signature is correct, the complete absence of problem-solving logic within the method body suggests a difficulty in translating problem requirements into functional code within a method.\",\n          \"prerequisite_gap\": \"Inability to break down a problem into steps and implement those steps within a defined function structure.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review Chapter 2 (Elementary Programming - String basics, variables), Chapter 3 (Selections - if statements, logical operators), and Chapter 4 (Loops - for loops). Focus on how to combine these concepts to process strings, specifically using `String.length()`, `String.charAt()`, and `for` loops with `if` statements for pattern matching. Practice problems involving iterating through strings and counting specific characters or patterns.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Inability to apply fundamental string processing and iteration techniques to solve pattern-matching problems.\",\n      \"Difficulty in initiating problem-solving logic within a method for string-based tasks.\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"StringLen\",\n      \"StringIndex\",\n      \"If/Else\",\n      \"CharEqual\",\n      \"DefFunction\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "36",
+            "score": 29.4,
+            "knowledge_gaps": [
+              {
+                "gap": "Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.",
+                "evidence": "The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.",
+                "evidence": "The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.",
+                "missing_concept": "StringLen",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.",
+                "evidence": "The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.",
+                "evidence": "The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inability to apply fundamental string processing and iteration techniques to solve a pattern-matching problem. The student has not attempted to use loops or string methods to analyze the input string.",
+                "evidence": "The method `countCode` returns a fixed, uninitialized class member (`something`) instead of calculating a count based on the input string `str`. This indicates a complete lack of problem-solving logic for the given task.",
+                "missing_concept": "CharEqual",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "For",
+                "reason": "The student failed to implement any iterative logic to traverse the string, which is fundamental for string processing tasks. This indicates a difficulty in applying loops to data structures like strings.",
+                "prerequisite_gap": "Inability to conceptualize iterating over string elements or applying loop constructs for sequential processing."
+              },
+              {
+                "at_risk_topic": "StringLen",
+                "reason": "Understanding string length is essential for correctly defining loop bounds when iterating through a string to prevent `IndexOutOfBoundsException`.",
+                "prerequisite_gap": "Lack of understanding of how to determine the size of a string for iteration or how string indexing works."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "Accessing individual characters or substrings (e.g., using `charAt()` or `substring()`) is crucial for checking patterns within a string. Without this, pattern matching is impossible.",
+                "prerequisite_gap": "Lack of understanding of how to access specific parts of a string using indices or methods."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "Conditional statements are necessary for checking if a specific pattern ('co_e') is found at each position in the string. Without this, the counting logic cannot be implemented.",
+                "prerequisite_gap": "Inability to apply conditional logic to string elements or to combine conditions for pattern recognition."
+              },
+              {
+                "at_risk_topic": "CharEqual",
+                "reason": "Comparing individual characters or string segments is fundamental for identifying the target pattern. This is a core operation for string pattern matching.",
+                "prerequisite_gap": "Lack of understanding of how to compare characters or string segments for equality."
+              },
+              {
+                "at_risk_topic": "DefFunction",
+                "reason": "While the method signature is correct, the complete absence of problem-solving logic within the method body suggests a difficulty in translating problem requirements into functional code within a method.",
+                "prerequisite_gap": "Inability to break down a problem into steps and implement those steps within a defined function structure."
+              }
+            ],
+            "recommended_intervention": "Review Chapter 2 (Elementary Programming - String basics, variables), Chapter 3 (Selections - if statements, logical operators), and Chapter 4 (Loops - for loops). Focus on how to combine these concepts to process strings, specifically using `String.length()`, `String.charAt()`, and `for` loops with `if` statements for pattern matching. Practice problems involving iterating through strings and counting specific characters or patterns."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Inability to apply fundamental string processing and iteration techniques to solve pattern-matching problems.",
+            "Difficulty in initiating problem-solving logic within a method for string-based tasks."
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "StringLen",
+            "StringIndex",
+            "If/Else",
+            "CharEqual",
+            "DefFunction"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 27.284,
+      "score": 0.294118,
+      "invalid_kcs": []
+    },
+    "37": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"37\",\n      \"score\": 40.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Does not understand that String methods like `toLowerCase()` return a new String object and do not modify the original string (String immutability). The result of `toLowerCase()` is not stored or used.\",\n          \"evidence\": \"a.toLowerCase(); \\nb.toLowerCase();\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Failed to implement any logic for comparing the ends of the strings. The code simply returns an uninitialized boolean field, indicating a complete lack of understanding of how to approach the problem's core requirements using string methods and conditional statements.\",\n          \"evidence\": \"return something;\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"Misunderstanding string immutability and the return values of string methods will lead to incorrect string manipulation and comparison results in future problems, as they will expect methods to modify strings in place.\",\n          \"prerequisite_gap\": \"Understanding how methods operate on objects and the concept of immutability for certain types like String.\"\n        },\n        {\n          \"at_risk_topic\": \"StringFormat\",\n          \"reason\": \"The lack of understanding of string immutability and how to correctly use the return values of string manipulation methods will cause issues in any problem requiring string transformations.\",\n          \"prerequisite_gap\": \"Understanding how methods operate on objects and the concept of immutability for certain types like String.\"\n        },\n        {\n          \"at_risk_topic\": \"StringLen\",\n          \"reason\": \"The student did not attempt any logic for string comparison, which typically involves using `length()` to determine parts of strings to compare. This indicates a gap in applying basic string properties.\",\n          \"prerequisite_gap\": \"Mastery of fundamental string methods like `length()` and their application in problem-solving.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"To compare string endings, methods like `substring()` or `endsWith()` are required. The student's complete lack of comparison logic suggests they do not know how to extract or compare parts of strings.\",\n          \"prerequisite_gap\": \"Mastery of fundamental string methods like `substring()` and `endsWith()`.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The problem requires conditional logic to determine if one string ends with another. The student's submission shows no attempt at conditional statements, indicating a struggle to translate problem requirements into control flow.\",\n          \"prerequisite_gap\": \"Ability to apply conditional statements (`if/else`) to problem-solving scenarios.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicBoolean\",\n          \"reason\": \"The student failed to construct any boolean logic based on string comparisons, instead returning an uninitialized field. This indicates difficulty in formulating and returning boolean results from complex conditions.\",\n          \"prerequisite_gap\": \"Ability to formulate boolean expressions and return values based on problem conditions.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review String immutability and how String methods return new String objects, emphasizing the need to assign the result to a variable. Practice problems involving `toLowerCase()`, `substring()`, `length()`, `endsWith()`, and `equals()`/`equalsIgnoreCase()`, ensuring the return values are correctly used within `if/else` statements to build conditional logic. Focus on breaking down string problems into smaller logical steps.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"String immutability and method return values\",\n      \"Lack of problem-solving logic for string comparison\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"Chapter 9: String class and its methods (especially immutability, `toLowerCase()`, `length()`, `substring()`, `equals()`, `endsWith()`)\",\n      \"Chapter 3: Selections (applying `if/else` and boolean logic to problem requirements)\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "37",
+            "score": 40.0,
+            "knowledge_gaps": [
+              {
+                "gap": "Does not understand that String methods like `toLowerCase()` return a new String object and do not modify the original string (String immutability). The result of `toLowerCase()` is not stored or used.",
+                "evidence": "a.toLowerCase(); \nb.toLowerCase();",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              },
+              {
+                "gap": "Failed to implement any logic for comparing the ends of the strings. The code simply returns an uninitialized boolean field, indicating a complete lack of understanding of how to approach the problem's core requirements using string methods and conditional statements.",
+                "evidence": "return something;",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "Misunderstanding string immutability and the return values of string methods will lead to incorrect string manipulation and comparison results in future problems, as they will expect methods to modify strings in place.",
+                "prerequisite_gap": "Understanding how methods operate on objects and the concept of immutability for certain types like String."
+              },
+              {
+                "at_risk_topic": "StringFormat",
+                "reason": "The lack of understanding of string immutability and how to correctly use the return values of string manipulation methods will cause issues in any problem requiring string transformations.",
+                "prerequisite_gap": "Understanding how methods operate on objects and the concept of immutability for certain types like String."
+              },
+              {
+                "at_risk_topic": "StringLen",
+                "reason": "The student did not attempt any logic for string comparison, which typically involves using `length()` to determine parts of strings to compare. This indicates a gap in applying basic string properties.",
+                "prerequisite_gap": "Mastery of fundamental string methods like `length()` and their application in problem-solving."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "To compare string endings, methods like `substring()` or `endsWith()` are required. The student's complete lack of comparison logic suggests they do not know how to extract or compare parts of strings.",
+                "prerequisite_gap": "Mastery of fundamental string methods like `substring()` and `endsWith()`."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The problem requires conditional logic to determine if one string ends with another. The student's submission shows no attempt at conditional statements, indicating a struggle to translate problem requirements into control flow.",
+                "prerequisite_gap": "Ability to apply conditional statements (`if/else`) to problem-solving scenarios."
+              },
+              {
+                "at_risk_topic": "LogicBoolean",
+                "reason": "The student failed to construct any boolean logic based on string comparisons, instead returning an uninitialized field. This indicates difficulty in formulating and returning boolean results from complex conditions.",
+                "prerequisite_gap": "Ability to formulate boolean expressions and return values based on problem conditions."
+              }
+            ],
+            "recommended_intervention": "Review String immutability and how String methods return new String objects, emphasizing the need to assign the result to a variable. Practice problems involving `toLowerCase()`, `substring()`, `length()`, `endsWith()`, and `equals()`/`equalsIgnoreCase()`, ensuring the return values are correctly used within `if/else` statements to build conditional logic. Focus on breaking down string problems into smaller logical steps."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "String immutability and method return values",
+            "Lack of problem-solving logic for string comparison"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "Chapter 9: String class and its methods (especially immutability, `toLowerCase()`, `length()`, `substring()`, `equals()`, `endsWith()`)",
+            "Chapter 3: Selections (applying `if/else` and boolean logic to problem requirements)"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 23.015,
+      "score": 0.4,
+      "invalid_kcs": []
+    },
+    "38": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"38\",\n      \"score\": 93.3,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding of String immutability, failing to reassign the result of `toLowerCase()` after calling it, which means the original string remains unchanged. This indicates a lack of understanding that String methods return new objects rather than modifying the original in place.\",\n          \"evidence\": \"str.toLowerCase();\",\n          \"missing_concept\": \"StringFormat\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Inability to construct a precise logical condition for pattern matching that accounts for specific character contexts (e.g., 'not directly preceded by'). The use of global `contains()` checks is insufficient for localized conditions and fails for multiple occurrences of 'xyz' or patterns at string boundaries (e.g., 'xyz' at the start of the string).\",\n          \"evidence\": \"if (str.contains(\\\"xyz\\\") && !str.contains(\\\".xyz\\\"))\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringFormat\",\n          \"reason\": \"The student's misunderstanding of String immutability will lead to errors in any problem requiring modification or transformation of strings, as they may call methods like `substring()` or `replace()` but fail to use their returned values, resulting in unchanged strings.\",\n          \"prerequisite_gap\": \"Understanding that String methods return new String objects and do not modify the original in place.\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student's current approach relies on broad `contains()` checks, which are inadequate for problems requiring precise contextual analysis of substrings (e.g., 'substring X not preceded by Y'). They will struggle with problems that necessitate iterating through a string, checking characters at specific indices, and building complex logical conditions based on those checks.\",\n          \"prerequisite_gap\": \"Ability to iterate through a string using a loop, access individual characters or substrings at specific indices, and apply conditional logic (`If/Else`, `LogicAndNotOr`) to evaluate character relationships and patterns.\"\n        },\n        {\n          \"at_risk_topic\": \"CharEqual\",\n          \"reason\": \"The student's current approach avoids character-by-character comparison. Future problems requiring checks against specific characters at certain positions (e.g., `charAt(i-1) == '.'`) will be challenging due to this gap.\",\n          \"prerequisite_gap\": \"Understanding how to access individual characters in a string using `charAt()` and compare them using `==`.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review Java String immutability and the proper way to use String methods that return new String objects (i.e., reassigning the result). Practice problems involving iterating through strings with loops and `charAt()` or `substring()` to check for specific patterns and their surrounding context, paying close attention to index boundaries and complex logical conditions.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"StringFormat\",\n      \"StringIndex\",\n      \"CharEqual\",\n      \"For\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "38",
+            "score": 93.3,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding of String immutability, failing to reassign the result of `toLowerCase()` after calling it, which means the original string remains unchanged. This indicates a lack of understanding that String methods return new objects rather than modifying the original in place.",
+                "evidence": "str.toLowerCase();",
+                "missing_concept": "StringFormat",
+                "severity": "critical"
+              },
+              {
+                "gap": "Inability to construct a precise logical condition for pattern matching that accounts for specific character contexts (e.g., 'not directly preceded by'). The use of global `contains()` checks is insufficient for localized conditions and fails for multiple occurrences of 'xyz' or patterns at string boundaries (e.g., 'xyz' at the start of the string).",
+                "evidence": "if (str.contains(\"xyz\") && !str.contains(\".xyz\"))",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringFormat",
+                "reason": "The student's misunderstanding of String immutability will lead to errors in any problem requiring modification or transformation of strings, as they may call methods like `substring()` or `replace()` but fail to use their returned values, resulting in unchanged strings.",
+                "prerequisite_gap": "Understanding that String methods return new String objects and do not modify the original in place."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student's current approach relies on broad `contains()` checks, which are inadequate for problems requiring precise contextual analysis of substrings (e.g., 'substring X not preceded by Y'). They will struggle with problems that necessitate iterating through a string, checking characters at specific indices, and building complex logical conditions based on those checks.",
+                "prerequisite_gap": "Ability to iterate through a string using a loop, access individual characters or substrings at specific indices, and apply conditional logic (`If/Else`, `LogicAndNotOr`) to evaluate character relationships and patterns."
+              },
+              {
+                "at_risk_topic": "CharEqual",
+                "reason": "The student's current approach avoids character-by-character comparison. Future problems requiring checks against specific characters at certain positions (e.g., `charAt(i-1) == '.'`) will be challenging due to this gap.",
+                "prerequisite_gap": "Understanding how to access individual characters in a string using `charAt()` and compare them using `==`."
+              }
+            ],
+            "recommended_intervention": "Review Java String immutability and the proper way to use String methods that return new String objects (i.e., reassigning the result). Practice problems involving iterating through strings with loops and `charAt()` or `substring()` to check for specific patterns and their surrounding context, paying close attention to index boundaries and complex logical conditions."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "StringFormat",
+            "StringIndex",
+            "CharEqual",
+            "For"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 22.151,
+      "score": 0.933333,
+      "invalid_kcs": []
+    },
+    "39": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"39\",\n      \"score\": 36.8,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding of how to implement a value-returning method that processes its input parameters. The student returns a fixed, uncomputed class field instead of a value derived from the input string 'str'.\",\n          \"evidence\": \"private boolean something; \\npublic boolean xyBalance(String str)\\n{\\n    \\n    return something; \\n}\",\n          \"missing_concept\": \"DefFunction\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"DefFunction\",\n          \"reason\": \"The student's current code indicates a fundamental misunderstanding of how a method should process its input parameters to compute and return a result. This will hinder their ability to write any non-trivial method.\",\n          \"prerequisite_gap\": \"Understanding the basic structure and purpose of a value-returning method.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"To solve problems like this, students need to iterate through input data (like a string). If they don't understand how to structure a method to process input, they won't even get to the point of using loops effectively within that method.\",\n          \"prerequisite_gap\": \"DefFunction (understanding method structure and parameter usage).\"\n        },\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"String manipulation problems require accessing individual characters. Without a basic framework for processing the input string within a method, they won't be able to apply these string-specific skills.\",\n          \"prerequisite_gap\": \"DefFunction (understanding method structure and parameter usage).\"\n        },\n        {\n          \"at_risk_topic\": \"CharEqual\",\n          \"reason\": \"String manipulation problems require comparing individual characters. Without a basic framework for processing the input string within a method, they won't be able to apply these string-specific skills.\",\n          \"prerequisite_gap\": \"DefFunction (understanding method structure and parameter usage).\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the concept of method parameters and return values, emphasizing how the method's body uses the parameters to compute the result that is then returned. Provide examples of simple methods that take an input and return a derived output, specifically focusing on string processing examples.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"DefFunction\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"DefFunction\",\n      \"For\",\n      \"StringIndex\",\n      \"CharEqual\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "39",
+            "score": 36.8,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding of how to implement a value-returning method that processes its input parameters. The student returns a fixed, uncomputed class field instead of a value derived from the input string 'str'.",
+                "evidence": "private boolean something; \npublic boolean xyBalance(String str)\n{\n    \n    return something; \n}",
+                "missing_concept": "DefFunction",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "DefFunction",
+                "reason": "The student's current code indicates a fundamental misunderstanding of how a method should process its input parameters to compute and return a result. This will hinder their ability to write any non-trivial method.",
+                "prerequisite_gap": "Understanding the basic structure and purpose of a value-returning method."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "To solve problems like this, students need to iterate through input data (like a string). If they don't understand how to structure a method to process input, they won't even get to the point of using loops effectively within that method.",
+                "prerequisite_gap": "DefFunction (understanding method structure and parameter usage)."
+              },
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "String manipulation problems require accessing individual characters. Without a basic framework for processing the input string within a method, they won't be able to apply these string-specific skills.",
+                "prerequisite_gap": "DefFunction (understanding method structure and parameter usage)."
+              },
+              {
+                "at_risk_topic": "CharEqual",
+                "reason": "String manipulation problems require comparing individual characters. Without a basic framework for processing the input string within a method, they won't be able to apply these string-specific skills.",
+                "prerequisite_gap": "DefFunction (understanding method structure and parameter usage)."
+              }
+            ],
+            "recommended_intervention": "Review the concept of method parameters and return values, emphasizing how the method's body uses the parameters to compute the result that is then returned. Provide examples of simple methods that take an input and return a derived output, specifically focusing on string processing examples."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "DefFunction"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "DefFunction",
+            "For",
+            "StringIndex",
+            "CharEqual"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 20.361,
+      "score": 0.368421,
+      "invalid_kcs": []
+    },
+    "40": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"40\",\n      \"score\": 30.8,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding of string searching methods: The student uses `startsWith()` and `endsWith()` to check for the presence of 'bread' at the beginning and end of the string, respectively. The problem requires finding the *first* and *last* occurrences of 'bread' anywhere within the string, which necessitates methods like `indexOf()` and `lastIndexOf()`.\",\n          \"evidence\": \"if (str.startsWith(\\\"bread\\\") && str.endsWith(\\\"bread\\\"))\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incorrect usage of `substring()` method parameters: The student attempts to use a negative index (`-5`) as the `endIndex` for `substring()`. In Java, `substring()` requires positive, 0-based indices where the `endIndex` must be greater than or equal to the `startIndex`. This will result in a `StringIndexOutOfBoundsException` at runtime.\",\n          \"evidence\": \"something = str.substring(5, -5);\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student demonstrates a fundamental misunderstanding of how to locate substrings within a larger string (using `startsWith`/`endsWith` instead of `indexOf`/`lastIndexOf`) and how to correctly use `substring` with valid, 0-based indices. This will impact any problem requiring precise manipulation or extraction of parts of strings.\",\n          \"prerequisite_gap\": \"Understanding the purpose and parameters of `String` class methods like `indexOf()`, `lastIndexOf()`, and `substring()`, along with the concept of 0-based indexing.\"\n        },\n        {\n          \"at_risk_topic\": \"StringLen\",\n          \"reason\": \"The incorrect `substring` usage and general misunderstanding of string boundaries suggest a weak grasp of string length and its role in calculating correct indices for substring operations or loop bounds.\",\n          \"prerequisite_gap\": \"Understanding the `length()` method and how it relates to valid indices (0 to length-1) for string manipulation.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review `String` class methods, focusing on `indexOf()`, `lastIndexOf()`, `substring()`, and `length()`. Provide clear examples demonstrating how to find the starting and ending positions of arbitrary substrings and how to extract content using `substring()` with correct positive indices. Emphasize 0-based indexing and the inclusive/exclusive nature of `substring` parameters.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"StringIndex\",\n      \"StringLen\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "40",
+            "score": 30.8,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding of string searching methods: The student uses `startsWith()` and `endsWith()` to check for the presence of 'bread' at the beginning and end of the string, respectively. The problem requires finding the *first* and *last* occurrences of 'bread' anywhere within the string, which necessitates methods like `indexOf()` and `lastIndexOf()`.",
+                "evidence": "if (str.startsWith(\"bread\") && str.endsWith(\"bread\"))",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incorrect usage of `substring()` method parameters: The student attempts to use a negative index (`-5`) as the `endIndex` for `substring()`. In Java, `substring()` requires positive, 0-based indices where the `endIndex` must be greater than or equal to the `startIndex`. This will result in a `StringIndexOutOfBoundsException` at runtime.",
+                "evidence": "something = str.substring(5, -5);",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student demonstrates a fundamental misunderstanding of how to locate substrings within a larger string (using `startsWith`/`endsWith` instead of `indexOf`/`lastIndexOf`) and how to correctly use `substring` with valid, 0-based indices. This will impact any problem requiring precise manipulation or extraction of parts of strings.",
+                "prerequisite_gap": "Understanding the purpose and parameters of `String` class methods like `indexOf()`, `lastIndexOf()`, and `substring()`, along with the concept of 0-based indexing."
+              },
+              {
+                "at_risk_topic": "StringLen",
+                "reason": "The incorrect `substring` usage and general misunderstanding of string boundaries suggest a weak grasp of string length and its role in calculating correct indices for substring operations or loop bounds.",
+                "prerequisite_gap": "Understanding the `length()` method and how it relates to valid indices (0 to length-1) for string manipulation."
+              }
+            ],
+            "recommended_intervention": "Review `String` class methods, focusing on `indexOf()`, `lastIndexOf()`, `substring()`, and `length()`. Provide clear examples demonstrating how to find the starting and ending positions of arbitrary substrings and how to extract content using `substring()` with correct positive indices. Emphasize 0-based indexing and the inclusive/exclusive nature of `substring` parameters."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "StringIndex",
+            "StringLen"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 15.273,
+      "score": 0.307692,
+      "invalid_kcs": []
+    },
+    "64": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"64\",\n      \"score\": 0.0,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"The loop iterates over a hardcoded range (1 to 20) instead of using the provided 'start' and 'end' parameters, indicating a misunderstanding of how to use method parameters to control loop bounds.\",\n          \"evidence\": \"for (int i = 1; i <= 20; i++)\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The method returns 'result' inside the loop's first iteration, preventing the processing of the entire range of numbers and the accumulation of results into an array. This demonstrates a lack of understanding of loop continuation and how to build up a collection of results.\",\n          \"evidence\": \"return result;\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The conditional logic for 'FizzBuzz' is incorrect. Using 'else if (i % 5 == 0)' after 'if (i % 3 == 0)' means that numbers divisible by both 3 and 5 (e.g., 15) will only be identified as 'Fizz' and not 'FizzBuzz'. The order and combination of conditions are flawed.\",\n          \"evidence\": \"if (i % 3 == 0) { result = \\\"Fizz\\\"; } else if (i % 5 == 0) { result += \\\"Buzz\\\"; }\",\n          \"missing_concept\": \"If/Else\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The student uses '==' to compare a String variable ('result') with an empty string literal ('\\\"\\\"'). In Java, '==' compares object references, not string content. The '.equals()' method should be used for content comparison.\",\n          \"evidence\": \"else if (result == \\\"\\\")\",\n          \"missing_concept\": \"StringEqual\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The student attempts to cast an integer 'i' directly to a String using '(String) i', which is an invalid type cast in Java. The problem statement explicitly suggests 'String.valueOf(xxx)' for this conversion.\",\n          \"evidence\": \"result = (String) i;\",\n          \"missing_concept\": \"StringFormat\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"The method is declared to return a 'String[]' array, but the student attempts to return a single 'String' variable. The code also fails to declare, initialize, or populate the required array of strings.\",\n          \"evidence\": \"public String[] fizzBuzz(...) { ... return result; }\",\n          \"missing_concept\": \"ArrayIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"The student struggles with controlling loop ranges based on parameters and understanding when/how to return from a loop that is meant to process multiple items. This will impact any problem requiring iterative processing or building collections.\",\n          \"prerequisite_gap\": \"Understanding of loop continuation conditions and parameter usage.\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"The student's FizzBuzz logic indicates difficulty in structuring conditional statements for overlapping conditions, particularly when the order of checks is critical (e.g., checking for multiples of 15 before 3 or 5).\",\n          \"prerequisite_gap\": \"Understanding of logical flow with if-else if-else statements and operator precedence.\"\n        },\n        {\n          \"at_risk_topic\": \"LogicAndNotOr\",\n          \"reason\": \"The FizzBuzz logic also suggests a potential struggle with combining conditions effectively (e.g., using '&&' for 'multiples of both 3 and 5') to avoid issues with 'else if' ordering.\",\n          \"prerequisite_gap\": \"Understanding of logical operators and their application in complex conditions.\"\n        },\n        {\n          \"at_risk_topic\": \"StringEqual\",\n          \"reason\": \"Misunderstanding the difference between '==' and '.equals()' for String comparison will lead to subtle and hard-to-debug logic errors in any problem involving comparing string values.\",\n          \"prerequisite_gap\": \"Understanding of object reference vs. content comparison in Java.\"\n        },\n        {\n          \"at_risk_topic\": \"StringFormat\",\n          \"reason\": \"The inability to correctly convert an integer to its String representation will hinder tasks requiring formatted output or combining numeric data with strings.\",\n          \"prerequisite_gap\": \"Knowledge of basic type conversion methods (e.g., String.valueOf()).\"\n        },\n        {\n          \"at_risk_topic\": \"ArrayIndex\",\n          \"reason\": \"The student's failure to declare, populate, and return an array as specified by the method signature indicates a fundamental gap in array manipulation, which is crucial for many data processing tasks.\",\n          \"prerequisite_gap\": \"Understanding of array declaration, initialization, and element assignment.\"\n        },\n        {\n          \"at_risk_topic\": \"DefFunction\",\n          \"reason\": \"The mismatch between the declared return type (String[]) and the actual returned value (String) suggests a lack of understanding of method signatures and how to correctly return complex data structures like arrays.\",\n          \"prerequisite_gap\": \"Understanding of method return types and how to construct and return an array.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review the basics of for loops, focusing on using parameters for loop bounds and understanding when to return from a method that processes a collection. Provide explicit examples of FizzBuzz logic using both nested if statements and combined logical operators. Emphasize the difference between '==' and '.equals()' for String comparison. Demonstrate correct integer-to-String conversion using 'String.valueOf()'. Finally, provide exercises on declaring, initializing, populating, and returning arrays from methods.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Incorrect loop range and premature return from loops\",\n      \"Flawed conditional logic for overlapping conditions (e.g., FizzBuzz pattern)\",\n      \"Misunderstanding of String comparison using '==' vs '.equals()'\",\n      \"Incorrect type conversion from int to String\",\n      \"Difficulty with array declaration, population, and returning arrays from methods\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"If/Else\",\n      \"LogicAndNotOr\",\n      \"StringEqual\",\n      \"StringFormat\",\n      \"ArrayIndex\",\n      \"DefFunction\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "64",
+            "score": 0.0,
+            "knowledge_gaps": [
+              {
+                "gap": "The loop iterates over a hardcoded range (1 to 20) instead of using the provided 'start' and 'end' parameters, indicating a misunderstanding of how to use method parameters to control loop bounds.",
+                "evidence": "for (int i = 1; i <= 20; i++)",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "The method returns 'result' inside the loop's first iteration, preventing the processing of the entire range of numbers and the accumulation of results into an array. This demonstrates a lack of understanding of loop continuation and how to build up a collection of results.",
+                "evidence": "return result;",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "The conditional logic for 'FizzBuzz' is incorrect. Using 'else if (i % 5 == 0)' after 'if (i % 3 == 0)' means that numbers divisible by both 3 and 5 (e.g., 15) will only be identified as 'Fizz' and not 'FizzBuzz'. The order and combination of conditions are flawed.",
+                "evidence": "if (i % 3 == 0) { result = \"Fizz\"; } else if (i % 5 == 0) { result += \"Buzz\"; }",
+                "missing_concept": "If/Else",
+                "severity": "critical"
+              },
+              {
+                "gap": "The student uses '==' to compare a String variable ('result') with an empty string literal ('\"\"'). In Java, '==' compares object references, not string content. The '.equals()' method should be used for content comparison.",
+                "evidence": "else if (result == \"\")",
+                "missing_concept": "StringEqual",
+                "severity": "critical"
+              },
+              {
+                "gap": "The student attempts to cast an integer 'i' directly to a String using '(String) i', which is an invalid type cast in Java. The problem statement explicitly suggests 'String.valueOf(xxx)' for this conversion.",
+                "evidence": "result = (String) i;",
+                "missing_concept": "StringFormat",
+                "severity": "critical"
+              },
+              {
+                "gap": "The method is declared to return a 'String[]' array, but the student attempts to return a single 'String' variable. The code also fails to declare, initialize, or populate the required array of strings.",
+                "evidence": "public String[] fizzBuzz(...) { ... return result; }",
+                "missing_concept": "ArrayIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "For",
+                "reason": "The student struggles with controlling loop ranges based on parameters and understanding when/how to return from a loop that is meant to process multiple items. This will impact any problem requiring iterative processing or building collections.",
+                "prerequisite_gap": "Understanding of loop continuation conditions and parameter usage."
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "The student's FizzBuzz logic indicates difficulty in structuring conditional statements for overlapping conditions, particularly when the order of checks is critical (e.g., checking for multiples of 15 before 3 or 5).",
+                "prerequisite_gap": "Understanding of logical flow with if-else if-else statements and operator precedence."
+              },
+              {
+                "at_risk_topic": "LogicAndNotOr",
+                "reason": "The FizzBuzz logic also suggests a potential struggle with combining conditions effectively (e.g., using '&&' for 'multiples of both 3 and 5') to avoid issues with 'else if' ordering.",
+                "prerequisite_gap": "Understanding of logical operators and their application in complex conditions."
+              },
+              {
+                "at_risk_topic": "StringEqual",
+                "reason": "Misunderstanding the difference between '==' and '.equals()' for String comparison will lead to subtle and hard-to-debug logic errors in any problem involving comparing string values.",
+                "prerequisite_gap": "Understanding of object reference vs. content comparison in Java."
+              },
+              {
+                "at_risk_topic": "StringFormat",
+                "reason": "The inability to correctly convert an integer to its String representation will hinder tasks requiring formatted output or combining numeric data with strings.",
+                "prerequisite_gap": "Knowledge of basic type conversion methods (e.g., String.valueOf())."
+              },
+              {
+                "at_risk_topic": "ArrayIndex",
+                "reason": "The student's failure to declare, populate, and return an array as specified by the method signature indicates a fundamental gap in array manipulation, which is crucial for many data processing tasks.",
+                "prerequisite_gap": "Understanding of array declaration, initialization, and element assignment."
+              },
+              {
+                "at_risk_topic": "DefFunction",
+                "reason": "The mismatch between the declared return type (String[]) and the actual returned value (String) suggests a lack of understanding of method signatures and how to correctly return complex data structures like arrays.",
+                "prerequisite_gap": "Understanding of method return types and how to construct and return an array."
+              }
+            ],
+            "recommended_intervention": "Review the basics of for loops, focusing on using parameters for loop bounds and understanding when to return from a method that processes a collection. Provide explicit examples of FizzBuzz logic using both nested if statements and combined logical operators. Emphasize the difference between '==' and '.equals()' for String comparison. Demonstrate correct integer-to-String conversion using 'String.valueOf()'. Finally, provide exercises on declaring, initializing, populating, and returning arrays from methods."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Incorrect loop range and premature return from loops",
+            "Flawed conditional logic for overlapping conditions (e.g., FizzBuzz pattern)",
+            "Misunderstanding of String comparison using '==' vs '.equals()'",
+            "Incorrect type conversion from int to String",
+            "Difficulty with array declaration, population, and returning arrays from methods"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "If/Else",
+            "LogicAndNotOr",
+            "StringEqual",
+            "StringFormat",
+            "ArrayIndex",
+            "DefFunction"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 18.13,
+      "score": 0.0,
+      "invalid_kcs": []
+    },
+    "128": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"128\",\n      \"score\": 66.7,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Misunderstanding of string pattern matching: The student's logic only checks if the string starts and ends with 'b', completely missing the requirement to search for a 'b_b' pattern anywhere within the string. This indicates a fundamental lack of understanding of how to iterate through a string and check for a pattern at different positions.\",\n          \"evidence\": \"if (str.startsWith(\\\"b\\\") && str.endsWith(\\\"b\\\"))\",\n          \"missing_concept\": \"For\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incorrect string method application for pattern search: The student used `startsWith()` and `endsWith()` which are too specific for the problem's general 'contains' requirement. This shows they haven't grasped the appropriate methods or techniques (like `charAt()` or `substring()` within a loop) for flexible string pattern searching.\",\n          \"evidence\": \"str.startsWith(\\\"b\\\") && str.endsWith(\\\"b\\\")\",\n          \"missing_concept\": \"StringIndex\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"StringIndex\",\n          \"reason\": \"The student struggles with identifying the need to access characters or substrings at arbitrary indices for pattern matching. This is a fundamental skill for most string manipulation problems.\",\n          \"prerequisite_gap\": \"Understanding how to iterate through a string and access elements by index.\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"While the student may have general knowledge of `for` loops, they failed to apply it in the context of iterating through a string to find a pattern. They will struggle with problems requiring traversal of strings or arrays to check conditions at multiple points.\",\n          \"prerequisite_gap\": \"Recognizing when iteration is necessary for string or array processing.\"\n        },\n        {\n          \"at_risk_topic\": \"CharEqual\",\n          \"reason\": \"Once the student attempts to iterate and access characters by index, they will need to compare individual characters. Their current low mastery in `CharEqual` suggests this will be a subsequent challenge.\",\n          \"prerequisite_gap\": \"Correctly accessing individual characters using `charAt()`.\"\n        },\n        {\n          \"at_risk_topic\": \"NestedFor\",\n          \"reason\": \"If the student struggles with single loops for basic string pattern matching, more complex problems requiring nested loops for string or array processing (e.g., finding overlapping patterns, multi-dimensional array traversal) will be significantly more difficult.\",\n          \"prerequisite_gap\": \"Mastery of single `for` loops for string iteration and basic pattern matching.\"\n        }\n      ],\n      \"recommended_intervention\": \"Review examples of iterating through strings using `for` loops and `charAt(index)` or `substring(startIndex, endIndex)`. Emphasize the difference between checking string boundaries (`startsWith`, `endsWith`) and searching for patterns *within* a string. Provide practice problems that involve finding specific characters or patterns at arbitrary positions within a string, requiring explicit iteration and indexing.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"String pattern matching requiring iteration and indexing\",\n      \"Appropriate use of string methods for searching vs. boundary checks\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"For\",\n      \"StringIndex\",\n      \"CharEqual\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "128",
+            "score": 66.7,
+            "knowledge_gaps": [
+              {
+                "gap": "Misunderstanding of string pattern matching: The student's logic only checks if the string starts and ends with 'b', completely missing the requirement to search for a 'b_b' pattern anywhere within the string. This indicates a fundamental lack of understanding of how to iterate through a string and check for a pattern at different positions.",
+                "evidence": "if (str.startsWith(\"b\") && str.endsWith(\"b\"))",
+                "missing_concept": "For",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incorrect string method application for pattern search: The student used `startsWith()` and `endsWith()` which are too specific for the problem's general 'contains' requirement. This shows they haven't grasped the appropriate methods or techniques (like `charAt()` or `substring()` within a loop) for flexible string pattern searching.",
+                "evidence": "str.startsWith(\"b\") && str.endsWith(\"b\")",
+                "missing_concept": "StringIndex",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "StringIndex",
+                "reason": "The student struggles with identifying the need to access characters or substrings at arbitrary indices for pattern matching. This is a fundamental skill for most string manipulation problems.",
+                "prerequisite_gap": "Understanding how to iterate through a string and access elements by index."
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "While the student may have general knowledge of `for` loops, they failed to apply it in the context of iterating through a string to find a pattern. They will struggle with problems requiring traversal of strings or arrays to check conditions at multiple points.",
+                "prerequisite_gap": "Recognizing when iteration is necessary for string or array processing."
+              },
+              {
+                "at_risk_topic": "CharEqual",
+                "reason": "Once the student attempts to iterate and access characters by index, they will need to compare individual characters. Their current low mastery in `CharEqual` suggests this will be a subsequent challenge.",
+                "prerequisite_gap": "Correctly accessing individual characters using `charAt()`."
+              },
+              {
+                "at_risk_topic": "NestedFor",
+                "reason": "If the student struggles with single loops for basic string pattern matching, more complex problems requiring nested loops for string or array processing (e.g., finding overlapping patterns, multi-dimensional array traversal) will be significantly more difficult.",
+                "prerequisite_gap": "Mastery of single `for` loops for string iteration and basic pattern matching."
+              }
+            ],
+            "recommended_intervention": "Review examples of iterating through strings using `for` loops and `charAt(index)` or `substring(startIndex, endIndex)`. Emphasize the difference between checking string boundaries (`startsWith`, `endsWith`) and searching for patterns *within* a string. Provide practice problems that involve finding specific characters or patterns at arbitrary positions within a string, requiring explicit iteration and indexing."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "String pattern matching requiring iteration and indexing",
+            "Appropriate use of string methods for searching vs. boundary checks"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "For",
+            "StringIndex",
+            "CharEqual"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 17.88,
+      "score": 0.666667,
+      "invalid_kcs": []
+    },
+    "234": {
+      "raw_response": "{\n  \"student_analysis\": [\n    {\n      \"student_id\": \"14474\",\n      \"problem_id\": \"234\",\n      \"score\": 92.3,\n      \"knowledge_gaps\": [\n        {\n          \"gap\": \"Confuses the assignment operator (=) with the equality comparison operator (==) when evaluating boolean conditions in an if statement. This causes the 'isWeekend' variable to be assigned 'true' or 'false' rather than being compared, leading to incorrect control flow.\",\n          \"evidence\": \"if (isWeekend = true)\",\n          \"missing_concept\": \"LogicBoolean\",\n          \"severity\": \"critical\"\n        },\n        {\n          \"gap\": \"Incorrectly uses the logical AND (&&) operator to define a range exclusion (e.g., 'less than 40 AND greater than 60'). This condition is logically impossible and will never evaluate to true, indicating a misunderstanding of how to combine conditions for ranges or exclusions.\",\n          \"evidence\": \"else if (cigars < 40 && cigars > 60)\",\n          \"missing_concept\": \"LogicAndNotOr\",\n          \"severity\": \"critical\"\n        }\n      ],\n      \"future_predictions\": [\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"Misunderstanding of boolean comparison vs. assignment will lead to incorrect conditional execution paths, making it difficult to control program flow based on boolean states.\",\n          \"prerequisite_gap\": \"LogicBoolean\"\n        },\n        {\n          \"at_risk_topic\": \"NestedIf\",\n          \"reason\": \"The fundamental error in boolean comparison will propagate to more complex nested conditional structures, making it challenging to implement correct logic.\",\n          \"prerequisite_gap\": \"LogicBoolean\"\n        },\n        {\n          \"at_risk_topic\": \"While\",\n          \"reason\": \"Loop continuation conditions often rely on boolean expressions. This gap will lead to infinite loops or loops that terminate prematurely/incorrectly.\",\n          \"prerequisite_gap\": \"LogicBoolean\"\n        },\n        {\n          \"at_risk_topic\": \"For\",\n          \"reason\": \"Similar to while loops, conditions within for loops or conditional statements inside loops will be prone to errors due to incorrect boolean evaluation.\",\n          \"prerequisite_gap\": \"LogicBoolean\"\n        },\n        {\n          \"at_risk_topic\": \"If/Else\",\n          \"reason\": \"Incorrect use of logical operators (AND/OR) for defining ranges or exclusions will result in conditions that do not accurately reflect the problem requirements, leading to incorrect program behavior for specific inputs.\",\n          \"prerequisite_gap\": \"LogicAndNotOr\"\n        },\n        {\n          \"at_risk_topic\": \"NestedIf\",\n          \"reason\": \"When combining multiple conditions in nested if statements, the student will struggle to correctly formulate complex logical expressions, especially those involving ranges or multiple criteria.\",\n          \"prerequisite_gap\": \"LogicAndNotOr\"\n        }\n      ],\n      \"recommended_intervention\": \"Provide targeted exercises and explanations distinguishing between the assignment operator (=) and the equality comparison operator (==), particularly with boolean variables. Emphasize that `if (booleanVar)` is equivalent to `if (booleanVar == true)`. Additionally, review the truth tables and practical applications of logical AND (&&) and OR (||) operators, focusing on how to correctly combine conditions to define numerical ranges and exclusions.\"\n    }\n  ],\n  \"class_summary\": {\n    \"common_gaps\": [\n      \"Confusion between assignment (=) and comparison (==) operators in boolean expressions\",\n      \"Misunderstanding of logical AND (&&) and OR (||) for defining numerical ranges and exclusions\"\n    ],\n    \"highest_risk_students\": [\n      \"14474\"\n    ],\n    \"suggested_review_topics\": [\n      \"LogicBoolean\",\n      \"LogicAndNotOr\",\n      \"If/Else\"\n    ]\n  }\n}",
+      "parsed_response": {
+        "student_analysis": [
+          {
+            "student_id": "14474",
+            "problem_id": "234",
+            "score": 92.3,
+            "knowledge_gaps": [
+              {
+                "gap": "Confuses the assignment operator (=) with the equality comparison operator (==) when evaluating boolean conditions in an if statement. This causes the 'isWeekend' variable to be assigned 'true' or 'false' rather than being compared, leading to incorrect control flow.",
+                "evidence": "if (isWeekend = true)",
+                "missing_concept": "LogicBoolean",
+                "severity": "critical"
+              },
+              {
+                "gap": "Incorrectly uses the logical AND (&&) operator to define a range exclusion (e.g., 'less than 40 AND greater than 60'). This condition is logically impossible and will never evaluate to true, indicating a misunderstanding of how to combine conditions for ranges or exclusions.",
+                "evidence": "else if (cigars < 40 && cigars > 60)",
+                "missing_concept": "LogicAndNotOr",
+                "severity": "critical"
+              }
+            ],
+            "future_predictions": [
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "Misunderstanding of boolean comparison vs. assignment will lead to incorrect conditional execution paths, making it difficult to control program flow based on boolean states.",
+                "prerequisite_gap": "LogicBoolean"
+              },
+              {
+                "at_risk_topic": "NestedIf",
+                "reason": "The fundamental error in boolean comparison will propagate to more complex nested conditional structures, making it challenging to implement correct logic.",
+                "prerequisite_gap": "LogicBoolean"
+              },
+              {
+                "at_risk_topic": "While",
+                "reason": "Loop continuation conditions often rely on boolean expressions. This gap will lead to infinite loops or loops that terminate prematurely/incorrectly.",
+                "prerequisite_gap": "LogicBoolean"
+              },
+              {
+                "at_risk_topic": "For",
+                "reason": "Similar to while loops, conditions within for loops or conditional statements inside loops will be prone to errors due to incorrect boolean evaluation.",
+                "prerequisite_gap": "LogicBoolean"
+              },
+              {
+                "at_risk_topic": "If/Else",
+                "reason": "Incorrect use of logical operators (AND/OR) for defining ranges or exclusions will result in conditions that do not accurately reflect the problem requirements, leading to incorrect program behavior for specific inputs.",
+                "prerequisite_gap": "LogicAndNotOr"
+              },
+              {
+                "at_risk_topic": "NestedIf",
+                "reason": "When combining multiple conditions in nested if statements, the student will struggle to correctly formulate complex logical expressions, especially those involving ranges or multiple criteria.",
+                "prerequisite_gap": "LogicAndNotOr"
+              }
+            ],
+            "recommended_intervention": "Provide targeted exercises and explanations distinguishing between the assignment operator (=) and the equality comparison operator (==), particularly with boolean variables. Emphasize that `if (booleanVar)` is equivalent to `if (booleanVar == true)`. Additionally, review the truth tables and practical applications of logical AND (&&) and OR (||) operators, focusing on how to correctly combine conditions to define numerical ranges and exclusions."
+          }
+        ],
+        "class_summary": {
+          "common_gaps": [
+            "Confusion between assignment (=) and comparison (==) operators in boolean expressions",
+            "Misunderstanding of logical AND (&&) and OR (||) for defining numerical ranges and exclusions"
+          ],
+          "highest_risk_students": [
+            "14474"
+          ],
+          "suggested_review_topics": [
+            "LogicBoolean",
+            "LogicAndNotOr",
+            "If/Else"
+          ]
+        }
+      },
+      "parse_status": "ok",
+      "time_sec": 18.978,
+      "score": 0.923077,
+      "invalid_kcs": []
+    }
+  }
+}
