@@ -13,10 +13,97 @@ Components:
 7. Critical rules (text)
 8. Output format (JSON example)
 9. Student code (raw code)
+
+Ablation flags (added for the V3/KCDP ablation study; defaults reproduce the
+original V3 prompt byte-for-byte):
+- rules_mode: "full" (all 14 disambiguation rules)
+            | "reduced" (only the 4 that resolve If/Else over-tagging vs
+                         LogicCompareNum / LogicAndNotOr)
+            | "none" (drop the DISAMBIGUATION RULES block)
+- kc_mode:    "per_problem" (inject the filtered required-KC list for this problem)
+            | "full_vocab" (no per-problem shortlist; all 18 KCs are candidates)
+Everything else (role, curriculum, KC definitions, tagging hierarchy,
+redundancy check / worked examples, forced reasoning, critical rules, output
+schema) is identical across every condition.
 """
 
+# The 14 disambiguation rules, in original order. Each entry is the rule text
+# placed inside {"rule": "..."} in the prompt's DISAMBIGUATION RULES JSON array.
+DISAMBIGUATION_RULES = [
+    "LogicCompareNum vs If/Else — If the student writes day==1||day==2||day==3 instead of day>=1&&day<=5, tag LogicCompareNum. The if-statement structure is correct, the comparison inside it is wrong.",
+    "LogicBoolean vs If/Else — If the student writes vacation==false instead of !vacation, or uses = instead of ==, tag LogicBoolean. The student misunderstands boolean values, not branching structure.",
+    "LogicAndNotOr vs If/Else — If the student uses && where || was needed or misses parentheses on grouped conditions, tag LogicAndNotOr. The branching structure is fine, the boolean composition is wrong.",
+    "LogicCompareNum vs For — Off-by-one in a loop termination condition (< vs <=) is LogicCompareNum. The loop structure is correct, the comparison value is wrong. Tag For only when init, update, or overall structure is broken.",
+    "Math+-*/ vs For — Wrong arithmetic inside a loop body is Math+-*/. Wrong increment in the for-update (i+=1 when it should be i+=2) is For, because the update is part of loop structure.",
+    "StringEqual vs LogicCompareNum — String comparison with == or .equals() is StringEqual. Numeric comparison with <, >, == between numbers is LogicCompareNum. Never interchangeable.",
+    "CharEqual vs StringEqual — charAt() comparisons are CharEqual. Full-string .equals() comparisons are StringEqual.",
+    "StringIndex vs StringLen — Wrong position in charAt()/substring() is StringIndex. Wrong .length() usage or confusing .length with .length() is StringLen.",
+    "StringConcat vs StringFormat — Failing to join strings mechanically is StringConcat. Joining strings but producing wrong output format (spacing, separators) is StringFormat.",
+    "ArrayIndex vs LogicCompareNum — Wrong element retrieved from arr[i] due to wrong index is ArrayIndex. Wrong threshold in a comparison like if(arr[i]>5) is LogicCompareNum.",
+    "ArrayIndex vs For — Wrong array element accessed inside a correct loop is ArrayIndex. Wrong loop bounds for array iteration: check if it is the comparison value (LogicCompareNum) or the loop setup (For).",
+    "LogicCompareNum vs LogicBoolean — Comparing two numeric values (age>18) incorrectly is LogicCompareNum. Misusing a boolean value (if(x=true), redundant bool==true) is LogicBoolean.",
+    "LogicCompareNum vs LogicAndNotOr — A single comparison that is wrong (< instead of <=) is LogicCompareNum. Multiple comparisons combined with the wrong operator (&& instead of ||) is LogicAndNotOr. If both are wrong, tag both.",
+    "NestedFor vs While — Only tag the construct actually in the code. Nested for-loops wrong = NestedFor. While-loop wrong = While. Never tag a construct the student did not write.",
+]
 
-def build_v3_prompt(problem_id, requirement, assignment_id, required_kcs, student_code, score):
+# Indices of the 4 rules kept in the "reduced" condition: the three structural
+# If/Else disambiguators plus the inter-Logic compound-condition rule.
+REDUCED_RULE_INDICES = [0, 1, 2, 12]
+
+# All 18 KC names, in the same order as the KC DEFINITIONS block below.
+ALL_KCS = [
+    "If/Else", "NestedIf", "While", "For", "NestedFor",
+    "Math+-*/", "Math%", "LogicAndNotOr", "LogicCompareNum", "LogicBoolean",
+    "StringFormat", "StringConcat", "StringIndex", "StringLen",
+    "StringEqual", "CharEqual", "ArrayIndex", "DefFunction",
+]
+
+
+def _build_kc_injection_block(required_kcs, kc_mode):
+    """Build the per-problem KC injection section (component 4)."""
+    if kc_mode == "per_problem":
+        required_kcs_str = ", ".join(required_kcs)
+        return (
+            f"REQUIRED KCs FOR THIS PROBLEM: [{required_kcs_str}]\n"
+            "These are the KCs this problem is designed to test. Check these first. "
+            "However, if the student's code reveals gaps in other KCs not on this list, tag those too."
+        )
+    if kc_mode == "full_vocab":
+        all_kcs_str = ", ".join(ALL_KCS)
+        return (
+            f"AVAILABLE KCs: [{all_kcs_str}]\n"
+            "Any of these 18 KCs may apply to this problem. There is no per-problem shortlist — "
+            "decide purely from the student's code which KCs reveal gaps."
+        )
+    raise ValueError(f"Unknown kc_mode: {kc_mode!r} (expected 'per_problem' or 'full_vocab')")
+
+
+def _build_disambiguation_block(rules_mode):
+    """Build the DISAMBIGUATION RULES section (component 6), with trailing blank line.
+
+    Returns "" for rules_mode='none' so the section disappears cleanly.
+    """
+    if rules_mode == "none":
+        return ""
+    if rules_mode == "full":
+        rules = DISAMBIGUATION_RULES
+    elif rules_mode == "reduced":
+        rules = [DISAMBIGUATION_RULES[i] for i in REDUCED_RULE_INDICES]
+    else:
+        raise ValueError(f"Unknown rules_mode: {rules_mode!r} (expected 'full', 'reduced', or 'none')")
+
+    rules_json = "[\n" + ",\n".join(f'  {{"rule": "{r}"}}' for r in rules) + "\n]"
+    return (
+        "DISAMBIGUATION RULES:\n"
+        "When two KCs seem applicable, use these rules to pick the correct one.\n"
+        "\n"
+        f"{rules_json}\n"
+        "\n"
+    )
+
+
+def build_v3_prompt(problem_id, requirement, assignment_id, required_kcs, student_code, score,
+                    rules_mode="full", kc_mode="per_problem"):
     """
     Build the V3 curriculum-aware prompt.
 
@@ -28,9 +115,12 @@ def build_v3_prompt(problem_id, requirement, assignment_id, required_kcs, studen
     required_kcs : list[str] - KCs this problem is designed to test (from problem_prompts.csv)
     student_code : str - the student's submitted code
     score : float - the student's score (0.0 to 1.0)
+    rules_mode : "full" | "reduced" | "none" - disambiguation-rule ablation
+    kc_mode : "per_problem" | "full_vocab" - per-problem KC injection ablation
     """
 
-    required_kcs_str = ", ".join(required_kcs)
+    kc_injection_block = _build_kc_injection_block(required_kcs, kc_mode)
+    disambiguation_block = _build_disambiguation_block(rules_mode)
 
     prompt = f"""You are an expert CS1 instructor analyzing a single student Java code submission to identify knowledge gaps.
 
@@ -138,8 +228,7 @@ Below are all 18 Knowledge Components (KCs) used in this course. Each includes w
   }}
 }}
 
-REQUIRED KCs FOR THIS PROBLEM: [{required_kcs_str}]
-These are the KCs this problem is designed to test. Check these first. However, if the student's code reveals gaps in other KCs not on this list, tag those too.
+{kc_injection_block}
 
 TAGGING HIERARCHY — CHECK SPECIFIC BEFORE STRUCTURAL:
 KCs marked "structural" (If/Else, NestedIf, While, For, NestedFor) are tags of LAST RESORT.
@@ -191,27 +280,7 @@ When TO tag structural KCs (not redundant):
 - NestedIf: student puts conditions at the wrong nesting level
 - NestedFor: student reuses the outer loop variable in the inner loop
 
-DISAMBIGUATION RULES:
-When two KCs seem applicable, use these rules to pick the correct one.
-
-[
-  {{"rule": "LogicCompareNum vs If/Else — If the student writes day==1||day==2||day==3 instead of day>=1&&day<=5, tag LogicCompareNum. The if-statement structure is correct, the comparison inside it is wrong."}},
-  {{"rule": "LogicBoolean vs If/Else — If the student writes vacation==false instead of !vacation, or uses = instead of ==, tag LogicBoolean. The student misunderstands boolean values, not branching structure."}},
-  {{"rule": "LogicAndNotOr vs If/Else — If the student uses && where || was needed or misses parentheses on grouped conditions, tag LogicAndNotOr. The branching structure is fine, the boolean composition is wrong."}},
-  {{"rule": "LogicCompareNum vs For — Off-by-one in a loop termination condition (< vs <=) is LogicCompareNum. The loop structure is correct, the comparison value is wrong. Tag For only when init, update, or overall structure is broken."}},
-  {{"rule": "Math+-*/ vs For — Wrong arithmetic inside a loop body is Math+-*/. Wrong increment in the for-update (i+=1 when it should be i+=2) is For, because the update is part of loop structure."}},
-  {{"rule": "StringEqual vs LogicCompareNum — String comparison with == or .equals() is StringEqual. Numeric comparison with <, >, == between numbers is LogicCompareNum. Never interchangeable."}},
-  {{"rule": "CharEqual vs StringEqual — charAt() comparisons are CharEqual. Full-string .equals() comparisons are StringEqual."}},
-  {{"rule": "StringIndex vs StringLen — Wrong position in charAt()/substring() is StringIndex. Wrong .length() usage or confusing .length with .length() is StringLen."}},
-  {{"rule": "StringConcat vs StringFormat — Failing to join strings mechanically is StringConcat. Joining strings but producing wrong output format (spacing, separators) is StringFormat."}},
-  {{"rule": "ArrayIndex vs LogicCompareNum — Wrong element retrieved from arr[i] due to wrong index is ArrayIndex. Wrong threshold in a comparison like if(arr[i]>5) is LogicCompareNum."}},
-  {{"rule": "ArrayIndex vs For — Wrong array element accessed inside a correct loop is ArrayIndex. Wrong loop bounds for array iteration: check if it is the comparison value (LogicCompareNum) or the loop setup (For)."}},
-  {{"rule": "LogicCompareNum vs LogicBoolean — Comparing two numeric values (age>18) incorrectly is LogicCompareNum. Misusing a boolean value (if(x=true), redundant bool==true) is LogicBoolean."}},
-  {{"rule": "LogicCompareNum vs LogicAndNotOr — A single comparison that is wrong (< instead of <=) is LogicCompareNum. Multiple comparisons combined with the wrong operator (&& instead of ||) is LogicAndNotOr. If both are wrong, tag both."}},
-  {{"rule": "NestedFor vs While — Only tag the construct actually in the code. Nested for-loops wrong = NestedFor. While-loop wrong = While. Never tag a construct the student did not write."}}
-]
-
-CRITICAL RULES:
+{disambiguation_block}CRITICAL RULES:
 1. If the code is a trivial placeholder (e.g., just "return true;" or "return 0;") with no real attempt, return empty knowledge_gaps.
 2. If the student scored 1.0 (perfect), return empty knowledge_gaps.
 3. Only use KC names from the 18 defined above. Do not invent new names.

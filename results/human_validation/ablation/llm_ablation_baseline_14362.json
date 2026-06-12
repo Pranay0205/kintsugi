@@ -1,0 +1,307 @@
+{
+  "rater": "LLM_Gemini_V3_ablation_baseline",
+  "condition": "baseline",
+  "rules_mode": "full",
+  "kc_mode": "per_problem",
+  "studentId": "14362",
+  "student_id": "14362",
+  "model_id": "gemini-2.5-flash",
+  "temperature": 0.3,
+  "exportDate": "2026-06-08T16:16:07.005646",
+  "total_problems": 26,
+  "totalAnnotated": 26,
+  "total_calls": 7,
+  "errors": [],
+  "annotations": {
+    "17": {
+      "gaps": []
+    },
+    "20": {
+      "gaps": []
+    },
+    "21": {
+      "gaps": []
+    },
+    "22": {
+      "gaps": []
+    },
+    "24": {
+      "gaps": []
+    },
+    "25": {
+      "gaps": []
+    },
+    "28": {
+      "gaps": [
+        "StringIndex",
+        "StringLen",
+        "StringFormat"
+      ]
+    },
+    "31": {
+      "gaps": []
+    },
+    "32": {
+      "gaps": [
+        "StringIndex",
+        "StringConcat",
+        "If/Else",
+        "LogicAndNotOr"
+      ]
+    },
+    "33": {
+      "gaps": [
+        "DefFunction",
+        "NestedFor",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ]
+    },
+    "34": {
+      "gaps": [
+        "CharEqual",
+        "For",
+        "If/Else",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "LogicAndNotOr",
+        "StringFormat"
+      ]
+    },
+    "37": {
+      "gaps": []
+    },
+    "40": {
+      "gaps": [
+        "StringEqual",
+        "StringIndex"
+      ]
+    },
+    "41": {
+      "gaps": []
+    },
+    "43": {
+      "gaps": []
+    },
+    "44": {
+      "gaps": []
+    },
+    "46": {
+      "gaps": []
+    },
+    "49": {
+      "gaps": []
+    },
+    "67": {
+      "gaps": []
+    },
+    "100": {
+      "gaps": []
+    },
+    "101": {
+      "gaps": [
+        "Math+-*/",
+        "LogicCompareNum"
+      ]
+    },
+    "102": {
+      "gaps": [
+        "StringLen",
+        "StringIndex"
+      ]
+    },
+    "104": {
+      "gaps": []
+    },
+    "106": {
+      "gaps": []
+    },
+    "107": {
+      "gaps": []
+    },
+    "128": {
+      "gaps": []
+    }
+  },
+  "raw_responses": {
+    "28": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code attempts to extract substrings (`str.substring(0, 2)` and `str.substring(0, str.length() - 1)`) unconditionally at the beginning of the function, before checking the string's length. This will lead to an `IndexOutOfBoundsException` for strings shorter than 2 characters (e.g., 'a' or ''). This demonstrates a fundamental misunderstanding of how to safely access string characters or substrings based on length, indicating a gap in `StringIndex` and `StringLen` knowledge. Specifically, for a string of length 1, `str.substring(0, str.length() - 1)` evaluates to `str.substring(0, 0)`, which returns an empty string, not the first character. Consequently, for a single-character input like 'a', the code incorrectly returns '@' instead of 'a@', indicating a failure to produce the expected output format (`StringFormat`). The conditional structure itself (`if/else if/else`) is correctly set up to handle different length cases, but the operations performed within or before these branches are flawed.\",\n  \"knowledge_gaps\": [\"StringIndex\", \"StringLen\", \"StringFormat\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code attempts to extract substrings (`str.substring(0, 2)` and `str.substring(0, str.length() - 1)`) unconditionally at the beginning of the function, before checking the string's length. This will lead to an `IndexOutOfBoundsException` for strings shorter than 2 characters (e.g., 'a' or ''). This demonstrates a fundamental misunderstanding of how to safely access string characters or substrings based on length, indicating a gap in `StringIndex` and `StringLen` knowledge. Specifically, for a string of length 1, `str.substring(0, str.length() - 1)` evaluates to `str.substring(0, 0)`, which returns an empty string, not the first character. Consequently, for a single-character input like 'a', the code incorrectly returns '@' instead of 'a@', indicating a failure to produce the expected output format (`StringFormat`). The conditional structure itself (`if/else if/else`) is correctly set up to handle different length cases, but the operations performed within or before these branches are flawed.",
+        "knowledge_gaps": [
+          "StringIndex",
+          "StringLen",
+          "StringFormat"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 16.403,
+      "score": 0.6,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "32": {
+      "raw_response": "The student's code attempts to solve the problem by iterating through the input string `str`. However, the approach is fundamentally flawed and contains several critical errors.\n\nFirst, the student fails to correctly build the result string. The `plusString` variable is declared inside the `if` block, meaning it is re-declared in each iteration (if the condition is met) and is out of scope when the function attempts to `return plusString;`. This demonstrates a lack of understanding of how to accumulate parts to form a final string, which is a `StringConcat` issue.\n\nSecond, the `str.substring(i, i + word.length())` call is vulnerable to an `IndexOutOfBoundsException`. The loop condition `i < str.length()` allows `i` to iterate up to `str.length() - 1`. If `word.length()` is greater than 1, then `i + word.length()` will eventually exceed `str.length()`, causing an error when trying to create the substring. This is a `StringIndex` gap.\n\nThird, the conditional logic and branching structure are incorrect. The problem requires preserving appearances of the `word` and replacing all other characters with `+`. This implies two distinct branches: one for when the `word` is found, and another for when it is not. The student uses an `if` statement with an inverted condition (`!str.substring(...).equals(word)`), meaning action is only taken when the `word` is *not* found. Crucially, there is no `else` branch to handle the case where the `word` *is* found, leading to a missing required branch in the control flow. This indicates an `If/Else` gap. The use of `!` to invert the condition also contributes to the incorrect overall logic, making it a `LogicAndNotOr` gap.\n\nFinally, the action taken inside the `if` block, `str.replace(str.charAt(i), '+')`, is incorrect. It attempts to replace *all* occurrences of the character at `str.charAt(i)` in the *entire original string* `str` with `+`, rather than performing a positional replacement or building the result character by character. This further reinforces the `StringConcat` gap, as the student is not mechanically joining the correct string pieces to form the desired output.\n\n```json\n{\n  \"reasoning\": \"The student's code has multiple fundamental issues. It fails to build a result string correctly, as the `plusString` variable is declared locally within the `if` block and is out of scope for the return statement, and never accumulates changes (StringConcat). The `str.substring(i, i + word.length())` call can lead to an IndexOutOfBoundsException because the upper bound `i + word.length()` can exceed `str.length()` for valid `i` values in the loop (StringIndex). The conditional logic is inverted and incomplete: the student uses `!` to check if the word is *not* present, and there is no `else` branch to handle the case where the word *is* found, which is a required part of the problem's logic (LogicAndNotOr, If/Else). The `str.replace(str.charAt(i), '+')` method call is also misused, as it performs a global character replacement instead of a positional one, further demonstrating a failure to correctly construct the output string (StringConcat).\",\n  \"knowledge_gaps\": [\n    \"StringIndex\",\n    \"StringConcat\",\n    \"If/Else\",\n    \"LogicAndNotOr\"\n  ]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code has multiple fundamental issues. It fails to build a result string correctly, as the `plusString` variable is declared locally within the `if` block and is out of scope for the return statement, and never accumulates changes (StringConcat). The `str.substring(i, i + word.length())` call can lead to an IndexOutOfBoundsException because the upper bound `i + word.length()` can exceed `str.length()` for valid `i` values in the loop (StringIndex). The conditional logic is inverted and incomplete: the student uses `!` to check if the word is *not* present, and there is no `else` branch to handle the case where the word *is* found, which is a required part of the problem's logic (LogicAndNotOr, If/Else). The `str.replace(str.charAt(i), '+')` method call is also misused, as it performs a global character replacement instead of a positional one, further demonstrating a failure to correctly construct the output string (StringConcat).",
+        "knowledge_gaps": [
+          "StringIndex",
+          "StringConcat",
+          "If/Else",
+          "LogicAndNotOr"
+        ]
+      },
+      "parse_status": "ok_extracted_json",
+      "time_sec": 37.097,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "33": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code has several fundamental issues. First, the function `mixString` is declared to return a String but has no `return` statement, indicating a gap in function definition. Second, the core logic for interleaving characters and handling leftovers is completely missing. The student initializes a string with only the first character of 'a' and then fails to concatenate any other characters to it, demonstrating a gap in `StringConcat`. Third, the nested loop structure is incorrect for this problem; specifically, the inner loop `for (int j = 0; j < a.length(); i++)` uses `i++` as its update expression instead of `j++`. This is a structural error in nested loops, as it prevents the inner loop variable `j` from iterating and incorrectly modifies the outer loop variable `i`, leading to incorrect iteration. This points to a `NestedFor` gap. Finally, the student does not demonstrate an understanding of how to correctly manage string indices (`StringIndex`) and string lengths (`StringLen`) to achieve the required interleaving pattern and append any remaining characters from the longer string.\",\n  \"knowledge_gaps\": [\n    \"DefFunction\",\n    \"NestedFor\",\n    \"StringConcat\",\n    \"StringIndex\",\n    \"StringLen\"\n  ]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code has several fundamental issues. First, the function `mixString` is declared to return a String but has no `return` statement, indicating a gap in function definition. Second, the core logic for interleaving characters and handling leftovers is completely missing. The student initializes a string with only the first character of 'a' and then fails to concatenate any other characters to it, demonstrating a gap in `StringConcat`. Third, the nested loop structure is incorrect for this problem; specifically, the inner loop `for (int j = 0; j < a.length(); i++)` uses `i++` as its update expression instead of `j++`. This is a structural error in nested loops, as it prevents the inner loop variable `j` from iterating and incorrectly modifies the outer loop variable `i`, leading to incorrect iteration. This points to a `NestedFor` gap. Finally, the student does not demonstrate an understanding of how to correctly manage string indices (`StringIndex`) and string lengths (`StringLen`) to achieve the required interleaving pattern and append any remaining characters from the longer string.",
+        "knowledge_gaps": [
+          "DefFunction",
+          "NestedFor",
+          "StringConcat",
+          "StringIndex",
+          "StringLen"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 18.606,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "34": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code is extremely minimal and fundamentally incorrect, resulting in a compile-time error and no attempt to solve the problem. The line `strChar = char.valueOf(str);` demonstrates a severe misunderstanding of `char` and `String` types and how to convert or assign between them, as `char` is a primitive type and does not have a `valueOf` method that takes a `String`. Beyond this explicit error, the code completely lacks the necessary control flow (loops, conditionals) and string manipulation (indexing, length, concatenation, character comparison, logical combination) required to implement the problem's logic. The method also fails to return a value. Therefore, the student exhibits gaps in all the knowledge components required for this problem.\",\n  \"knowledge_gaps\": [\n    \"CharEqual\",\n    \"For\",\n    \"If/Else\",\n    \"StringConcat\",\n    \"StringIndex\",\n    \"StringLen\",\n    \"LogicAndNotOr\",\n    \"StringFormat\"\n  ]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code is extremely minimal and fundamentally incorrect, resulting in a compile-time error and no attempt to solve the problem. The line `strChar = char.valueOf(str);` demonstrates a severe misunderstanding of `char` and `String` types and how to convert or assign between them, as `char` is a primitive type and does not have a `valueOf` method that takes a `String`. Beyond this explicit error, the code completely lacks the necessary control flow (loops, conditionals) and string manipulation (indexing, length, concatenation, character comparison, logical combination) required to implement the problem's logic. The method also fails to return a value. Therefore, the student exhibits gaps in all the knowledge components required for this problem.",
+        "knowledge_gaps": [
+          "CharEqual",
+          "For",
+          "If/Else",
+          "StringConcat",
+          "StringIndex",
+          "StringLen",
+          "LogicAndNotOr",
+          "StringFormat"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 33.407,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "40": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code only handles a very specific case of the problem. The requirement is to find the string between the *first* and *last* appearance of \\\"bread\\\" in the input string. The student's solution checks if the string `startsWith(\\\"bread\\\")` and `endsWith(\\\"bread\\\")`. This approach fails for any input where the \\\"bread\\\" slices are not literally at the beginning and end of the string (e.g., \\\"xxbreadyybreadzz\\\").\\n\\nSpecifically:\\n1.  The condition `str.startsWith(\\\"bread\\\") && str.endsWith(\\\"bread\\\")` incorrectly identifies a sandwich. This demonstrates a misunderstanding of how to locate arbitrary occurrences of a substring within a larger string. The student is effectively 'comparing the wrong parts of strings' (only the prefix and suffix) to satisfy the problem's general requirement of finding the first and last appearances.\\n2.  The `substring(5, str.length() - 5)` call uses hardcoded indices that are only correct if \\\"bread\\\" is at the very beginning and end of the string. For any other valid sandwich scenario (e.g., \\\"xxbreadyybreadzz\\\"), these bounds would be incorrect for extracting the content. This is a clear instance of 'using wrong substring bounds'.\",\n  \"knowledge_gaps\": [\n    \"StringEqual\",\n    \"StringIndex\"\n  ]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code only handles a very specific case of the problem. The requirement is to find the string between the *first* and *last* appearance of \"bread\" in the input string. The student's solution checks if the string `startsWith(\"bread\")` and `endsWith(\"bread\")`. This approach fails for any input where the \"bread\" slices are not literally at the beginning and end of the string (e.g., \"xxbreadyybreadzz\").\n\nSpecifically:\n1.  The condition `str.startsWith(\"bread\") && str.endsWith(\"bread\")` incorrectly identifies a sandwich. This demonstrates a misunderstanding of how to locate arbitrary occurrences of a substring within a larger string. The student is effectively 'comparing the wrong parts of strings' (only the prefix and suffix) to satisfy the problem's general requirement of finding the first and last appearances.\n2.  The `substring(5, str.length() - 5)` call uses hardcoded indices that are only correct if \"bread\" is at the very beginning and end of the string. For any other valid sandwich scenario (e.g., \"xxbreadyybreadzz\"), these bounds would be incorrect for extracting the content. This is a clear instance of 'using wrong substring bounds'.",
+        "knowledge_gaps": [
+          "StringEqual",
+          "StringIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 26.519,
+      "score": 0.769231,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "101": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code attempts to solve the problem by first checking if the goal can be met with only big bars (and if the goal is a multiple of 5). Then, it branches into a case where not enough big bars are available. However, there are two main logical errors:\\n\\n1.  **Incorrect handling when enough big bars are available, but the goal is not a multiple of 5:**\\n    The problem states to use big bars first. If `5*big >= goal` (enough big bars) but `goal % 5 != 0` (the goal is not a multiple of 5), the student's code falls into the final `else` block and unconditionally returns `-1`. The correct approach here would be to use `goal / 5` big bars, and then check if there are enough small bars (`small >= goal % 5`) to cover the remainder (`goal % 5`). If yes, return `goal % 5`; otherwise, return `-1`. The student fails to perform the necessary comparison (`small >= goal % 5`) and returns the wrong value (`-1` instead of `goal % 5`). This indicates a gap in `LogicCompareNum` (missing comparison) and `Math+-*/` (wrong return value).\\n\\n2.  **Incorrect calculation when not enough big bars are available, but total chocolate exceeds goal:**\\n    In the `else if (5*big < goal)` block, if `5*big + small > goal`, it means all available big bars are used, and there are enough small bars to meet the remaining goal. The student's code returns `r` (which is `goal % 5`). However, the correct number of small bars to use in this scenario is `goal - (5*big)`. The value of `r` is only relevant if an unlimited number of big bars could be used to reach `goal - r`. Since `5*big < goal`, we are constrained by the available big bars. This is a `Math+-*/` gap because the student uses the wrong arithmetic calculation for the return value.\",\n  \"knowledge_gaps\": [\n    \"Math+-*/\",\n    \"LogicCompareNum\"\n  ]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code attempts to solve the problem by first checking if the goal can be met with only big bars (and if the goal is a multiple of 5). Then, it branches into a case where not enough big bars are available. However, there are two main logical errors:\n\n1.  **Incorrect handling when enough big bars are available, but the goal is not a multiple of 5:**\n    The problem states to use big bars first. If `5*big >= goal` (enough big bars) but `goal % 5 != 0` (the goal is not a multiple of 5), the student's code falls into the final `else` block and unconditionally returns `-1`. The correct approach here would be to use `goal / 5` big bars, and then check if there are enough small bars (`small >= goal % 5`) to cover the remainder (`goal % 5`). If yes, return `goal % 5`; otherwise, return `-1`. The student fails to perform the necessary comparison (`small >= goal % 5`) and returns the wrong value (`-1` instead of `goal % 5`). This indicates a gap in `LogicCompareNum` (missing comparison) and `Math+-*/` (wrong return value).\n\n2.  **Incorrect calculation when not enough big bars are available, but total chocolate exceeds goal:**\n    In the `else if (5*big < goal)` block, if `5*big + small > goal`, it means all available big bars are used, and there are enough small bars to meet the remaining goal. The student's code returns `r` (which is `goal % 5`). However, the correct number of small bars to use in this scenario is `goal - (5*big)`. The value of `r` is only relevant if an unlimited number of big bars could be used to reach `goal - r`. Since `5*big < goal`, we are constrained by the available big bars. This is a `Math+-*/` gap because the student uses the wrong arithmetic calculation for the return value.",
+        "knowledge_gaps": [
+          "Math+-*/",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 36.617,
+      "score": 0.68,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ],
+      "invalid_kcs": []
+    },
+    "102": {
+      "raw_response": "The student's code attempts to extract the beginning, middle, and end parts of the string using `substring` calls. However, it fails to account for the string's length, leading to `IndexOutOfBoundsException` for short strings (e.g., length 0, 1, 2, or 3).\n\nSpecifically:\n1.  `str.substring(0, 2)` will throw an `IndexOutOfBoundsException` if `str.length() < 2`.\n2.  `str.substring(str.length() - 2)` will throw an `IndexOutOfBoundsException` if `str.length() < 2`.\n3.  `str.substring(2, str.length() - 2)` is particularly problematic. It will throw an `IndexOutOfBoundsException` if `str.length() < 4` (e.g., for \"Hi\" (length 2), it tries `substring(2, 0)`, which is an invalid range).\n\nThis demonstrates a gap in understanding how string lengths constrain valid `substring` operations. The student assumes the string is always long enough for these operations without explicit checks.\n\nFurthermore, for cases like \"Hi\" where the beginning and end 2-character substrings overlap completely and are identical, the problem requires returning an empty string (\"\"). The student's logic for `noStartLetters = middleLetters + endLetters;` is an attempt to reconstruct the string without the first two characters. Even if the `substring` calls didn't throw an exception (e.g., if `middleLetters` somehow became an empty string for \"Hi\"), this concatenation would result in `\"\" + \"Hi\" = \"Hi\"`, which is incorrect. The correct way to get the string without the first two characters is `str.substring(2)`. The student's approach to constructing the result string is flawed for these edge cases.\n\nTherefore, the student exhibits knowledge gaps in:\n*   **StringLen**: Not correctly accounting for string length when determining valid substring bounds or when to apply certain logic.\n*   **StringIndex**: Using incorrect indices/bounds in `substring` calls, leading to `IndexOutOfBoundsException`, and also using a flawed logic to construct the desired result string (e.g., `middleLetters + endLetters` instead of `str.substring(2)` for the \"without the first two characters\" requirement).\n\nThe `If/Else` structure and `StringEqual` comparison are correctly used.\n\n```json\n{\n  \"reasoning\": \"The student's code fails to handle short strings, leading to `IndexOutOfBoundsException` in multiple `substring` calls. This indicates a lack of understanding of how string length affects valid substring bounds (`StringLen`). Specifically, `str.substring(0, 2)`, `str.substring(str.length() - 2)`, and `str.substring(2, str.length() - 2)` are called without checking if the string is long enough, resulting in invalid indices or bounds (`StringIndex`). Additionally, the logic for constructing the `noStartLetters` string (`middleLetters + endLetters`) is incorrect for overlapping cases like 'Hi', where the expected output is an empty string, but the student's approach would either crash or produce an incorrect result. This also falls under `StringIndex` as it's a misunderstanding of how to correctly extract the desired substring.\",\n  \"knowledge_gaps\": [\"StringLen\", \"StringIndex\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code fails to handle short strings, leading to `IndexOutOfBoundsException` in multiple `substring` calls. This indicates a lack of understanding of how string length affects valid substring bounds (`StringLen`). Specifically, `str.substring(0, 2)`, `str.substring(str.length() - 2)`, and `str.substring(2, str.length() - 2)` are called without checking if the string is long enough, resulting in invalid indices or bounds (`StringIndex`). Additionally, the logic for constructing the `noStartLetters` string (`middleLetters + endLetters`) is incorrect for overlapping cases like 'Hi', where the expected output is an empty string, but the student's approach would either crash or produce an incorrect result. This also falls under `StringIndex` as it's a misunderstanding of how to correctly extract the desired substring.",
+        "knowledge_gaps": [
+          "StringLen",
+          "StringIndex"
+        ]
+      },
+      "parse_status": "ok_extracted_json",
+      "time_sec": 32.318,
+      "score": 0.461538,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    }
+  }
+}
