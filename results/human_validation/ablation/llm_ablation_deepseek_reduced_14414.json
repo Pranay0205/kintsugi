@@ -1,0 +1,553 @@
+{
+  "rater": "LLM_DeepSeek_V3_ablation_reduced",
+  "condition": "reduced",
+  "rules_mode": "reduced",
+  "kc_mode": "per_problem",
+  "studentId": "14414",
+  "student_id": "14414",
+  "model_id": "deepseek-chat",
+  "temperature": 0.3,
+  "exportDate": "2026-06-20T10:43:41.756150",
+  "total_problems": 41,
+  "totalAnnotated": 41,
+  "total_calls": 15,
+  "errors": [],
+  "annotations": {
+    "1": {
+      "gaps": []
+    },
+    "3": {
+      "gaps": []
+    },
+    "5": {
+      "gaps": []
+    },
+    "12": {
+      "gaps": []
+    },
+    "13": {
+      "gaps": []
+    },
+    "17": {
+      "gaps": []
+    },
+    "20": {
+      "gaps": []
+    },
+    "21": {
+      "gaps": []
+    },
+    "22": {
+      "gaps": []
+    },
+    "24": {
+      "gaps": []
+    },
+    "25": {
+      "gaps": []
+    },
+    "28": {
+      "gaps": [
+        "StringIndex",
+        "StringConcat",
+        "StringLen",
+        "LogicCompareNum"
+      ]
+    },
+    "31": {
+      "gaps": []
+    },
+    "32": {
+      "gaps": [
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ]
+    },
+    "33": {
+      "gaps": [
+        "While"
+      ]
+    },
+    "36": {
+      "gaps": [
+        "StringIndex",
+        "StringEqual"
+      ]
+    },
+    "37": {
+      "gaps": []
+    },
+    "38": {
+      "gaps": [
+        "StringIndex",
+        "LogicAndNotOr"
+      ]
+    },
+    "39": {
+      "gaps": []
+    },
+    "40": {
+      "gaps": [
+        "StringIndex",
+        "StringEqual",
+        "LogicCompareNum"
+      ]
+    },
+    "41": {
+      "gaps": []
+    },
+    "43": {
+      "gaps": []
+    },
+    "44": {
+      "gaps": []
+    },
+    "45": {
+      "gaps": [
+        "Math+-*/",
+        "LogicCompareNum",
+        "For"
+      ]
+    },
+    "46": {
+      "gaps": []
+    },
+    "48": {
+      "gaps": [
+        "ArrayIndex"
+      ]
+    },
+    "49": {
+      "gaps": []
+    },
+    "67": {
+      "gaps": [
+        "ArrayIndex"
+      ]
+    },
+    "100": {
+      "gaps": []
+    },
+    "101": {
+      "gaps": []
+    },
+    "102": {
+      "gaps": [
+        "CharEqual"
+      ]
+    },
+    "104": {
+      "gaps": [
+        "LogicCompareNum"
+      ]
+    },
+    "106": {
+      "gaps": [
+        "LogicCompareNum"
+      ]
+    },
+    "107": {
+      "gaps": [
+        "ArrayIndex",
+        "LogicCompareNum",
+        "Math+-*/"
+      ]
+    },
+    "108": {
+      "gaps": [
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ]
+    },
+    "128": {
+      "gaps": [
+        "StringIndex",
+        "For",
+        "LogicAndNotOr",
+        "CharEqual"
+      ]
+    },
+    "232": {
+      "gaps": []
+    },
+    "233": {
+      "gaps": []
+    },
+    "234": {
+      "gaps": []
+    },
+    "235": {
+      "gaps": []
+    },
+    "236": {
+      "gaps": []
+    }
+  },
+  "raw_responses": {
+    "28": {
+      "raw_response": "{\n  \"reasoning\": \"The student attempted to solve the problem but made several errors. The code uses a while loop to pad the string with '@' when length < 2, but the loop logic is flawed: it tries to assign to `str(len)` which is invalid syntax (cannot index a String like an array in Java), and the loop condition and increment are incorrect. The else branch uses `str(0,1)` which is not valid Java syntax for substring (should be `str.substring(0,2)`). The primary issues are: wrong string indexing and concatenation (StringIndex, StringConcat), misunderstanding of string length and substring bounds (StringLen), and the overall logic for handling the case when length < 2 is incorrect (LogicCompareNum for the loop condition). The If/Else structure is present but the logic inside is wrong, so specific KCs cover the errors. No structural KC is needed.\",\n  \"knowledge_gaps\": [\"StringIndex\", \"StringConcat\", \"StringLen\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student attempted to solve the problem but made several errors. The code uses a while loop to pad the string with '@' when length < 2, but the loop logic is flawed: it tries to assign to `str(len)` which is invalid syntax (cannot index a String like an array in Java), and the loop condition and increment are incorrect. The else branch uses `str(0,1)` which is not valid Java syntax for substring (should be `str.substring(0,2)`). The primary issues are: wrong string indexing and concatenation (StringIndex, StringConcat), misunderstanding of string length and substring bounds (StringLen), and the overall logic for handling the case when length < 2 is incorrect (LogicCompareNum for the loop condition). The If/Else structure is present but the logic inside is wrong, so specific KCs cover the errors. No structural KC is needed.",
+        "knowledge_gaps": [
+          "StringIndex",
+          "StringConcat",
+          "StringLen",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.566,
+      "score": 0.0,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "32": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code does not implement the required logic at all. Instead of replacing all characters with '+' except for occurrences of the given word, the code uses a regex to remove whitespace characters and returns the result. This shows a fundamental misunderstanding of the problem requirements. The student fails to use loops, string indexing, string comparison, and string concatenation necessary to solve the problem. The code has no attempt to iterate over the string, compare substrings, or build the output with '+' characters. The required KCs for this problem include If/Else, While, LogicCompareNum, StringFormat, StringConcat, StringIndex, StringLen, StringEqual. The student's code does not use While, LogicCompareNum, StringFormat, StringConcat, StringIndex, StringLen, or StringEqual at all, indicating gaps in all of these. The If/Else structure is present but the logic inside is completely wrong, so the gap is not in the branching structure but in the missing loop and string operations. Since the code is a non-trivial attempt but completely misses the problem, I tag all required KCs except If/Else (the structure is fine) and also tag StringEqual because the student never compares strings.\",\n  \"knowledge_gaps\": [\"While\", \"LogicCompareNum\", \"StringFormat\", \"StringConcat\", \"StringIndex\", \"StringLen\", \"StringEqual\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code does not implement the required logic at all. Instead of replacing all characters with '+' except for occurrences of the given word, the code uses a regex to remove whitespace characters and returns the result. This shows a fundamental misunderstanding of the problem requirements. The student fails to use loops, string indexing, string comparison, and string concatenation necessary to solve the problem. The code has no attempt to iterate over the string, compare substrings, or build the output with '+' characters. The required KCs for this problem include If/Else, While, LogicCompareNum, StringFormat, StringConcat, StringIndex, StringLen, StringEqual. The student's code does not use While, LogicCompareNum, StringFormat, StringConcat, StringIndex, StringLen, or StringEqual at all, indicating gaps in all of these. The If/Else structure is present but the logic inside is completely wrong, so the gap is not in the branching structure but in the missing loop and string operations. Since the code is a non-trivial attempt but completely misses the problem, I tag all required KCs except If/Else (the structure is fine) and also tag StringEqual because the student never compares strings.",
+        "knowledge_gaps": [
+          "While",
+          "LogicCompareNum",
+          "StringFormat",
+          "StringConcat",
+          "StringIndex",
+          "StringLen",
+          "StringEqual"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.519,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "33": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code does not implement the required interleaving logic. It only handles cases where strings have length 0 or 1, and for longer strings it just concatenates the first two characters of each plus the remainder from index 2 onward, which is not the correct interleaving. The main gap is that the student did not use a loop (While or For) to iterate through the strings and interleave character by character. The problem explicitly requires handling any leftover characters, which implies a loop. The student's approach is fundamentally structural \u2014 they attempted to handle all cases with if/else branches instead of using a loop. The required KCs include While, and the student's code lacks any loop structure. No specific KC (like StringIndex, StringConcat, LogicCompareNum) fully explains the missing loop; the core issue is the absence of the required loop structure. Therefore, While is tagged as a structural gap. Other KCs like StringIndex and StringConcat are not tagged because the code does not use loops or indices in a way that reveals a specific misunderstanding \u2014 the problem is the missing loop, not a misuse of string operations within a loop.\",\n  \"knowledge_gaps\": [\"While\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code does not implement the required interleaving logic. It only handles cases where strings have length 0 or 1, and for longer strings it just concatenates the first two characters of each plus the remainder from index 2 onward, which is not the correct interleaving. The main gap is that the student did not use a loop (While or For) to iterate through the strings and interleave character by character. The problem explicitly requires handling any leftover characters, which implies a loop. The student's approach is fundamentally structural \u2014 they attempted to handle all cases with if/else branches instead of using a loop. The required KCs include While, and the student's code lacks any loop structure. No specific KC (like StringIndex, StringConcat, LogicCompareNum) fully explains the missing loop; the core issue is the absence of the required loop structure. Therefore, While is tagged as a structural gap. Other KCs like StringIndex and StringConcat are not tagged because the code does not use loops or indices in a way that reveals a specific misunderstanding \u2014 the problem is the missing loop, not a misuse of string operations within a loop.",
+        "knowledge_gaps": [
+          "While"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.621,
+      "score": 0.4,
+      "assignment_id": 492,
+      "required_kcs": [
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "36": {
+      "raw_response": "{\n  \"reasoning\": \"The student attempts to count occurrences of 'c', then any character, then 'o', then any character, then 'e' by comparing characters at positions i, i+1, and i+3. However, there are multiple issues: (1) The loop runs to str.length() but accesses i+3, causing an index out of bounds on the last few iterations \u2014 this is a StringIndex gap. (2) The student compares a String (ch, cc, bc) to a char using .equals(), which will never be true \u2014 this is a StringEqual gap. (3) The loop structure itself is fine (For is not the issue), and the if-structure is fine (If/Else is not the issue). The specific KCs StringIndex and StringEqual explain the errors, so no structural KCs are tagged.\",\n  \"knowledge_gaps\": [\"StringIndex\", \"StringEqual\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student attempts to count occurrences of 'c', then any character, then 'o', then any character, then 'e' by comparing characters at positions i, i+1, and i+3. However, there are multiple issues: (1) The loop runs to str.length() but accesses i+3, causing an index out of bounds on the last few iterations \u2014 this is a StringIndex gap. (2) The student compares a String (ch, cc, bc) to a char using .equals(), which will never be true \u2014 this is a StringEqual gap. (3) The loop structure itself is fine (For is not the issue), and the if-structure is fine (If/Else is not the issue). The specific KCs StringIndex and StringEqual explain the errors, so no structural KCs are tagged.",
+        "knowledge_gaps": [
+          "StringIndex",
+          "StringEqual"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.759,
+      "score": 0.294118,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "38": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code attempts to check for 'xyz' not preceded by '.' but uses indexOf and lastIndexOf in a flawed way. It only checks the first occurrence of '.' and the first/last occurrence of 'xyz', missing cases where 'xyz' appears multiple times or where '.' appears after 'xyz'. The logic fails to handle all positions correctly. The main issue is incorrect string index logic (StringIndex) and incorrect boolean combination (LogicAndNotOr) in the condition. The If/Else structure is not the core problem; the conditions themselves are wrong. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"StringIndex\", \"LogicAndNotOr\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code attempts to check for 'xyz' not preceded by '.' but uses indexOf and lastIndexOf in a flawed way. It only checks the first occurrence of '.' and the first/last occurrence of 'xyz', missing cases where 'xyz' appears multiple times or where '.' appears after 'xyz'. The logic fails to handle all positions correctly. The main issue is incorrect string index logic (StringIndex) and incorrect boolean combination (LogicAndNotOr) in the condition. The If/Else structure is not the core problem; the conditions themselves are wrong. No other KCs are needed.",
+        "knowledge_gaps": [
+          "StringIndex",
+          "LogicAndNotOr"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.874,
+      "score": 0.933333,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringIndex",
+        "StringEqual",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "40": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code assumes that 'bread' always appears at positions 0-4 and the last at str.length()-5 to str.length()-1, and that the substring between them is always from index 5 to str.length()-5. This is incorrect because 'bread' can appear anywhere in the string. The student fails to search for the first and last occurrence of 'bread' using indexOf and lastIndexOf, and does not properly extract the substring between them. The main gaps are: (1) StringIndex \u2014 wrong substring bounds, not accounting for actual positions of 'bread'; (2) StringEqual \u2014 the student never compares substrings to 'bread' to locate the bread pieces; (3) LogicCompareNum \u2014 the length check (<=10) is a heuristic but not a correct condition for detecting two pieces of bread; (4) If/Else \u2014 the structure is present but the logic inside is fundamentally wrong, though this is better explained by specific KCs. No other KCs are relevant.\",\n  \"knowledge_gaps\": [\"StringIndex\", \"StringEqual\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code assumes that 'bread' always appears at positions 0-4 and the last at str.length()-5 to str.length()-1, and that the substring between them is always from index 5 to str.length()-5. This is incorrect because 'bread' can appear anywhere in the string. The student fails to search for the first and last occurrence of 'bread' using indexOf and lastIndexOf, and does not properly extract the substring between them. The main gaps are: (1) StringIndex \u2014 wrong substring bounds, not accounting for actual positions of 'bread'; (2) StringEqual \u2014 the student never compares substrings to 'bread' to locate the bread pieces; (3) LogicCompareNum \u2014 the length check (<=10) is a heuristic but not a correct condition for detecting two pieces of bread; (4) If/Else \u2014 the structure is present but the logic inside is fundamentally wrong, though this is better explained by specific KCs. No other KCs are relevant.",
+        "knowledge_gaps": [
+          "StringIndex",
+          "StringEqual",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.794,
+      "score": 0.769231,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "45": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code attempts to extract the first digit of each number and then skip numbers starting with 6 or 7. This completely misunderstands the problem, which requires ignoring entire sections from a 6 to the next 7, not individual digits. The inner loop and digit extraction logic is wrong (Math+-*/), the condition checks the first digit instead of the number itself (LogicCompareNum), and the loop structure for skipping sections is missing entirely (For). The outer loop structure is fine, but the logic inside is fundamentally incorrect.\",\n  \"knowledge_gaps\": [\"Math+-*/\", \"LogicCompareNum\", \"For\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code attempts to extract the first digit of each number and then skip numbers starting with 6 or 7. This completely misunderstands the problem, which requires ignoring entire sections from a 6 to the next 7, not individual digits. The inner loop and digit extraction logic is wrong (Math+-*/), the condition checks the first digit instead of the number itself (LogicCompareNum), and the loop structure for skipping sections is missing entirely (For). The outer loop structure is fine, but the logic inside is fundamentally incorrect.",
+        "knowledge_gaps": [
+          "Math+-*/",
+          "LogicCompareNum",
+          "For"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.174,
+      "score": 0.333333,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "48": {
+      "raw_response": "{\n  \"reasoning\": \"The student attempts to use `nums.remove(i)` and `nums.add(0)`, which are methods of `ArrayList`, not of a primitive `int[]` array. This shows a fundamental misunderstanding of array operations \u2014 arrays do not have `remove` or `add` methods. The core gap is in array manipulation: the student does not know how to shift elements or set values in an array. This is an ArrayIndex KC gap because the student does not understand how to properly index and modify array elements. The loop structure itself is fine, so no structural KC is needed. The student scored 0.0, so the code is not a trivial placeholder.\",\n  \"knowledge_gaps\": [\"ArrayIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student attempts to use `nums.remove(i)` and `nums.add(0)`, which are methods of `ArrayList`, not of a primitive `int[]` array. This shows a fundamental misunderstanding of array operations \u2014 arrays do not have `remove` or `add` methods. The core gap is in array manipulation: the student does not know how to shift elements or set values in an array. This is an ArrayIndex KC gap because the student does not understand how to properly index and modify array elements. The loop structure itself is fine, so no structural KC is needed. The student scored 0.0, so the code is not a trivial placeholder.",
+        "knowledge_gaps": [
+          "ArrayIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.388,
+      "score": 0.0,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "67": {
+      "raw_response": "{\n  \"reasoning\": \"The student's loop iterates up to nums.length - 1, but inside the loop they access nums[i+2] without checking that i+2 is within bounds. This causes an ArrayIndexOutOfBoundsException when i = nums.length - 2 or i = nums.length - 1. The loop should stop at nums.length - 3 to safely access i+2. The array access error is an ArrayIndex gap. The loop structure itself (initialization, condition, update) is fine, so no structural For tag is needed. No other KCs are misused.\",\n  \"knowledge_gaps\": [\"ArrayIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's loop iterates up to nums.length - 1, but inside the loop they access nums[i+2] without checking that i+2 is within bounds. This causes an ArrayIndexOutOfBoundsException when i = nums.length - 2 or i = nums.length - 1. The loop should stop at nums.length - 3 to safely access i+2. The array access error is an ArrayIndex gap. The loop structure itself (initialization, condition, update) is fine, so no structural For tag is needed. No other KCs are misused.",
+        "knowledge_gaps": [
+          "ArrayIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.033,
+      "score": 0.9,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "102": {
+      "raw_response": "{\n  \"reasoning\": \"The student attempts to compare characters using parentheses `str(0)` instead of the correct method `str.charAt(0)`. This is a syntax error that reveals a misunderstanding of how to access individual characters in a string. The logic for comparing the first two characters with the last two characters is otherwise correct. The error is specific to character access, which falls under the 'CharEqual' KC (comparing wrong char position or confusing char with String type). No other KCs are needed because the structure (if/else) and string operations (substring, length) are used correctly.\",\n  \"knowledge_gaps\": [\"CharEqual\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student attempts to compare characters using parentheses `str(0)` instead of the correct method `str.charAt(0)`. This is a syntax error that reveals a misunderstanding of how to access individual characters in a string. The logic for comparing the first two characters with the last two characters is otherwise correct. The error is specific to character access, which falls under the 'CharEqual' KC (comparing wrong char position or confusing char with String type). No other KCs are needed because the structure (if/else) and string operations (substring, length) are used correctly.",
+        "knowledge_gaps": [
+          "CharEqual"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.707,
+      "score": 0.0,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "104": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code attempts to replace each zero with the largest odd value to its right, but it incorrectly replaces the zero with the last odd value found to the right, not the largest. This is a logic error in the inner loop: the student updates nums[i] every time an odd value is encountered, overwriting any previous replacement, instead of tracking the maximum odd value. This is a specific logic error related to numeric comparison (finding the maximum) and falls under LogicCompareNum. The loop structures (For, NestedFor) are structurally correct; the issue is the logic inside them. No other KCs are triggered.\",\n  \"knowledge_gaps\": [\"LogicCompareNum\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code attempts to replace each zero with the largest odd value to its right, but it incorrectly replaces the zero with the last odd value found to the right, not the largest. This is a logic error in the inner loop: the student updates nums[i] every time an odd value is encountered, overwriting any previous replacement, instead of tracking the maximum odd value. This is a specific logic error related to numeric comparison (finding the maximum) and falls under LogicCompareNum. The loop structures (For, NestedFor) are structurally correct; the issue is the logic inside them. No other KCs are triggered.",
+        "knowledge_gaps": [
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.055,
+      "score": 0.866667,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "NestedFor",
+        "Math%",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "106": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student attempts to copy the first n and last n elements into separate arrays and compare them, but the arrays are created with size n-1 instead of n. This causes an ArrayIndexOutOfBoundsException when n > 0 because the loop writes to indices 0..n-1 but the arrays only have length n-1. The array size error is an off-by-one issue, which falls under LogicCompareNum. The loop structure itself (initialization, condition, update) is correct, so For is not tagged. The array access indices are logically correct for the intended size, so ArrayIndex is not the primary issue \u2014 the root cause is the size calculation. If/Else is not needed for this solution. No other KCs are implicated.\",\n  \"knowledge_gaps\": [\"LogicCompareNum\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student attempts to copy the first n and last n elements into separate arrays and compare them, but the arrays are created with size n-1 instead of n. This causes an ArrayIndexOutOfBoundsException when n > 0 because the loop writes to indices 0..n-1 but the arrays only have length n-1. The array size error is an off-by-one issue, which falls under LogicCompareNum. The loop structure itself (initialization, condition, update) is correct, so For is not tagged. The array access indices are logically correct for the intended size, so ArrayIndex is not the primary issue \u2014 the root cause is the size calculation. If/Else is not needed for this solution. No other KCs are implicated.",
+        "knowledge_gaps": [
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.6,
+      "score": 0.0,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "NestedFor",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "107": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has several issues. The outer loop lacks an increment expression, which is a structural problem with the For loop (missing update). The inner loop counts every adjacent equal pair within a clump, not just one per clump, leading to overcounting. The logic for skipping past a clump is flawed: `i = i + count + 1` uses the accumulated count from the inner loop, which is reset each time the outer loop runs, causing incorrect indexing and potential infinite loop. The variable `sum` is used to count clumps, but the inner loop increments `count` for each adjacent pair, not each clump. The condition `i < nums.length -1` in the outer loop may skip the last element incorrectly. These errors involve array indexing (ArrayIndex), numeric comparison (LogicCompareNum), and arithmetic (Math+-*/). The For loop structure is also wrong (missing update), but since specific KCs explain the errors, the structural tag is redundant. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"ArrayIndex\", \"LogicCompareNum\", \"Math+-*/\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has several issues. The outer loop lacks an increment expression, which is a structural problem with the For loop (missing update). The inner loop counts every adjacent equal pair within a clump, not just one per clump, leading to overcounting. The logic for skipping past a clump is flawed: `i = i + count + 1` uses the accumulated count from the inner loop, which is reset each time the outer loop runs, causing incorrect indexing and potential infinite loop. The variable `sum` is used to count clumps, but the inner loop increments `count` for each adjacent pair, not each clump. The condition `i < nums.length -1` in the outer loop may skip the last element incorrectly. These errors involve array indexing (ArrayIndex), numeric comparison (LogicCompareNum), and arithmetic (Math+-*/). The For loop structure is also wrong (missing update), but since specific KCs explain the errors, the structural tag is redundant. No other KCs are needed.",
+        "knowledge_gaps": [
+          "ArrayIndex",
+          "LogicCompareNum",
+          "Math+-*/"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.59,
+      "score": 0.454545,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "108": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code attempts to rearrange numbers so every 4 is followed by a 5, but the logic is fundamentally flawed. The loop increments `i` inconsistently and does not correctly handle swapping or tracking displaced values. The approach does not properly scan for 4's and then find 5's to place after them, leading to incorrect results. The main issues are: (1) The loop structure and index management are wrong (For structural gap), (2) The logic for handling conditions and swapping is incorrect, mixing up when to store and replace values (LogicAndNotOr and LogicCompareNum gaps), (3) Array accesses may go out of bounds or skip elements (ArrayIndex gap). The If/Else structure is present but the conditions and branches are logically wrong, so the structural If/Else tag is redundant given the specific logic tags.\",\n  \"knowledge_gaps\": [\"For\", \"LogicAndNotOr\", \"LogicCompareNum\", \"ArrayIndex\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code attempts to rearrange numbers so every 4 is followed by a 5, but the logic is fundamentally flawed. The loop increments `i` inconsistently and does not correctly handle swapping or tracking displaced values. The approach does not properly scan for 4's and then find 5's to place after them, leading to incorrect results. The main issues are: (1) The loop structure and index management are wrong (For structural gap), (2) The logic for handling conditions and swapping is incorrect, mixing up when to store and replace values (LogicAndNotOr and LogicCompareNum gaps), (3) Array accesses may go out of bounds or skip elements (ArrayIndex gap). The If/Else structure is present but the conditions and branches are logically wrong, so the structural If/Else tag is redundant given the specific logic tags.",
+        "knowledge_gaps": [
+          "For",
+          "LogicAndNotOr",
+          "LogicCompareNum",
+          "ArrayIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.941,
+      "score": 0.263158,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "128": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code only checks if the first 'b' and the last 'b' are exactly two positions apart, which fails for strings like 'bob' (correct) but also fails for 'bxb' (correct) and incorrectly handles strings with more than two 'b's or where the pattern appears multiple times. The core issue is that the student is not iterating through the string to check each possible three-character substring for the pattern 'b?b'. This reveals gaps in: StringIndex (not using substring or charAt to check positions), For (not using a loop to iterate through the string), LogicAndNotOr (not combining conditions to check both the first and third character), and CharEqual (not comparing individual characters). The If/Else structure itself is fine for what they wrote, so no structural gap is tagged.\",\n  \"knowledge_gaps\": [\"StringIndex\", \"For\", \"LogicAndNotOr\", \"CharEqual\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code only checks if the first 'b' and the last 'b' are exactly two positions apart, which fails for strings like 'bob' (correct) but also fails for 'bxb' (correct) and incorrectly handles strings with more than two 'b's or where the pattern appears multiple times. The core issue is that the student is not iterating through the string to check each possible three-character substring for the pattern 'b?b'. This reveals gaps in: StringIndex (not using substring or charAt to check positions), For (not using a loop to iterate through the string), LogicAndNotOr (not combining conditions to check both the first and third character), and CharEqual (not comparing individual characters). The If/Else structure itself is fine for what they wrote, so no structural gap is tagged.",
+        "knowledge_gaps": [
+          "StringIndex",
+          "For",
+          "LogicAndNotOr",
+          "CharEqual"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.073,
+      "score": 0.777778,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    }
+  }
+}

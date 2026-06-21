@@ -1,0 +1,277 @@
+{
+  "rater": "LLM_DeepSeek_V3_ablation_reduced",
+  "condition": "reduced",
+  "rules_mode": "reduced",
+  "kc_mode": "per_problem",
+  "studentId": "14362",
+  "student_id": "14362",
+  "model_id": "deepseek-chat",
+  "temperature": 0.3,
+  "exportDate": "2026-06-20T10:38:56.223470",
+  "total_problems": 26,
+  "totalAnnotated": 26,
+  "total_calls": 7,
+  "errors": [],
+  "annotations": {
+    "17": {
+      "gaps": []
+    },
+    "20": {
+      "gaps": []
+    },
+    "21": {
+      "gaps": []
+    },
+    "22": {
+      "gaps": []
+    },
+    "24": {
+      "gaps": []
+    },
+    "25": {
+      "gaps": []
+    },
+    "28": {
+      "gaps": [
+        "StringIndex"
+      ]
+    },
+    "31": {
+      "gaps": []
+    },
+    "32": {
+      "gaps": [
+        "StringIndex",
+        "StringConcat"
+      ]
+    },
+    "33": {
+      "gaps": [
+        "For",
+        "StringConcat",
+        "StringIndex"
+      ]
+    },
+    "34": {
+      "gaps": []
+    },
+    "37": {
+      "gaps": []
+    },
+    "40": {
+      "gaps": [
+        "StringIndex",
+        "LogicCompareNum"
+      ]
+    },
+    "41": {
+      "gaps": []
+    },
+    "43": {
+      "gaps": []
+    },
+    "44": {
+      "gaps": []
+    },
+    "46": {
+      "gaps": []
+    },
+    "49": {
+      "gaps": []
+    },
+    "67": {
+      "gaps": []
+    },
+    "100": {
+      "gaps": []
+    },
+    "101": {
+      "gaps": [
+        "Math+-*/",
+        "LogicCompareNum"
+      ]
+    },
+    "102": {
+      "gaps": [
+        "StringIndex",
+        "StringLen"
+      ]
+    },
+    "104": {
+      "gaps": []
+    },
+    "106": {
+      "gaps": []
+    },
+    "107": {
+      "gaps": []
+    },
+    "128": {
+      "gaps": []
+    }
+  },
+  "raw_responses": {
+    "28": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has several issues. First, when the string length is >= 2, it correctly returns the first two characters using substring(0,2). However, when the length is 1, the code computes oneLetter as str.substring(0, str.length() - 1), which for length 1 gives substring(0,0) \u2014 an empty string, not the single character. The correct approach would be to use substring(0,1) or simply str. This is a StringIndex error (wrong substring bounds). Additionally, the code computes oneLetter unconditionally before the if-else, which would throw an exception for strings of length 0 (since substring(0, -1) is invalid). The overall branching structure (if/else if/else) is correct, so no If/Else gap. The string concatenation in the length-1 case is correct in intent, so no StringConcat gap. The output format matches expectations, so no StringFormat gap. The length check (>=2, ==1) is correct, so no LogicCompareNum gap. The main gap is StringIndex (wrong substring bounds for the length-1 case).\",\n  \"knowledge_gaps\": [\"StringIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has several issues. First, when the string length is >= 2, it correctly returns the first two characters using substring(0,2). However, when the length is 1, the code computes oneLetter as str.substring(0, str.length() - 1), which for length 1 gives substring(0,0) \u2014 an empty string, not the single character. The correct approach would be to use substring(0,1) or simply str. This is a StringIndex error (wrong substring bounds). Additionally, the code computes oneLetter unconditionally before the if-else, which would throw an exception for strings of length 0 (since substring(0, -1) is invalid). The overall branching structure (if/else if/else) is correct, so no If/Else gap. The string concatenation in the length-1 case is correct in intent, so no StringConcat gap. The output format matches expectations, so no StringFormat gap. The length check (>=2, ==1) is correct, so no LogicCompareNum gap. The main gap is StringIndex (wrong substring bounds for the length-1 case).",
+        "knowledge_gaps": [
+          "StringIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.156,
+      "score": 0.6,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "32": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code has multiple issues. First, `plusString` is declared inside the if-block and is out of scope at the return statement \u2014 this is a variable scope error, not covered by the defined KCs. Second, the loop uses `str.substring(i, i + word.length())` which will throw an `IndexOutOfBoundsException` when `i + word.length()` exceeds `str.length()` \u2014 this is a StringIndex gap (wrong substring bounds). Third, the student uses `str.replace(str.charAt(i), '+')` which replaces ALL occurrences of that character in the original string, not just at position i, and does not accumulate changes \u2014 this is a StringConcat gap (wrong approach to building the result). The loop structure (For) is fine; the logic inside is wrong. The If/Else structure is not the issue. The required KCs are If/Else, While, LogicCompareNum, StringFormat, StringConcat, StringIndex, StringLen, StringEqual. The code reveals gaps in StringIndex and StringConcat.\",\n  \"knowledge_gaps\": [\"StringIndex\", \"StringConcat\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code has multiple issues. First, `plusString` is declared inside the if-block and is out of scope at the return statement \u2014 this is a variable scope error, not covered by the defined KCs. Second, the loop uses `str.substring(i, i + word.length())` which will throw an `IndexOutOfBoundsException` when `i + word.length()` exceeds `str.length()` \u2014 this is a StringIndex gap (wrong substring bounds). Third, the student uses `str.replace(str.charAt(i), '+')` which replaces ALL occurrences of that character in the original string, not just at position i, and does not accumulate changes \u2014 this is a StringConcat gap (wrong approach to building the result). The loop structure (For) is fine; the logic inside is wrong. The If/Else structure is not the issue. The required KCs are If/Else, While, LogicCompareNum, StringFormat, StringConcat, StringIndex, StringLen, StringEqual. The code reveals gaps in StringIndex and StringConcat.",
+        "knowledge_gaps": [
+          "StringIndex",
+          "StringConcat"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.948,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "33": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code is incomplete and contains multiple errors. The outer loop iterates over `b` but the inner loop incorrectly increments `i` instead of `j`, causing an infinite loop and wrong iteration. The inner loop body is empty, so no concatenation occurs. The student only captures the first character of `a` and never uses the rest. The loop structure is fundamentally broken (wrong update, empty body), which is a structural issue with the `For` loop. Additionally, the student does not handle leftover characters or build the result string correctly, indicating gaps in `StringConcat` and `StringIndex` (not accessing all characters of `a` properly). The required KCs `While`, `LogicCompareNum`, `StringFormat`, `StringLen` are not directly implicated because the code fails before reaching those concerns. The structural `For` tag is appropriate because the loop update is wrong (`i++` in inner loop) and the body is empty, which is not explained by any specific KC.\",\n  \"knowledge_gaps\": [\"For\", \"StringConcat\", \"StringIndex\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code is incomplete and contains multiple errors. The outer loop iterates over `b` but the inner loop incorrectly increments `i` instead of `j`, causing an infinite loop and wrong iteration. The inner loop body is empty, so no concatenation occurs. The student only captures the first character of `a` and never uses the rest. The loop structure is fundamentally broken (wrong update, empty body), which is a structural issue with the `For` loop. Additionally, the student does not handle leftover characters or build the result string correctly, indicating gaps in `StringConcat` and `StringIndex` (not accessing all characters of `a` properly). The required KCs `While`, `LogicCompareNum`, `StringFormat`, `StringLen` are not directly implicated because the code fails before reaching those concerns. The structural `For` tag is appropriate because the loop update is wrong (`i++` in inner loop) and the body is empty, which is not explained by any specific KC.",
+        "knowledge_gaps": [
+          "For",
+          "StringConcat",
+          "StringIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.468,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "34": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is not a real attempt at solving the problem. It contains a syntax error (char.valueOf does not exist, and char is used as a type incorrectly) and does not implement any logic to find three-letter combinations starting with 'z' and ending with 'p' or remove the middle letter. The code is essentially a placeholder with no meaningful logic, so no knowledge gaps should be inferred.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is not a real attempt at solving the problem. It contains a syntax error (char.valueOf does not exist, and char is used as a type incorrectly) and does not implement any logic to find three-letter combinations starting with 'z' and ending with 'p' or remove the middle letter. The code is essentially a placeholder with no meaningful logic, so no knowledge gaps should be inferred.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 1.858,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "40": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code only handles the case where the string starts and ends with 'bread', but the problem requires finding the first and last occurrence of 'bread' anywhere in the string, not just at the boundaries. The logic is fundamentally wrong: it does not search for multiple occurrences, does not handle cases where 'bread' appears in the middle, and returns the wrong substring. The primary gap is in the overall logic (missing search and correct substring extraction), which is not covered by any specific KC like StringIndex or StringEqual alone. The If/Else structure is present but the condition is wrong, so this is a logic error that spans multiple KCs. However, the most direct gap is in the logic of finding the first and last occurrence, which is a combination of StringIndex (wrong substring bounds) and LogicCompareNum (wrong condition). The student also fails to use a loop to find positions, but since they didn't write a loop, For is not applicable. The required KC StringEqual is not used at all (they used startsWith/endsWith instead of indexOf). The code is a serious attempt but fundamentally flawed, so I tag the most relevant specific KCs: StringIndex for wrong substring extraction, and LogicCompareNum for the wrong condition (checking only start/end instead of first/last occurrence). If/Else is not tagged because the structure is fine; the condition is wrong (LogicCompareNum).\",\n  \"knowledge_gaps\": [\"StringIndex\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code only handles the case where the string starts and ends with 'bread', but the problem requires finding the first and last occurrence of 'bread' anywhere in the string, not just at the boundaries. The logic is fundamentally wrong: it does not search for multiple occurrences, does not handle cases where 'bread' appears in the middle, and returns the wrong substring. The primary gap is in the overall logic (missing search and correct substring extraction), which is not covered by any specific KC like StringIndex or StringEqual alone. The If/Else structure is present but the condition is wrong, so this is a logic error that spans multiple KCs. However, the most direct gap is in the logic of finding the first and last occurrence, which is a combination of StringIndex (wrong substring bounds) and LogicCompareNum (wrong condition). The student also fails to use a loop to find positions, but since they didn't write a loop, For is not applicable. The required KC StringEqual is not used at all (they used startsWith/endsWith instead of indexOf). The code is a serious attempt but fundamentally flawed, so I tag the most relevant specific KCs: StringIndex for wrong substring extraction, and LogicCompareNum for the wrong condition (checking only start/end instead of first/last occurrence). If/Else is not tagged because the structure is fine; the condition is wrong (LogicCompareNum).",
+        "knowledge_gaps": [
+          "StringIndex",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 5.812,
+      "score": 0.769231,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "101": {
+      "raw_response": "{\n  \"reasoning\": \"The student's logic is flawed in several ways. First, they compute `r = goal % 5` but then use `r` inconsistently \u2014 in the `else if (5*big < goal)` branch they return `r` when `5*big + small > goal`, but this does not correctly compute the number of small bars needed (the correct formula is `goal - 5*big` when big bars are used first). This is a math error (Math+-*/). Second, the condition `5*big >= goal && r == 0` returns 0 small bars when big bars alone can cover the goal exactly, which is correct, but the logic for other cases is wrong. The student also fails to handle the case where `5*big >= goal` but `r != 0` (i.e., need some small bars even though big bars are enough). The overall branching structure is messy but the core errors are arithmetic and comparison logic, not structural. No loops are used, so While is not applicable. The required KCs are If/Else, While, Math+-*/, LogicAndNotOr, LogicCompareNum. While is not present. The errors are best captured by Math+-*/ (wrong arithmetic for remaining small bars) and LogicCompareNum (wrong comparisons in conditions).\",\n  \"knowledge_gaps\": [\"Math+-*/\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's logic is flawed in several ways. First, they compute `r = goal % 5` but then use `r` inconsistently \u2014 in the `else if (5*big < goal)` branch they return `r` when `5*big + small > goal`, but this does not correctly compute the number of small bars needed (the correct formula is `goal - 5*big` when big bars are used first). This is a math error (Math+-*/). Second, the condition `5*big >= goal && r == 0` returns 0 small bars when big bars alone can cover the goal exactly, which is correct, but the logic for other cases is wrong. The student also fails to handle the case where `5*big >= goal` but `r != 0` (i.e., need some small bars even though big bars are enough). The overall branching structure is messy but the core errors are arithmetic and comparison logic, not structural. No loops are used, so While is not applicable. The required KCs are If/Else, While, Math+-*/, LogicAndNotOr, LogicCompareNum. While is not present. The errors are best captured by Math+-*/ (wrong arithmetic for remaining small bars) and LogicCompareNum (wrong comparisons in conditions).",
+        "knowledge_gaps": [
+          "Math+-*/",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 5.122,
+      "score": 0.68,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ],
+      "invalid_kcs": []
+    },
+    "102": {
+      "raw_response": "{\n  \"reasoning\": \"The student's logic is mostly correct but fails for short strings. When the string length is less than 2, `str.substring(0, 2)` throws a `StringIndexOutOfBoundsException`. When the length is exactly 2, `str.substring(2, str.length() - 2)` becomes `str.substring(2, 0)`, which also throws an exception. The student did not handle these edge cases, which is a failure to properly use string length and substring bounds \u2014 this is a `StringIndex` gap (wrong index/out-of-bounds) and a `StringLen` gap (not accounting for length when computing substring bounds). The `If/Else` structure is fine; the missing length check is not a structural branching issue. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"StringIndex\", \"StringLen\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's logic is mostly correct but fails for short strings. When the string length is less than 2, `str.substring(0, 2)` throws a `StringIndexOutOfBoundsException`. When the length is exactly 2, `str.substring(2, str.length() - 2)` becomes `str.substring(2, 0)`, which also throws an exception. The student did not handle these edge cases, which is a failure to properly use string length and substring bounds \u2014 this is a `StringIndex` gap (wrong index/out-of-bounds) and a `StringLen` gap (not accounting for length when computing substring bounds). The `If/Else` structure is fine; the missing length check is not a structural branching issue. No other KCs are needed.",
+        "knowledge_gaps": [
+          "StringIndex",
+          "StringLen"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.547,
+      "score": 0.461538,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    }
+  }
+}

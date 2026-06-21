@@ -1,0 +1,534 @@
+{
+  "rater": "LLM_DeepSeek_V3_ablation_no_rules",
+  "condition": "no_rules",
+  "rules_mode": "none",
+  "kc_mode": "per_problem",
+  "studentId": "14474",
+  "student_id": "14474",
+  "model_id": "deepseek-chat",
+  "temperature": 0.3,
+  "exportDate": "2026-06-20T10:28:33.060158",
+  "total_problems": 32,
+  "totalAnnotated": 32,
+  "total_calls": 17,
+  "errors": [],
+  "annotations": {
+    "1": {
+      "gaps": []
+    },
+    "3": {
+      "gaps": [
+        "LogicBoolean"
+      ]
+    },
+    "5": {
+      "gaps": [
+        "LogicBoolean"
+      ]
+    },
+    "12": {
+      "gaps": [
+        "LogicBoolean"
+      ]
+    },
+    "13": {
+      "gaps": []
+    },
+    "22": {
+      "gaps": [
+        "DefFunction",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ]
+    },
+    "24": {
+      "gaps": [
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "If/Else"
+      ]
+    },
+    "31": {
+      "gaps": []
+    },
+    "32": {
+      "gaps": []
+    },
+    "33": {
+      "gaps": []
+    },
+    "34": {
+      "gaps": [
+        "For",
+        "StringIndex",
+        "CharEqual",
+        "LogicAndNotOr",
+        "StringConcat",
+        "StringFormat"
+      ]
+    },
+    "36": {
+      "gaps": []
+    },
+    "37": {
+      "gaps": [
+        "If/Else",
+        "StringEqual",
+        "StringIndex",
+        "StringLen",
+        "StringFormat",
+        "LogicBoolean"
+      ]
+    },
+    "38": {
+      "gaps": [
+        "LogicAndNotOr"
+      ]
+    },
+    "39": {
+      "gaps": []
+    },
+    "40": {
+      "gaps": [
+        "StringIndex",
+        "LogicCompareNum"
+      ]
+    },
+    "45": {
+      "gaps": []
+    },
+    "48": {
+      "gaps": []
+    },
+    "51": {
+      "gaps": []
+    },
+    "56": {
+      "gaps": []
+    },
+    "57": {
+      "gaps": []
+    },
+    "64": {
+      "gaps": []
+    },
+    "70": {
+      "gaps": []
+    },
+    "71": {
+      "gaps": []
+    },
+    "112": {
+      "gaps": []
+    },
+    "118": {
+      "gaps": []
+    },
+    "128": {
+      "gaps": [
+        "LogicAndNotOr"
+      ]
+    },
+    "232": {
+      "gaps": []
+    },
+    "233": {
+      "gaps": []
+    },
+    "234": {
+      "gaps": [
+        "LogicBoolean",
+        "LogicAndNotOr"
+      ]
+    },
+    "235": {
+      "gaps": []
+    },
+    "236": {
+      "gaps": []
+    }
+  },
+  "raw_responses": {
+    "3": {
+      "raw_response": "{\n  \"reasoning\": \"The student uses assignment `=` instead of comparison `==` in both `if (outsideMode = false)` and `else if (outsideMode = true)`. This is a classic boolean logic error \u2014 the condition always evaluates to the assigned value, which is false for the first if and true for the second else-if, causing incorrect control flow. The logic inside each branch is otherwise correct. The structural if/else is fine; the specific KC LogicBoolean explains the error. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"LogicBoolean\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student uses assignment `=` instead of comparison `==` in both `if (outsideMode = false)` and `else if (outsideMode = true)`. This is a classic boolean logic error \u2014 the condition always evaluates to the assigned value, which is false for the first if and true for the second else-if, causing incorrect control flow. The logic inside each branch is otherwise correct. The structural if/else is fine; the specific KC LogicBoolean explains the error. No other KCs are needed.",
+        "knowledge_gaps": [
+          "LogicBoolean"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.419,
+      "score": 0.75,
+      "assignment_id": 439,
+      "required_kcs": [
+        "If/Else",
+        "NestedIf",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "LogicBoolean"
+      ],
+      "invalid_kcs": []
+    },
+    "5": {
+      "raw_response": "{\n  \"reasoning\": \"The student uses assignment (`=`) instead of comparison (`==`) in all conditions, which is a classic boolean logic error. This means every condition evaluates to `true`, so only the first `if` block executes, setting `answerCell = false` and returning `false` regardless of input. The structural branching (if/else if, nested if) is logically correct for the problem, but the specific error of using assignment instead of comparison is a LogicBoolean gap. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"LogicBoolean\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student uses assignment (`=`) instead of comparison (`==`) in all conditions, which is a classic boolean logic error. This means every condition evaluates to `true`, so only the first `if` block executes, setting `answerCell = false` and returning `false` regardless of input. The structural branching (if/else if, nested if) is logically correct for the problem, but the specific error of using assignment instead of comparison is a LogicBoolean gap. No other KCs are needed.",
+        "knowledge_gaps": [
+          "LogicBoolean"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.575,
+      "score": 0.625,
+      "assignment_id": 439,
+      "required_kcs": [
+        "If/Else",
+        "NestedIf",
+        "LogicBoolean"
+      ],
+      "invalid_kcs": []
+    },
+    "12": {
+      "raw_response": "{\n  \"reasoning\": \"The student uses assignment `=` instead of comparison `==` in the conditions `if (isSummer = true)` and `else if (isSummer = false)`. This is a classic boolean logic error: the first assignment always evaluates to `true`, so the first branch always executes and the `else if` is never reached. The structure of if/else is correct, but the condition itself is wrong. This is a specific LogicBoolean gap. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"LogicBoolean\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student uses assignment `=` instead of comparison `==` in the conditions `if (isSummer = true)` and `else if (isSummer = false)`. This is a classic boolean logic error: the first assignment always evaluates to `true`, so the first branch always executes and the `else if` is never reached. The structure of if/else is correct, but the condition itself is wrong. This is a specific LogicBoolean gap. No other KCs are needed.",
+        "knowledge_gaps": [
+          "LogicBoolean"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.442,
+      "score": 0.85,
+      "assignment_id": 439,
+      "required_kcs": [
+        "If/Else",
+        "NestedIf",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "LogicBoolean"
+      ],
+      "invalid_kcs": []
+    },
+    "22": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has multiple critical issues. In `noTeenSum`, the assignment statement `a + b + c = d;` is syntactically invalid (left-hand side of assignment must be a variable, not an expression), and the method does not return a value. The `fixTeen` method uses an undeclared variable `d` (should be `n`), has an empty if-body (no return), and the condition `d >= 13 && d < 15 || d > 16 && d <= 19` has a logic error: due to operator precedence, `||` is evaluated after `&&`, so it actually checks `(d >= 13 && d < 15) || (d > 16 && d <= 19)`, which is correct for the teen rule except 15 and 16, but the method never returns the fixed value (0 for teens, original for non-teens). The helper method `fixTeen` is defined but incomplete and not called from `noTeenSum`. The structural issues (missing return, empty if-body) are explained by the specific KCs: `DefFunction` for missing/incomplete helper logic and missing call, `Math+-*/` for invalid assignment, `LogicAndNotOr` for potential precedence misunderstanding, and `LogicCompareNum` for boundary comparisons. No structural KC adds new information.\",\n  \"knowledge_gaps\": [\"DefFunction\", \"Math+-*/\", \"LogicAndNotOr\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has multiple critical issues. In `noTeenSum`, the assignment statement `a + b + c = d;` is syntactically invalid (left-hand side of assignment must be a variable, not an expression), and the method does not return a value. The `fixTeen` method uses an undeclared variable `d` (should be `n`), has an empty if-body (no return), and the condition `d >= 13 && d < 15 || d > 16 && d <= 19` has a logic error: due to operator precedence, `||` is evaluated after `&&`, so it actually checks `(d >= 13 && d < 15) || (d > 16 && d <= 19)`, which is correct for the teen rule except 15 and 16, but the method never returns the fixed value (0 for teens, original for non-teens). The helper method `fixTeen` is defined but incomplete and not called from `noTeenSum`. The structural issues (missing return, empty if-body) are explained by the specific KCs: `DefFunction` for missing/incomplete helper logic and missing call, `Math+-*/` for invalid assignment, `LogicAndNotOr` for potential precedence misunderstanding, and `LogicCompareNum` for boundary comparisons. No structural KC adds new information.",
+        "knowledge_gaps": [
+          "DefFunction",
+          "Math+-*/",
+          "LogicAndNotOr",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.789,
+      "score": 0.0,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "NestedIf",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "DefFunction"
+      ],
+      "invalid_kcs": []
+    },
+    "24": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has multiple issues. First, the condition `if (a <= 21 || b <= 21)` uses `||` (OR) when the logic should check if both are over 21 to return 0, and then compare which is closer to 21 without going over. The use of `||` instead of `&&` (or a different structure) is a logic combination error (LogicAndNotOr). Second, the numeric comparisons are wrong: the student checks `a <= 21 || b <= 21` but does not handle the case where one is over and one is under correctly, and the else-if only catches both over. This is a LogicCompareNum gap. Third, the if-else structure is incomplete: the first if has an empty body, and there is no handling for the case where one or both are under/equal to 21 to return the nearest value. This is an If/Else structural gap because the branching structure is missing required cases. No other KCs are relevant.\",\n  \"knowledge_gaps\": [\"LogicAndNotOr\", \"LogicCompareNum\", \"If/Else\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has multiple issues. First, the condition `if (a <= 21 || b <= 21)` uses `||` (OR) when the logic should check if both are over 21 to return 0, and then compare which is closer to 21 without going over. The use of `||` instead of `&&` (or a different structure) is a logic combination error (LogicAndNotOr). Second, the numeric comparisons are wrong: the student checks `a <= 21 || b <= 21` but does not handle the case where one is over and one is under correctly, and the else-if only catches both over. This is a LogicCompareNum gap. Third, the if-else structure is incomplete: the first if has an empty body, and there is no handling for the case where one or both are under/equal to 21 to return the nearest value. This is an If/Else structural gap because the branching structure is missing required cases. No other KCs are relevant.",
+        "knowledge_gaps": [
+          "LogicAndNotOr",
+          "LogicCompareNum",
+          "If/Else"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.172,
+      "score": 0.0,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ],
+      "invalid_kcs": []
+    },
+    "31": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is a trivial placeholder: it declares an unused field and returns that field without any logic to solve the problem. There is no real attempt to implement the required functionality. Therefore, no knowledge gaps should be inferred.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder: it declares an unused field and returns that field without any logic to solve the problem. There is no real attempt to implement the required functionality. Therefore, no knowledge gaps should be inferred.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 2.259,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "For",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "32": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is a trivial placeholder: it declares an unused field, has a comment that shows misunderstanding (trying to replace a char with '+'), and returns an uninitialized variable. There is no real attempt to implement the required logic. Therefore, no knowledge gaps should be inferred.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder: it declares an unused field, has a comment that shows misunderstanding (trying to replace a char with '+'), and returns an uninitialized variable. There is no real attempt to implement the required logic. Therefore, no knowledge gaps should be inferred.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 1.712,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "33": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code is a trivial placeholder: it declares an unused field `something` and returns it without any logic. No attempt was made to implement the required string mixing logic. Per the critical rules, trivial placeholders with no real attempt should return an empty knowledge_gaps list.\",\n  \"knowledge_gaps\": []\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder: it declares an unused field `something` and returns it without any logic. No attempt was made to implement the required string mixing logic. Per the critical rules, trivial placeholders with no real attempt should return an empty knowledge_gaps list.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 1.74,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "34": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code does not solve the problem. It only checks if the entire string starts with 'z' and ends with 'p', then returns a substring of the first two characters. The problem requires iterating over all three-letter sequences in the string, checking if the first is 'z' and the third is 'p', and removing the middle letter. The student shows gaps in: using a loop (For), iterating over string indices (StringIndex), checking characters at specific positions (CharEqual), combining conditions (LogicAndNotOr), building the result string (StringConcat), and handling the final output format (StringFormat). The if-structure itself is not the core issue \u2014 the logic inside is fundamentally wrong, so specific KCs are tagged instead of If/Else.\",\n  \"knowledge_gaps\": [\"For\", \"StringIndex\", \"CharEqual\", \"LogicAndNotOr\", \"StringConcat\", \"StringFormat\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code does not solve the problem. It only checks if the entire string starts with 'z' and ends with 'p', then returns a substring of the first two characters. The problem requires iterating over all three-letter sequences in the string, checking if the first is 'z' and the third is 'p', and removing the middle letter. The student shows gaps in: using a loop (For), iterating over string indices (StringIndex), checking characters at specific positions (CharEqual), combining conditions (LogicAndNotOr), building the result string (StringConcat), and handling the final output format (StringFormat). The if-structure itself is not the core issue \u2014 the logic inside is fundamentally wrong, so specific KCs are tagged instead of If/Else.",
+        "knowledge_gaps": [
+          "For",
+          "StringIndex",
+          "CharEqual",
+          "LogicAndNotOr",
+          "StringConcat",
+          "StringFormat"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.958,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "36": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is a trivial placeholder: it declares an uninitialized private int field and returns it without any logic. There is no real attempt to solve the problem. According to the critical rules, if the code is a trivial placeholder with no real attempt, return empty knowledge_gaps.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder: it declares an uninitialized private int field and returns it without any logic. There is no real attempt to solve the problem. According to the critical rules, if the code is a trivial placeholder with no real attempt, return empty knowledge_gaps.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 1.913,
+      "score": 0.294118,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "37": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code does not implement the required logic. They declare a boolean field `something` and return it without any computation. The calls to `toLowerCase()` are made but their return values are ignored (strings are immutable). The core problem is that the student never compares the strings to check if one ends with the other. This reveals gaps in `StringEqual` (not using `.equals()` or `endsWith()`), `StringIndex` and `StringLen` (not extracting the end of a string using substring or length), and `StringFormat` (not producing the correct boolean result). The `If/Else` structure is missing entirely because no conditional logic is written. However, since the code is essentially incomplete, the structural gap is fundamental and not explained by any specific KC alone. The student also has a `LogicBoolean` gap because they return a field that is never set to the correct boolean value.\",\n  \"knowledge_gaps\": [\"If/Else\", \"StringEqual\", \"StringIndex\", \"StringLen\", \"StringFormat\", \"LogicBoolean\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code does not implement the required logic. They declare a boolean field `something` and return it without any computation. The calls to `toLowerCase()` are made but their return values are ignored (strings are immutable). The core problem is that the student never compares the strings to check if one ends with the other. This reveals gaps in `StringEqual` (not using `.equals()` or `endsWith()`), `StringIndex` and `StringLen` (not extracting the end of a string using substring or length), and `StringFormat` (not producing the correct boolean result). The `If/Else` structure is missing entirely because no conditional logic is written. However, since the code is essentially incomplete, the structural gap is fundamental and not explained by any specific KC alone. The student also has a `LogicBoolean` gap because they return a field that is never set to the correct boolean value.",
+        "knowledge_gaps": [
+          "If/Else",
+          "StringEqual",
+          "StringIndex",
+          "StringLen",
+          "StringFormat",
+          "LogicBoolean"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.126,
+      "score": 0.4,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "38": {
+      "raw_response": "{\n  \"reasoning\": \"The student's approach is flawed: they check if the string contains 'xyz' anywhere and also does not contain '.xyz' anywhere. This fails for cases like 'x.xyz' where both conditions are true (the string contains 'xyz' and also contains '.xyz'), so it returns false correctly, but it also fails for cases like '.xyzxyz' where the first occurrence is preceded by a period but a later one is not \u2014 the student's logic would incorrectly return false because '.xyz' is present. The core issue is a logic error in combining conditions: they used && with a negation that is too broad. This is a LogicAndNotOr gap. Additionally, the line `str.toLowerCase();` does nothing because strings are immutable; the return value is ignored. This shows a misunderstanding of String methods, but it does not cause a bug here because the method does not rely on case. No other KCs are needed because the structure (if/else) is fine and the loop is missing but not required by the problem's simplest solution.\",\n  \"knowledge_gaps\": [\"LogicAndNotOr\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's approach is flawed: they check if the string contains 'xyz' anywhere and also does not contain '.xyz' anywhere. This fails for cases like 'x.xyz' where both conditions are true (the string contains 'xyz' and also contains '.xyz'), so it returns false correctly, but it also fails for cases like '.xyzxyz' where the first occurrence is preceded by a period but a later one is not \u2014 the student's logic would incorrectly return false because '.xyz' is present. The core issue is a logic error in combining conditions: they used && with a negation that is too broad. This is a LogicAndNotOr gap. Additionally, the line `str.toLowerCase();` does nothing because strings are immutable; the return value is ignored. This shows a misunderstanding of String methods, but it does not cause a bug here because the method does not rely on case. No other KCs are needed because the structure (if/else) is fine and the loop is missing but not required by the problem's simplest solution.",
+        "knowledge_gaps": [
+          "LogicAndNotOr"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.223,
+      "score": 0.933333,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringIndex",
+        "StringEqual",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "39": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is a trivial placeholder that does not attempt to solve the problem. It declares a private boolean field 'something' and returns it without any logic to check xy-balance. Since there is no real attempt, no knowledge gaps can be meaningfully identified.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder that does not attempt to solve the problem. It declares a private boolean field 'something' and returns it without any logic to check xy-balance. Since there is no real attempt, no knowledge gaps can be meaningfully identified.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 2.005,
+      "score": 0.368421,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "NestedFor",
+        "StringFormat",
+        "StringIndex",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "40": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code only checks if the string starts and ends with 'bread', which is not the correct logic for finding the first and last occurrence of 'bread' (they could be anywhere in the string). The substring call uses -5 as the end index, which is invalid and will throw an exception. The student also uses a field 'something' instead of a local variable. The main issues are: wrong string index (negative end index), wrong logic for finding bread positions (only checking start/end), and missing iteration/search logic. The structural If/Else is fine; the errors are specific to StringIndex and LogicCompareNum (the condition is too restrictive).\",\n  \"knowledge_gaps\": [\"StringIndex\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code only checks if the string starts and ends with 'bread', which is not the correct logic for finding the first and last occurrence of 'bread' (they could be anywhere in the string). The substring call uses -5 as the end index, which is invalid and will throw an exception. The student also uses a field 'something' instead of a local variable. The main issues are: wrong string index (negative end index), wrong logic for finding bread positions (only checking start/end), and missing iteration/search logic. The structural If/Else is fine; the errors are specific to StringIndex and LogicCompareNum (the condition is too restrictive).",
+        "knowledge_gaps": [
+          "StringIndex",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.265,
+      "score": 0.307692,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "64": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has multiple issues. First, the loop ignores the method parameters `start` and `end`, instead hardcoding `i = 1` and `i <= 20` \u2014 this is a logic error in the loop bounds (LogicCompareNum). Second, the loop structure itself is wrong: the loop variable `i` should iterate from `start` to `end-1`, but the student uses fixed values, so the For structure is incorrect. Third, the student uses `result == \"\"` to check if the string is empty, which is wrong for strings in Java (must use .equals()) \u2014 this is a StringEqual gap. Fourth, `result = (String) i;` is an invalid cast; the student should use `String.valueOf(i)` \u2014 this is a StringFormat gap. Fifth, the method returns a single String instead of a String[] array, and the return is inside the loop, causing early exit \u2014 this is an If/Else structural issue (missing array creation and return after loop). The Math% usage is correct in the conditions, but the logic of the else-if chain is wrong: for multiples of both 3 and 5, only the first condition (i%3==0) triggers, missing the FizzBuzz case \u2014 this is a LogicAndNotOr gap (should check i%15==0 first). Finally, the method signature expects a String[] return but the code returns a String \u2014 this is an ArrayIndex gap (no array created or used).\",\n  \"knowledge_gaps\": [\"For\", \"LogicCompareNum\", \"StringEqual\", \"StringFormat\", \"If/Else\", \"LogicAndNotOr\", \"ArrayIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "{\n  \"reasoning\": \"The student's code has multiple issues. First, the loop ignores the method parameters `start` and `end`, instead hardcoding `i = 1` and `i <= 20` \u2014 this is a logic error in the loop bounds (LogicCompareNum). Second, the loop structure itself is wrong: the loop variable `i` should iterate from `start` to `end-1`, but the student uses fixed values, so the For structure is incorrect. Third, the student uses `result == \"\"` to check if the string is empty, which is wrong for strings in Java (must use .equals()) \u2014 this is a StringEqual gap. Fourth, `result = (String) i;` is an invalid cast; the student should use `String.valueOf(i)` \u2014 this is a StringFormat gap. Fifth, the method returns a single String instead of a String[] array, and the return is inside the loop, causing early exit \u2014 this is an If/Else structural issue (missing array creation and return after loop). The Math% usage is correct in the conditions, but the logic of the else-if chain is wrong: for multiples of both 3 and 5, only the first condition (i%3==0) triggers, missing the FizzBuzz case \u2014 this is a LogicAndNotOr gap (should check i%15==0 first). Finally, the method signature expects a String[] return but the code returns a String \u2014 this is an ArrayIndex gap (no array created or used).\",\n  \"knowledge_gaps\": [\"For\", \"LogicCompareNum\", \"StringEqual\", \"StringFormat\", \"If/Else\", \"LogicAndNotOr\", \"ArrayIndex\"]\n}",
+        "knowledge_gaps": []
+      },
+      "parse_status": "parse_error: Expecting ',' delimiter: line 2 column 437 (char 438)",
+      "time_sec": 5.187,
+      "score": 0.0,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math%",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringEqual",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "128": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code only checks if the string starts and ends with 'b', which does not correctly solve the problem. The problem requires finding any substring of length 3 that starts with 'b' and ends with 'b', with any character in the middle. The student's approach misses all cases where the 'b' characters are not at the very start and end of the string. This is a logic error in how the condition is constructed, not a structural issue with if/else. The specific KC that explains the error is LogicAndNotOr, because the student used && to combine startsWith and endsWith, which is the wrong logical combination for the problem's requirement. No other KCs are needed; the structure is fine, and the error is purely in the logic of the condition.\",\n  \"knowledge_gaps\": [\"LogicAndNotOr\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code only checks if the string starts and ends with 'b', which does not correctly solve the problem. The problem requires finding any substring of length 3 that starts with 'b' and ends with 'b', with any character in the middle. The student's approach misses all cases where the 'b' characters are not at the very start and end of the string. This is a logic error in how the condition is constructed, not a structural issue with if/else. The specific KC that explains the error is LogicAndNotOr, because the student used && to combine startsWith and endsWith, which is the wrong logical combination for the problem's requirement. No other KCs are needed; the structure is fine, and the error is purely in the logic of the condition.",
+        "knowledge_gaps": [
+          "LogicAndNotOr"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.139,
+      "score": 0.666667,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "234": {
+      "raw_response": "{\n  \"reasoning\": \"The student uses assignment `=` instead of comparison `==` in both `if (isWeekend = true)` and `else if (isWeekend = false)`. This is a classic boolean logic error \u2014 assignment always evaluates to the assigned value, so the first condition is always true and the second branch is never reached. This reveals a gap in understanding boolean expressions and comparison. Additionally, the second branch's `else if` condition `cigars < 40 && cigars > 60` is logically impossible (a number cannot be both less than 40 and greater than 60), which is a logic combination error. The structural use of if/else is correct in intent, but the specific logic errors are the root cause. No structural tags are needed because the specific KCs explain the errors.\",\n  \"knowledge_gaps\": [\"LogicBoolean\", \"LogicAndNotOr\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student uses assignment `=` instead of comparison `==` in both `if (isWeekend = true)` and `else if (isWeekend = false)`. This is a classic boolean logic error \u2014 assignment always evaluates to the assigned value, so the first condition is always true and the second branch is never reached. This reveals a gap in understanding boolean expressions and comparison. Additionally, the second branch's `else if` condition `cigars < 40 && cigars > 60` is logically impossible (a number cannot be both less than 40 and greater than 60), which is a logic combination error. The structural use of if/else is correct in intent, but the specific logic errors are the root cause. No structural tags are needed because the specific KCs explain the errors.",
+        "knowledge_gaps": [
+          "LogicBoolean",
+          "LogicAndNotOr"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.278,
+      "score": 0.923077,
+      "assignment_id": 439,
+      "required_kcs": [
+        "If/Else",
+        "NestedIf",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "LogicBoolean"
+      ],
+      "invalid_kcs": []
+    }
+  }
+}

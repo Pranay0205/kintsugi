@@ -20,7 +20,8 @@ PROBLEM_PROMPT_PATH = os.path.join(
     PROJECT_ROOT, "dataset", "CodeWorkout", "Problem_Prompts", "problem_prompts.csv")
 
 # API
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+GEMINI_API_KEY   = os.environ.get("GEMINI_API_KEY")
+DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY")
 
 # Analysis defaults
 BATCH_SIZE = 50

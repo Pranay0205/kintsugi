@@ -1,0 +1,503 @@
+{
+  "rater": "LLM_DeepSeek_V3_ablation_baseline",
+  "condition": "baseline",
+  "rules_mode": "full",
+  "kc_mode": "per_problem",
+  "studentId": "9948",
+  "student_id": "9948",
+  "model_id": "deepseek-chat",
+  "temperature": 0.3,
+  "exportDate": "2026-06-20T10:00:49.716991",
+  "total_problems": 39,
+  "totalAnnotated": 39,
+  "total_calls": 15,
+  "errors": [],
+  "annotations": {
+    "17": {
+      "gaps": []
+    },
+    "20": {
+      "gaps": []
+    },
+    "21": {
+      "gaps": []
+    },
+    "22": {
+      "gaps": [
+        "DefFunction",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ]
+    },
+    "24": {
+      "gaps": [
+        "LogicAndNotOr"
+      ]
+    },
+    "25": {
+      "gaps": []
+    },
+    "28": {
+      "gaps": []
+    },
+    "31": {
+      "gaps": []
+    },
+    "32": {
+      "gaps": [
+        "For"
+      ]
+    },
+    "33": {
+      "gaps": [
+        "StringIndex"
+      ]
+    },
+    "34": {
+      "gaps": []
+    },
+    "36": {
+      "gaps": []
+    },
+    "37": {
+      "gaps": [
+        "StringEqual"
+      ]
+    },
+    "38": {
+      "gaps": []
+    },
+    "39": {
+      "gaps": []
+    },
+    "40": {
+      "gaps": []
+    },
+    "41": {
+      "gaps": []
+    },
+    "43": {
+      "gaps": []
+    },
+    "44": {
+      "gaps": []
+    },
+    "45": {
+      "gaps": []
+    },
+    "46": {
+      "gaps": []
+    },
+    "48": {
+      "gaps": []
+    },
+    "49": {
+      "gaps": []
+    },
+    "51": {
+      "gaps": []
+    },
+    "56": {
+      "gaps": []
+    },
+    "57": {
+      "gaps": []
+    },
+    "64": {
+      "gaps": [
+        "If/Else",
+        "For",
+        "Math%",
+        "LogicCompareNum",
+        "StringFormat",
+        "ArrayIndex"
+      ]
+    },
+    "67": {
+      "gaps": []
+    },
+    "70": {
+      "gaps": [
+        "LogicCompareNum",
+        "LogicBoolean"
+      ]
+    },
+    "71": {
+      "gaps": []
+    },
+    "100": {
+      "gaps": [
+        "DefFunction",
+        "If/Else",
+        "Math+-*/",
+        "Math%",
+        "LogicCompareNum"
+      ]
+    },
+    "101": {
+      "gaps": [
+        "LogicCompareNum"
+      ]
+    },
+    "104": {
+      "gaps": []
+    },
+    "106": {
+      "gaps": []
+    },
+    "107": {
+      "gaps": []
+    },
+    "108": {
+      "gaps": []
+    },
+    "112": {
+      "gaps": []
+    },
+    "118": {
+      "gaps": []
+    },
+    "128": {
+      "gaps": [
+        "LogicAndNotOr",
+        "StringIndex"
+      ]
+    }
+  },
+  "raw_responses": {
+    "22": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has multiple issues. In `noTeenSum`, they simply return the sum without calling `fixTeen`, so the teen rule is never applied \u2014 this is a missing function call, which falls under DefFunction (the helper is not used correctly). In `fixTeen`, the condition `n > 12 && n < 20` treats 15 and 16 as teens (should be excluded), and the condition `n == 15 && n == 16` is impossible (a number cannot equal both 15 and 16 simultaneously), showing a misunderstanding of boolean logic (LogicAndNotOr). The range check `n > 12 && n < 20` also has an off-by-one: the range should be 13..19 inclusive, so `n >= 13 && n <= 19` is correct \u2014 this is a LogicCompareNum gap. The method returns 0 for non-teen values instead of returning the original value, which is a logic error in the helper (DefFunction). No structural issues with if/else branching; the problems are in the specific logic and function usage.\",\n  \"knowledge_gaps\": [\"DefFunction\", \"LogicAndNotOr\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has multiple issues. In `noTeenSum`, they simply return the sum without calling `fixTeen`, so the teen rule is never applied \u2014 this is a missing function call, which falls under DefFunction (the helper is not used correctly). In `fixTeen`, the condition `n > 12 && n < 20` treats 15 and 16 as teens (should be excluded), and the condition `n == 15 && n == 16` is impossible (a number cannot equal both 15 and 16 simultaneously), showing a misunderstanding of boolean logic (LogicAndNotOr). The range check `n > 12 && n < 20` also has an off-by-one: the range should be 13..19 inclusive, so `n >= 13 && n <= 19` is correct \u2014 this is a LogicCompareNum gap. The method returns 0 for non-teen values instead of returning the original value, which is a logic error in the helper (DefFunction). No structural issues with if/else branching; the problems are in the specific logic and function usage.",
+        "knowledge_gaps": [
+          "DefFunction",
+          "LogicAndNotOr",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.513,
+      "score": 0.36,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "NestedIf",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "DefFunction"
+      ],
+      "invalid_kcs": []
+    },
+    "24": {
+      "raw_response": "{\n  \"reasoning\": \"The student's logic is incorrect for the problem. The requirement is to return the value nearest to 21 without going over, and return 0 if both go over. The student's code returns 0 if either a or b is over 21, even if the other is valid. For example, if a=22 and b=20, the correct answer is 20, but the student returns 0. The branching structure uses two separate ifs where an if/else or a more careful conditional structure is needed, but the deeper issue is the boolean logic: using || instead of && in the first condition, and the overall logic for handling cases where one is over and the other is not. This is a compound boolean logic error, so LogicAndNotOr is the specific KC that explains the error. The If/Else structure is not the primary issue \u2014 the condition itself is wrong. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"LogicAndNotOr\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's logic is incorrect for the problem. The requirement is to return the value nearest to 21 without going over, and return 0 if both go over. The student's code returns 0 if either a or b is over 21, even if the other is valid. For example, if a=22 and b=20, the correct answer is 20, but the student returns 0. The branching structure uses two separate ifs where an if/else or a more careful conditional structure is needed, but the deeper issue is the boolean logic: using || instead of && in the first condition, and the overall logic for handling cases where one is over and the other is not. This is a compound boolean logic error, so LogicAndNotOr is the specific KC that explains the error. The If/Else structure is not the primary issue \u2014 the condition itself is wrong. No other KCs are needed.",
+        "knowledge_gaps": [
+          "LogicAndNotOr"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.802,
+      "score": 0.727273,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ],
+      "invalid_kcs": []
+    },
+    "32": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has a logic error in the loop update: after finding the word, they set `i = i + word.length()`, but the for-loop's `i++` then executes, causing `i` to skip one extra character. This is an off-by-one error in the loop update, which is a structural issue with the For loop (the update expression is wrong). No specific KC (like StringIndex or LogicCompareNum) explains this structural mistake. The rest of the logic (substring, startsWith, concatenation) is correct.\",\n  \"knowledge_gaps\": [\"For\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has a logic error in the loop update: after finding the word, they set `i = i + word.length()`, but the for-loop's `i++` then executes, causing `i` to skip one extra character. This is an off-by-one error in the loop update, which is a structural issue with the For loop (the update expression is wrong). No specific KC (like StringIndex or LogicCompareNum) explains this structural mistake. The rest of the logic (substring, startsWith, concatenation) is correct.",
+        "knowledge_gaps": [
+          "For"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.724,
+      "score": 0.0909091,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "33": {
+      "raw_response": "{\n  \"reasoning\": \"The student correctly interleaves characters up to the shorter string's length using a for loop. However, after the loop, they incorrectly append the entire strings again using `a.substring(0)` and `b.substring(0)` (which return the full strings), instead of appending only the leftover characters from the longer string. This reveals a gap in understanding how to correctly extract substrings from a specific index to the end (should be `a.substring(i)` and `b.substring(i)`). The error is in string indexing and substring usage, which falls under StringIndex. The loop structure itself is fine, so no structural tags are needed. The concatenation order is correct, and the output format is not the issue \u2014 the wrong substring bounds cause the wrong result.\",\n  \"knowledge_gaps\": [\"StringIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student correctly interleaves characters up to the shorter string's length using a for loop. However, after the loop, they incorrectly append the entire strings again using `a.substring(0)` and `b.substring(0)` (which return the full strings), instead of appending only the leftover characters from the longer string. This reveals a gap in understanding how to correctly extract substrings from a specific index to the end (should be `a.substring(i)` and `b.substring(i)`). The error is in string indexing and substring usage, which falls under StringIndex. The loop structure itself is fine, so no structural tags are needed. The concatenation order is correct, and the output format is not the issue \u2014 the wrong substring bounds cause the wrong result.",
+        "knowledge_gaps": [
+          "StringIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.992,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "While",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringConcat",
+        "StringIndex",
+        "StringLen"
+      ],
+      "invalid_kcs": []
+    },
+    "37": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code does not account for case insensitivity as required by the problem. The `endsWith` method is case-sensitive, so the comparison will fail when the strings differ in case. The student should have converted both strings to lowercase (or uppercase) before checking. This is a logic error in string comparison, specifically failing to handle case differences. The required KC 'StringEqual' is relevant because the student uses `endsWith` (which is a form of string equality check) without normalizing case. No structural KCs are needed because the if/else structure is absent (the student uses a single return statement, which is acceptable for this problem) and no other KCs apply.\",\n  \"knowledge_gaps\": [\"StringEqual\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code does not account for case insensitivity as required by the problem. The `endsWith` method is case-sensitive, so the comparison will fail when the strings differ in case. The student should have converted both strings to lowercase (or uppercase) before checking. This is a logic error in string comparison, specifically failing to handle case differences. The required KC 'StringEqual' is relevant because the student uses `endsWith` (which is a form of string equality check) without normalizing case. No structural KCs are needed because the if/else structure is absent (the student uses a single return statement, which is acceptable for this problem) and no other KCs apply.",
+        "knowledge_gaps": [
+          "StringEqual"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.816,
+      "score": 0.866667,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "38": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is a trivial placeholder that always returns false, with no attempt to solve the problem. According to the critical rules, if the code is a trivial placeholder with no real attempt, return empty knowledge_gaps.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder that always returns false, with no attempt to solve the problem. According to the critical rules, if the code is a trivial placeholder with no real attempt, return empty knowledge_gaps.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 1.478,
+      "score": 0.533333,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringIndex",
+        "StringEqual",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "39": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code is a trivial placeholder that always returns true, with no real attempt to solve the problem. According to the critical rules, if the code is a trivial placeholder with no real attempt, return empty knowledge_gaps.\",\n  \"knowledge_gaps\": []\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder that always returns true, with no real attempt to solve the problem. According to the critical rules, if the code is a trivial placeholder with no real attempt, return empty knowledge_gaps.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 1.755,
+      "score": 0.631579,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "NestedFor",
+        "StringFormat",
+        "StringIndex",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "40": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is a trivial placeholder that returns a single space instead of implementing the required logic. There is no real attempt to solve the problem, so no knowledge gaps should be inferred.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder that returns a single space instead of implementing the required logic. There is no real attempt to solve the problem, so no knowledge gaps should be inferred.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 1.942,
+      "score": 0.0,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "64": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code only creates an empty array of the correct size and returns it without populating any elements. The problem requires iterating from start to end-1, applying FizzBuzz logic, and storing the results in the array. The missing loop (For), missing if/else branching for FizzBuzz conditions, missing modulo operations (Math%), and missing string conversion/formatting (StringFormat) all indicate fundamental gaps. Since the code is essentially a stub with no real attempt at the core logic, the required KCs are all missing.\",\n  \"knowledge_gaps\": [\"If/Else\", \"For\", \"Math%\", \"LogicCompareNum\", \"StringFormat\", \"ArrayIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code only creates an empty array of the correct size and returns it without populating any elements. The problem requires iterating from start to end-1, applying FizzBuzz logic, and storing the results in the array. The missing loop (For), missing if/else branching for FizzBuzz conditions, missing modulo operations (Math%), and missing string conversion/formatting (StringFormat) all indicate fundamental gaps. Since the code is essentially a stub with no real attempt at the core logic, the required KCs are all missing.",
+        "knowledge_gaps": [
+          "If/Else",
+          "For",
+          "Math%",
+          "LogicCompareNum",
+          "StringFormat",
+          "ArrayIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.022,
+      "score": 0.0588235,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math%",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringEqual",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "70": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code attempts to solve the problem by counting 2s and resetting the counter when encountering non-2 values, but the logic is fundamentally flawed. The condition `if(nums[i] == 1)` is irrelevant \u2014 the problem only cares about 2s, not 1s. The final check `counter != 1` is incorrect; the correct logic should ensure every 2 is adjacent to another 2, which requires checking consecutive pairs, not counting isolated 2s. The loop structure is fine, but the conditions and boolean logic inside are wrong. The specific errors are: using an irrelevant comparison (`nums[i] == 1`) \u2014 this is a LogicCompareNum gap (wrong comparison); the final return condition `counter != 1` misapplies boolean logic \u2014 this is a LogicBoolean gap (returning true/false based on a wrong condition). No structural tags are needed because the loop and if/else structure are syntactically correct; the errors are in the logic/comparisons.\",\n  \"knowledge_gaps\": [\"LogicCompareNum\", \"LogicBoolean\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code attempts to solve the problem by counting 2s and resetting the counter when encountering non-2 values, but the logic is fundamentally flawed. The condition `if(nums[i] == 1)` is irrelevant \u2014 the problem only cares about 2s, not 1s. The final check `counter != 1` is incorrect; the correct logic should ensure every 2 is adjacent to another 2, which requires checking consecutive pairs, not counting isolated 2s. The loop structure is fine, but the conditions and boolean logic inside are wrong. The specific errors are: using an irrelevant comparison (`nums[i] == 1`) \u2014 this is a LogicCompareNum gap (wrong comparison); the final return condition `counter != 1` misapplies boolean logic \u2014 this is a LogicBoolean gap (returning true/false based on a wrong condition). No structural tags are needed because the loop and if/else structure are syntactically correct; the errors are in the logic/comparisons.",
+        "knowledge_gaps": [
+          "LogicCompareNum",
+          "LogicBoolean"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.45,
+      "score": 0.809524,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "100": {
+      "raw_response": "```json\n{\n  \"reasoning\": \"The student's code contains only empty method stubs with no implementation. The roundSum method body is empty, and the round10 helper method body is also empty. This means the student did not implement any of the required logic: no rounding logic (Math+-*/, Math%, LogicCompareNum), no branching structure (If/Else), and the helper method is incomplete (DefFunction). Since there is no actual code to analyze for specific logic errors, the gaps are structural and functional: the helper method is missing its implementation (DefFunction), and the overall branching/rounding logic is absent (If/Else, Math+-*/, Math%, LogicCompareNum).\",\n  \"knowledge_gaps\": [\"DefFunction\", \"If/Else\", \"Math+-*/\", \"Math%\", \"LogicCompareNum\"]\n}\n```",
+      "parsed_response": {
+        "reasoning": "The student's code contains only empty method stubs with no implementation. The roundSum method body is empty, and the round10 helper method body is also empty. This means the student did not implement any of the required logic: no rounding logic (Math+-*/, Math%, LogicCompareNum), no branching structure (If/Else), and the helper method is incomplete (DefFunction). Since there is no actual code to analyze for specific logic errors, the gaps are structural and functional: the helper method is missing its implementation (DefFunction), and the overall branching/rounding logic is absent (If/Else, Math+-*/, Math%, LogicCompareNum).",
+        "knowledge_gaps": [
+          "DefFunction",
+          "If/Else",
+          "Math+-*/",
+          "Math%",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.882,
+      "score": 0.0,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "Math+-*/",
+        "Math%",
+        "LogicCompareNum",
+        "DefFunction"
+      ],
+      "invalid_kcs": []
+    },
+    "101": {
+      "raw_response": "{\n  \"reasoning\": \"The student's logic is mostly correct but fails in one case: when `big * 5 > goal`, the code returns `goal % 5`, which is the number of small bars needed if we use only enough big bars to not exceed goal. However, the problem says 'we always use big bars before small bars' \u2014 meaning we should use as many big bars as possible without exceeding goal, but if we have more big bars than needed, we still use only the necessary number of big bars. The correct number of small bars in that branch should be `goal % 5` only if `goal % 5 <= small`; otherwise it's impossible. The student's code does not check whether enough small bars exist in that branch, which can lead to returning a value that is not actually achievable. This is a logic error in the condition and arithmetic \u2014 specifically, the student uses modulo correctly but misses the check that small bars are sufficient. The branching structure (if/else if/else) is correct; the error is in the logic inside the branch. The required KCs are If/Else, While, Math+-*/, LogicAndNotOr, LogicCompareNum. No loop is used, so While is not relevant. The error involves a missing condition (checking small >= goal % 5) which is a LogicCompareNum gap (comparing small to the remainder) and possibly a LogicAndNotOr gap if the condition were combined, but here it's simply missing. The arithmetic (modulo, multiplication) is correct, so Math+-*/ is fine. The If/Else structure is correct. Therefore, the only gap is LogicCompareNum for not checking the small bar count against the remainder.\",\n  \"knowledge_gaps\": [\"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's logic is mostly correct but fails in one case: when `big * 5 > goal`, the code returns `goal % 5`, which is the number of small bars needed if we use only enough big bars to not exceed goal. However, the problem says 'we always use big bars before small bars' \u2014 meaning we should use as many big bars as possible without exceeding goal, but if we have more big bars than needed, we still use only the necessary number of big bars. The correct number of small bars in that branch should be `goal % 5` only if `goal % 5 <= small`; otherwise it's impossible. The student's code does not check whether enough small bars exist in that branch, which can lead to returning a value that is not actually achievable. This is a logic error in the condition and arithmetic \u2014 specifically, the student uses modulo correctly but misses the check that small bars are sufficient. The branching structure (if/else if/else) is correct; the error is in the logic inside the branch. The required KCs are If/Else, While, Math+-*/, LogicAndNotOr, LogicCompareNum. No loop is used, so While is not relevant. The error involves a missing condition (checking small >= goal % 5) which is a LogicCompareNum gap (comparing small to the remainder) and possibly a LogicAndNotOr gap if the condition were combined, but here it's simply missing. The arithmetic (modulo, multiplication) is correct, so Math+-*/ is fine. The If/Else structure is correct. Therefore, the only gap is LogicCompareNum for not checking the small bar count against the remainder.",
+        "knowledge_gaps": [
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 6.212,
+      "score": 0.96,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ],
+      "invalid_kcs": []
+    },
+    "104": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is a trivial placeholder that simply returns the input array unchanged. It does not implement any of the required logic: no loop to iterate over the array, no check for zero values, no search for the largest odd value to the right, and no replacement. Since the code contains no real attempt, no knowledge gaps can be identified from the code itself.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder that simply returns the input array unchanged. It does not implement any of the required logic: no loop to iterate over the array, no check for zero values, no search for the largest odd value to the right, and no replacement. Since the code contains no real attempt, no knowledge gaps can be identified from the code itself.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 2.186,
+      "score": 0.333333,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "NestedFor",
+        "Math%",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "108": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code is a trivial placeholder that simply returns the input array unchanged. It makes no attempt to solve the problem, which requires rearranging numbers so that every 4 is immediately followed by a 5. Since there is no real attempt, no knowledge gaps can be identified.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code is a trivial placeholder that simply returns the input array unchanged. It makes no attempt to solve the problem, which requires rearranging numbers so that every 4 is immediately followed by a 5. Since there is no real attempt, no knowledge gaps can be identified.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 2.044,
+      "score": 0.263158,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "128": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code only checks for the exact substring \\\"bob\\\", but the problem requires that the middle character can be any character (e.g., \\\"bxb\\\", \\\"bzb\\\", etc.). The logic is incomplete \u2014 the student does not iterate through the string to check for a 'b' followed by any character followed by another 'b'. This is a logic error in how the condition is constructed, not a structural issue with the if-statement or loop (the student didn't use a loop at all). The specific gap is in combining conditions and iterating to check each position, which falls under LogicAndNotOr (the student didn't use the correct boolean logic to check for the pattern) and StringIndex (the student didn't use charAt to check positions). The if-structure itself is fine, so If/Else is not tagged. No loop was written, so For is not tagged.\",\n  \"knowledge_gaps\": [\"LogicAndNotOr\", \"StringIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code only checks for the exact substring \"bob\", but the problem requires that the middle character can be any character (e.g., \"bxb\", \"bzb\", etc.). The logic is incomplete \u2014 the student does not iterate through the string to check for a 'b' followed by any character followed by another 'b'. This is a logic error in how the condition is constructed, not a structural issue with the if-statement or loop (the student didn't use a loop at all). The specific gap is in combining conditions and iterating to check each position, which falls under LogicAndNotOr (the student didn't use the correct boolean logic to check for the pattern) and StringIndex (the student didn't use charAt to check positions). The if-structure itself is fine, so If/Else is not tagged. No loop was written, so For is not tagged.",
+        "knowledge_gaps": [
+          "LogicAndNotOr",
+          "StringIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.891,
+      "score": 0.555556,
+      "assignment_id": 492,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "CharEqual"
+      ],
+      "invalid_kcs": []
+    }
+  }
+}

@@ -1,0 +1,350 @@
+{
+  "rater": "LLM_DeepSeek_V3_ablation_no_rules",
+  "condition": "no_rules",
+  "rules_mode": "none",
+  "kc_mode": "per_problem",
+  "studentId": "14363",
+  "student_id": "14363",
+  "model_id": "deepseek-chat",
+  "temperature": 0.3,
+  "exportDate": "2026-06-20T10:23:33.138265",
+  "total_problems": 28,
+  "totalAnnotated": 28,
+  "total_calls": 11,
+  "errors": [],
+  "annotations": {
+    "17": {
+      "gaps": []
+    },
+    "20": {
+      "gaps": []
+    },
+    "21": {
+      "gaps": []
+    },
+    "22": {
+      "gaps": []
+    },
+    "24": {
+      "gaps": [
+        "Math+-*/",
+        "LogicCompareNum"
+      ]
+    },
+    "25": {
+      "gaps": []
+    },
+    "41": {
+      "gaps": []
+    },
+    "43": {
+      "gaps": []
+    },
+    "44": {
+      "gaps": []
+    },
+    "45": {
+      "gaps": []
+    },
+    "46": {
+      "gaps": [
+        "For"
+      ]
+    },
+    "48": {
+      "gaps": [
+        "ArrayIndex"
+      ]
+    },
+    "49": {
+      "gaps": []
+    },
+    "51": {
+      "gaps": [
+        "LogicCompareNum"
+      ]
+    },
+    "56": {
+      "gaps": [
+        "LogicCompareNum"
+      ]
+    },
+    "57": {
+      "gaps": []
+    },
+    "64": {
+      "gaps": []
+    },
+    "67": {
+      "gaps": []
+    },
+    "70": {
+      "gaps": [
+        "ArrayIndex"
+      ]
+    },
+    "71": {
+      "gaps": []
+    },
+    "100": {
+      "gaps": []
+    },
+    "101": {
+      "gaps": [
+        "Math+-*/"
+      ]
+    },
+    "102": {
+      "gaps": []
+    },
+    "104": {
+      "gaps": []
+    },
+    "106": {
+      "gaps": [
+        "ArrayIndex"
+      ]
+    },
+    "107": {
+      "gaps": []
+    },
+    "108": {
+      "gaps": [
+        "ArrayIndex",
+        "LogicCompareNum"
+      ]
+    },
+    "118": {
+      "gaps": []
+    }
+  },
+  "raw_responses": {
+    "24": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has several issues. The logic for the case when both values are under 21 is completely wrong: it uses a while loop that never changes a or b (the loop runs forever if both are under 21), and the inner logic does not correctly determine which is closer to 21. The structure of if/else branches is mostly correct (each case is handled), but the condition `a >= 21 && b >= 21` should be `a > 21 && b > 21` to match the spec (return 0 only if both go over 21). The condition `a == 21` and `b == 21` are fine. The condition `a < 21 && b < 21` is correct, but the implementation inside is wrong. The conditions `a > 21 && b <= 21` and the else for `a <= 21 && b > 21` are correct. The main gap is in the logic for the under-21 case: the student attempted to use a loop (which is unnecessary and incorrectly implemented) and the arithmetic/comparison logic inside is flawed. This reveals a gap in Math+-*/ (wrong arithmetic logic) and LogicCompareNum (wrong comparison logic for determining nearest to 21). The If/Else structure is acceptable, so no structural tag is needed. The while loop is unnecessary and incorrectly used, but the problem does not require a loop, so While is not tagged (the loop structure itself is not the core issue; the logic inside is).\",\n  \"knowledge_gaps\": [\"Math+-*/\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has several issues. The logic for the case when both values are under 21 is completely wrong: it uses a while loop that never changes a or b (the loop runs forever if both are under 21), and the inner logic does not correctly determine which is closer to 21. The structure of if/else branches is mostly correct (each case is handled), but the condition `a >= 21 && b >= 21` should be `a > 21 && b > 21` to match the spec (return 0 only if both go over 21). The condition `a == 21` and `b == 21` are fine. The condition `a < 21 && b < 21` is correct, but the implementation inside is wrong. The conditions `a > 21 && b <= 21` and the else for `a <= 21 && b > 21` are correct. The main gap is in the logic for the under-21 case: the student attempted to use a loop (which is unnecessary and incorrectly implemented) and the arithmetic/comparison logic inside is flawed. This reveals a gap in Math+-*/ (wrong arithmetic logic) and LogicCompareNum (wrong comparison logic for determining nearest to 21). The If/Else structure is acceptable, so no structural tag is needed. The while loop is unnecessary and incorrectly used, but the problem does not require a loop, so While is not tagged (the loop structure itself is not the core issue; the logic inside is).",
+        "knowledge_gaps": [
+          "Math+-*/",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.969,
+      "score": 0.636364,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ],
+      "invalid_kcs": []
+    },
+    "46": {
+      "raw_response": "{\n  \"reasoning\": \"The student's loop starts at i=1 and goes up to nums.length-2, checking pairs (i-1, i+1). This skips the first pair (indices 0 and 1) and the last pair (indices length-2 and length-1). The problem requires checking every adjacent pair (0,1), (1,2), ..., (n-2, n-1). The loop structure itself is wrong: wrong initialization and wrong termination condition. This is a structural error in the For loop (wrong bounds). Additionally, the logic inside the loop uses && correctly to check if neither element equals val, so no specific Logic KC is wrong. The array indices used (i-1 and i+1) are valid within the loop's range, so ArrayIndex is not the issue. Since the loop structure is the root cause and no specific KC explains the error, For is the appropriate tag.\",\n  \"knowledge_gaps\": [\"For\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's loop starts at i=1 and goes up to nums.length-2, checking pairs (i-1, i+1). This skips the first pair (indices 0 and 1) and the last pair (indices length-2 and length-1). The problem requires checking every adjacent pair (0,1), (1,2), ..., (n-2, n-1). The loop structure itself is wrong: wrong initialization and wrong termination condition. This is a structural error in the For loop (wrong bounds). Additionally, the logic inside the loop uses && correctly to check if neither element equals val, so no specific Logic KC is wrong. The array indices used (i-1 and i+1) are valid within the loop's range, so ArrayIndex is not the issue. Since the loop structure is the root cause and no specific KC explains the error, For is the appropriate tag.",
+        "knowledge_gaps": [
+          "For"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.197,
+      "score": 0.5,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "48": {
+      "raw_response": "{\n  \"reasoning\": \"The student attempts to copy non-10 values into a new array but uses the same index i for both the source and destination, leaving gaps where 10s were. They also increment i inside the loop body, which causes skipped indices and potential out-of-bounds issues. The core problem is a misunderstanding of how to track a separate write position (a 'write index') for the destination array, which involves array indexing logic. The loop structure itself (for loop) is fine; the error is in the index management. This is best captured by ArrayIndex, as the student incorrectly uses the same index for reading and writing, and also modifies the loop variable in a way that leads to incorrect array access.\",\n  \"knowledge_gaps\": [\"ArrayIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student attempts to copy non-10 values into a new array but uses the same index i for both the source and destination, leaving gaps where 10s were. They also increment i inside the loop body, which causes skipped indices and potential out-of-bounds issues. The core problem is a misunderstanding of how to track a separate write position (a 'write index') for the destination array, which involves array indexing logic. The loop structure itself (for loop) is fine; the error is in the index management. This is best captured by ArrayIndex, as the student incorrectly uses the same index for reading and writing, and also modifies the loop variable in a way that leads to incorrect array access.",
+        "knowledge_gaps": [
+          "ArrayIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.478,
+      "score": 0.545455,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "51": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has a logic error in the else-if condition. The problem requires that after encountering a multiple of 10, all subsequent values are replaced by that multiple until another multiple of 10 is found. The student attempts to track a 'replace' value, but the else-if condition `replace % 10 != 0` incorrectly resets `replace` to the current element when `replace` is not a multiple of 10, which breaks the intended behavior. The correct logic should only update `replace` when a multiple of 10 is found, and otherwise assign the current `replace` to the array element. This is a logic error in the condition, specifically a numeric comparison issue (wrong condition for when to update `replace`). The loop structure and array indexing are correct. Score is near perfect, indicating a minor bug.\",\n  \"knowledge_gaps\": [\"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has a logic error in the else-if condition. The problem requires that after encountering a multiple of 10, all subsequent values are replaced by that multiple until another multiple of 10 is found. The student attempts to track a 'replace' value, but the else-if condition `replace % 10 != 0` incorrectly resets `replace` to the current element when `replace` is not a multiple of 10, which breaks the intended behavior. The correct logic should only update `replace` when a multiple of 10 is found, and otherwise assign the current `replace` to the array element. This is a logic error in the condition, specifically a numeric comparison issue (wrong condition for when to update `replace`). The loop structure and array indexing are correct. Score is near perfect, indicating a minor bug.",
+        "knowledge_gaps": [
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.216,
+      "score": 0.923077,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math%",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "56": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has two main issues. First, the second if condition uses `num < largest` instead of `num < smallest`, so it never correctly updates the smallest value (it always compares to the current largest, not the current smallest). This is a numeric comparison bug (wrong variable in condition). Second, the logic for tracking the smallest value is fundamentally flawed: the condition should be `num < smallest`, not `num < largest`. This is a logic error in the comparison, not a structural issue with the if/else or loop. The loop structure (for-each) is fine. The arithmetic for sum and average is correct. The array indexing is fine. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has two main issues. First, the second if condition uses `num < largest` instead of `num < smallest`, so it never correctly updates the smallest value (it always compares to the current largest, not the current smallest). This is a numeric comparison bug (wrong variable in condition). Second, the logic for tracking the smallest value is fundamentally flawed: the condition should be `num < smallest`, not `num < largest`. This is a logic error in the comparison, not a structural issue with the if/else or loop. The loop structure (for-each) is fine. The arithmetic for sum and average is correct. The array indexing is fine. No other KCs are needed.",
+        "knowledge_gaps": [
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.358,
+      "score": 0.761905,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "70": {
+      "raw_response": "{\n  \"reasoning\": \"The student's logic has a flaw: for a 2 at index 0, they check only the next element; for a 2 at the last index, they check only the previous element; for a 2 in the middle, they require both neighbors to not be 2. However, this fails when a 2 is at index 0 and the next element is also 2 (should be valid, but the code does not set `two = false` \u2014 that part is okay). The real bug is that the condition for the middle case (`i > 0 && nums[i - 1] != 2 && nums[i + 1] != 2`) is too strict: it only flags a 2 as isolated if both neighbors are not 2, but if the array has a single 2 at index 0 with no neighbor (e.g., length 1), the code accesses `nums[i+1]` which is out of bounds, causing an ArrayIndexOutOfBoundsException. This is an ArrayIndex bug. Also, the logic for the first and last elements does not handle the length-1 case correctly. The loop structure (For) is fine, and the if/else structure is fine. The specific KC ArrayIndex explains the error, so no structural tags are needed.\",\n  \"knowledge_gaps\": [\"ArrayIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's logic has a flaw: for a 2 at index 0, they check only the next element; for a 2 at the last index, they check only the previous element; for a 2 in the middle, they require both neighbors to not be 2. However, this fails when a 2 is at index 0 and the next element is also 2 (should be valid, but the code does not set `two = false` \u2014 that part is okay). The real bug is that the condition for the middle case (`i > 0 && nums[i - 1] != 2 && nums[i + 1] != 2`) is too strict: it only flags a 2 as isolated if both neighbors are not 2, but if the array has a single 2 at index 0 with no neighbor (e.g., length 1), the code accesses `nums[i+1]` which is out of bounds, causing an ArrayIndexOutOfBoundsException. This is an ArrayIndex bug. Also, the logic for the first and last elements does not handle the length-1 case correctly. The loop structure (For) is fine, and the if/else structure is fine. The specific KC ArrayIndex explains the error, so no structural tags are needed.",
+        "knowledge_gaps": [
+          "ArrayIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 4.168,
+      "score": 0.952381,
+      "assignment_id": 502,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "101": {
+      "raw_response": "{\n  \"reasoning\": \"The student's logic is flawed. They compute `remaining = goal - (5 * big)`, which assumes all big bars are used. If `remaining < 0`, they set `remaining = small`, which is incorrect \u2014 they should instead use only as many big bars as needed (e.g., `goal / 5` or `Math.min(big, goal/5)`). The condition `remaining < 0` and the assignment `remaining = small` show a misunderstanding of how to handle excess big bars. The `else if (remaining > small)` correctly detects when small bars are insufficient, but the overall approach is wrong. The primary gap is in arithmetic logic (Math+-*/) \u2014 the student does not correctly compute how many big bars to use. The if/else structure is fine; the conditions themselves are logically wrong due to incorrect arithmetic. No other KCs are needed.\",\n  \"knowledge_gaps\": [\"Math+-*/\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's logic is flawed. They compute `remaining = goal - (5 * big)`, which assumes all big bars are used. If `remaining < 0`, they set `remaining = small`, which is incorrect \u2014 they should instead use only as many big bars as needed (e.g., `goal / 5` or `Math.min(big, goal/5)`). The condition `remaining < 0` and the assignment `remaining = small` show a misunderstanding of how to handle excess big bars. The `else if (remaining > small)` correctly detects when small bars are insufficient, but the overall approach is wrong. The primary gap is in arithmetic logic (Math+-*/) \u2014 the student does not correctly compute how many big bars to use. The if/else structure is fine; the conditions themselves are logically wrong due to incorrect arithmetic. No other KCs are needed.",
+        "knowledge_gaps": [
+          "Math+-*/"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.454,
+      "score": 0.84,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "While",
+        "Math+-*/",
+        "LogicAndNotOr",
+        "LogicCompareNum"
+      ],
+      "invalid_kcs": []
+    },
+    "102": {
+      "raw_response": "{\n  \"reasoning\": \"The student attempts to compare the first two characters with the last two characters using `==` on String objects, which compares references, not content. This is a classic String equality mistake (StringEqual). The code also uses `str.replace(a, \"\")` which replaces all occurrences of the substring, not just the leading one, and does not handle the case where the two-character substrings do not match (should return original string). The logic for extracting characters and building substrings is correct, but the comparison and replacement logic are flawed. The structural If/Else is not the issue \u2014 the condition itself is wrong due to String comparison. The missing else branch is not a structural gap because the problem can be solved with an early return pattern. The other KCs (LogicCompareNum, StringFormat, StringIndex, StringLen) are not directly violated: indices used are valid, length is used correctly, and formatting is not an issue. The primary gap is StringEqual.\",\n  \"knowledge_gaps\": [\"StringEqual\"]\n}",
+      "parsed_response": {
+        "reasoning": "{\n  \"reasoning\": \"The student attempts to compare the first two characters with the last two characters using `==` on String objects, which compares references, not content. This is a classic String equality mistake (StringEqual). The code also uses `str.replace(a, \"\")` which replaces all occurrences of the substring, not just the leading one, and does not handle the case where the two-character substrings do not match (should return original string). The logic for extracting characters and building substrings is correct, but the comparison and replacement logic are flawed. The structural If/Else is not the issue \u2014 the condition itself is wrong due to String comparison. The missing else branch is not a structural gap because the problem can be solved with an early return pattern. The other KCs (LogicCompareNum, StringFormat, StringIndex, StringLen) are not directly violated: indices used are valid, length is used correctly, and formatting is not an issue. The primary gap is StringEqual.\",\n  \"knowledge_gaps\": [\"StringEqual\"]\n}",
+        "knowledge_gaps": []
+      },
+      "parse_status": "parse_error: Expecting ',' delimiter: line 2 column 266 (char 267)",
+      "time_sec": 3.717,
+      "score": 0.153846,
+      "assignment_id": 487,
+      "required_kcs": [
+        "If/Else",
+        "LogicCompareNum",
+        "StringFormat",
+        "StringIndex",
+        "StringLen",
+        "StringEqual"
+      ],
+      "invalid_kcs": []
+    },
+    "106": {
+      "raw_response": "{\n  \"reasoning\": \"The student's logic is mostly correct, but there is a critical array index error in the second loop. When copying the last n elements into the `last` array, the student uses `last[i] = nums[i]` where `i` starts at `nums.length - n`. This causes an `ArrayIndexOutOfBoundsException` because `i` goes beyond the bounds of the `last` array (which has length n). The correct index should be `last[i - (nums.length - n)]` or use a separate counter. This is an ArrayIndex error. No other KCs are needed because the loop structure and comparisons are fine.\",\n  \"knowledge_gaps\": [\"ArrayIndex\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's logic is mostly correct, but there is a critical array index error in the second loop. When copying the last n elements into the `last` array, the student uses `last[i] = nums[i]` where `i` starts at `nums.length - n`. This causes an `ArrayIndexOutOfBoundsException` because `i` goes beyond the bounds of the `last` array (which has length n). The correct index should be `last[i - (nums.length - n)]` or use a separate counter. This is an ArrayIndex error. No other KCs are needed because the loop structure and comparisons are fine.",
+        "knowledge_gaps": [
+          "ArrayIndex"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 2.357,
+      "score": 0.375,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "NestedFor",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "108": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code has multiple issues. The inner loop uses `i` as its loop variable instead of `j`, causing an infinite loop and out-of-bounds access (ArrayIndex). The condition `j != 0` is used instead of `j > 0` to check the previous element, which is a numeric comparison bug (LogicCompareNum). The logic for swapping is incomplete and incorrectly handles the case where a 5 is at index 0, and the overall rearrangement does not correctly move all non-4/5 numbers to fill gaps. The structural use of loops and if/else is present but the specific errors in array indexing and comparisons are the primary gaps.\",\n  \"knowledge_gaps\": [\"ArrayIndex\", \"LogicCompareNum\"]\n}",
+      "parsed_response": {
+        "reasoning": "The student's code has multiple issues. The inner loop uses `i` as its loop variable instead of `j`, causing an infinite loop and out-of-bounds access (ArrayIndex). The condition `j != 0` is used instead of `j > 0` to check the previous element, which is a numeric comparison bug (LogicCompareNum). The logic for swapping is incomplete and incorrectly handles the case where a 5 is at index 0, and the overall rearrangement does not correctly move all non-4/5 numbers to fill gaps. The structural use of loops and if/else is present but the specific errors in array indexing and comparisons are the primary gaps.",
+        "knowledge_gaps": [
+          "ArrayIndex",
+          "LogicCompareNum"
+        ]
+      },
+      "parse_status": "ok",
+      "time_sec": 3.425,
+      "score": 0.4210529999999999,
+      "assignment_id": 494,
+      "required_kcs": [
+        "If/Else",
+        "For",
+        "LogicAndNotOr",
+        "LogicCompareNum",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    },
+    "118": {
+      "raw_response": "{\n  \"reasoning\": \"The student's code correctly shifts the array left by one, using a for loop and proper array indexing. The loop structure and array accesses are correct. No knowledge gaps are present; the code is functionally correct and matches the problem requirements.\",\n  \"knowledge_gaps\": []\n}",
+      "parsed_response": {
+        "reasoning": "The student's code correctly shifts the array left by one, using a for loop and proper array indexing. The loop structure and array accesses are correct. No knowledge gaps are present; the code is functionally correct and matches the problem requirements.",
+        "knowledge_gaps": []
+      },
+      "parse_status": "ok",
+      "time_sec": 2.026,
+      "score": 0.909091,
+      "assignment_id": 502,
+      "required_kcs": [
+        "For",
+        "ArrayIndex"
+      ],
+      "invalid_kcs": []
+    }
+  }
+}
