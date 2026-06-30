@@ -1,5 +1,15 @@
 import { useState, useRef, useCallback } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import {
+  FlashIcon,
+  Loading03Icon,
+  FileUploadIcon,
+  CheckmarkCircle01Icon,
+  AlertCircleIcon,
+  Clock01Icon,
+  ArrowRight01Icon,
+  Alert01Icon,
+} from 'hugeicons-react'
 import { api, DiagnoseResult } from '../api'
 
 interface HistoryItem {
@@ -70,7 +80,10 @@ export default function LiveDiagnose() {
     <div className="p-8 max-w-3xl space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">Live Diagnosis</h1>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+          <FlashIcon size={22} className="text-emerald-500" />
+          Live Diagnosis
+        </h1>
         <p className="text-sm text-slate-500 mt-1">
           Drop a .java file, pick the student and problem, and see which KCs are flagged instantly.
         </p>
@@ -119,8 +132,9 @@ export default function LiveDiagnose() {
             <div className="flex items-center gap-3 px-4 py-2.5 border-b border-slate-200/60">
               <button
                 onClick={() => fileRef.current?.click()}
-                className="text-[11px] font-medium px-3 py-1 bg-white border border-slate-200 rounded-md text-slate-600 hover:border-violet-300 hover:text-violet-700 transition-colors shadow-sm"
+                className="flex items-center gap-1.5 text-[11px] font-medium px-3 py-1 bg-white border border-slate-200 rounded-md text-slate-600 hover:border-violet-300 hover:text-violet-700 transition-colors shadow-sm"
               >
+                <FileUploadIcon size={12} />
                 Open .java file
               </button>
               <span className="text-xs text-slate-400">or drag & drop here</span>
@@ -149,7 +163,12 @@ export default function LiveDiagnose() {
         </div>
 
         {/* Error */}
-        {error && <p className="text-sm text-rose-600">{error}</p>}
+        {error && (
+          <p className="text-sm text-rose-600 flex items-center gap-1.5">
+            <Alert01Icon size={14} />
+            {error}
+          </p>
+        )}
 
         {/* Run button */}
         <button
@@ -159,11 +178,15 @@ export default function LiveDiagnose() {
         >
           {loading ? (
             <>
-              <span className="animate-spin w-4 h-4 border-2 border-white/30 border-t-white rounded-full inline-block" />
+              <Loading03Icon size={16} className="animate-spin" />
               Running DeepSeek V3…
             </>
           ) : (
-            'Run Diagnosis →'
+            <>
+              <FlashIcon size={16} />
+              Run Diagnosis
+              <ArrowRight01Icon size={14} />
+            </>
           )}
         </button>
       </div>
@@ -178,9 +201,12 @@ export default function LiveDiagnose() {
           <div className="px-6 py-5 space-y-5">
             {/* Gaps */}
             <div>
-              <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-2">
+              <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-2 flex items-center gap-1.5">
+                {result.gaps.length > 0
+                  ? <AlertCircleIcon size={12} className="text-rose-500" />
+                  : <CheckmarkCircle01Icon size={12} className="text-emerald-500" />}
                 Gaps flagged
-                {result.gaps.length === 0 && <span className="ml-2 text-emerald-600 normal-case font-normal">none — looks clean</span>}
+                {result.gaps.length === 0 && <span className="ml-1 text-emerald-600 normal-case font-normal">none — looks clean</span>}
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {result.gaps.map(kc => (
@@ -227,13 +253,17 @@ export default function LiveDiagnose() {
       {/* History */}
       {history.length > 0 && (
         <div>
-          <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-3">Session history</p>
+          <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-3 flex items-center gap-1.5">
+            <Clock01Icon size={12} className="text-slate-400" />
+            Session history
+          </p>
           <div className="space-y-2">
             {history.map((h, i) => (
               <div
                 key={i}
                 className="bg-white rounded-xl border border-slate-200 px-5 py-3.5 flex items-center gap-4 shadow-sm"
               >
+                <Clock01Icon size={12} className="text-slate-300 flex-shrink-0" />
                 <span className="font-mono text-xs text-slate-400">{h.timestamp}</span>
                 <span className="font-mono text-sm font-semibold text-slate-700">S{h.studentId}</span>
                 <span className="text-xs text-slate-400">P{h.problemId}</span>

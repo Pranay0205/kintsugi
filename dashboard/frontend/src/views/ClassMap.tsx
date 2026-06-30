@@ -5,6 +5,16 @@ import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Cell, Treemap,
 } from 'recharts'
+import {
+  Loading03Icon,
+  BookOpen01Icon,
+  GridViewIcon,
+  LayoutGridIcon,
+  ChartLineData01Icon,
+  ChartBarLineIcon,
+
+  AlertCircleIcon,
+} from 'hugeicons-react'
 import { api, KCEntry, KCPersistence, ProblemHardness } from '../api'
 
 // ---------------------------------------------------------------------------
@@ -47,19 +57,22 @@ const ALL_KC_ORDER = [
 function Loading() {
   return (
     <div className="flex items-center gap-2 text-slate-400 text-sm py-6">
-      <span className="animate-spin w-4 h-4 border-2 border-slate-300 border-t-violet-500 rounded-full inline-block" />
+      <Loading03Icon size={16} className="animate-spin text-violet-500" />
       Loading…
     </div>
   )
 }
 
-function Panel({ title, subtitle, children, className = '' }: {
-  title: string; subtitle?: string; children: React.ReactNode; className?: string
+function Panel({ title, subtitle, icon, children, className = '' }: {
+  title: string; subtitle?: string; icon?: React.ReactNode; children: React.ReactNode; className?: string
 }) {
   return (
     <div className={`bg-white rounded-xl border border-slate-200 shadow-sm p-5 flex flex-col ${className}`}>
       <div className="mb-4 flex-shrink-0">
-        <p className="text-sm font-semibold text-slate-800">{title}</p>
+        <div className="flex items-center gap-2">
+          {icon}
+          <p className="text-sm font-semibold text-slate-800">{title}</p>
+        </div>
         {subtitle && <p className="text-[11px] text-slate-400 mt-0.5 leading-snug">{subtitle}</p>}
       </div>
       <div className="flex-1 min-h-0">{children}</div>
@@ -190,24 +203,24 @@ function StudentKCMatrix() {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center gap-3 mb-3 text-[11px] text-slate-400 flex-shrink-0">
-        <span className="w-3.5 h-3.5 rounded-sm bg-slate-100 inline-block" /> no gaps
-        <span className="w-3.5 h-3.5 rounded-sm inline-block" style={{ background: '#7c3aed', opacity: 0.3 }} /> few
-        <span className="w-3.5 h-3.5 rounded-sm inline-block" style={{ background: '#7c3aed', opacity: 0.7 }} /> moderate
-        <span className="w-3.5 h-3.5 rounded-sm" style={{ background: '#7c3aed' }} /> many
+      <div className="flex items-center gap-3 mb-4 text-xs text-slate-400 flex-shrink-0">
+        <span className="w-4 h-4 rounded-sm bg-slate-100 inline-block" /> no gaps
+        <span className="w-4 h-4 rounded-sm inline-block" style={{ background: '#7c3aed', opacity: 0.3 }} /> few
+        <span className="w-4 h-4 rounded-sm inline-block" style={{ background: '#7c3aed', opacity: 0.7 }} /> moderate
+        <span className="w-4 h-4 rounded-sm" style={{ background: '#7c3aed' }} /> many
         <span className="text-slate-300 mx-1">·</span>
         color = category · click row → student profile
       </div>
       <div className="overflow-x-auto flex-1">
-        <table className="border-collapse text-[10px]">
+        <table className="border-collapse text-xs mx-auto">
           <thead>
             <tr>
-              <th className="pr-2 pb-1 text-left text-slate-400 font-medium text-[10px] w-14">Student</th>
-              <th className="pr-2 pb-1 text-right text-slate-400 font-medium text-[10px] w-8">Total</th>
+              <th className="pr-4 pb-2 text-left text-slate-500 font-semibold text-xs w-20">Student</th>
+              <th className="pr-4 pb-2 text-right text-slate-500 font-semibold text-xs w-10">Total</th>
               {ALL_KC_ORDER.map(kc => (
-                <th key={kc} className="pb-1 text-slate-300 font-normal align-bottom"
-                  style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)', height: 68, verticalAlign: 'bottom', paddingBottom: 3, fontSize: 10 }}>
-                  <span className="font-mono" style={{ color: KC_CATEGORY[kc]?.fill ?? '#94a3b8' }}>{kc}</span>
+                <th key={kc} className="pb-2 text-slate-400 font-normal align-bottom"
+                  style={{ writingMode: 'vertical-lr', transform: 'rotate(180deg)', height: 110, verticalAlign: 'bottom', paddingBottom: 4, fontSize: 12 }}>
+                  <span className="font-mono font-medium" style={{ color: KC_CATEGORY[kc]?.fill ?? '#94a3b8' }}>{kc}</span>
                 </th>
               ))}
             </tr>
@@ -221,10 +234,10 @@ function StudentKCMatrix() {
                   className="cursor-pointer group"
                   onClick={() => navigate(`/student/${sid}`)}
                 >
-                  <td className="pr-2 py-px font-mono text-slate-600 whitespace-nowrap text-[10px] group-hover:text-violet-600 transition-colors">
-                    ···{String(sid).slice(-4)}
+                  <td className="pr-4 py-1 font-mono text-slate-600 whitespace-nowrap text-xs group-hover:text-violet-600 transition-colors">
+                    {sid}
                   </td>
-                  <td className="pr-2 py-px text-right font-mono font-semibold text-[10px]"
+                  <td className="pr-4 py-1 text-right font-mono font-bold text-xs"
                     style={{ color: total > 15 ? '#e11d48' : total > 8 ? '#f97316' : '#94a3b8' }}>
                     {total}
                   </td>
@@ -234,9 +247,9 @@ function StudentKCMatrix() {
                     const opacity = count > 0 ? 0.18 + (count / maxCount) * 0.82 : 1
                     const isHovered = hoveredCell?.sid === sid && hoveredCell?.kc === kc
                     return (
-                      <td key={kc} className="px-px py-px">
+                      <td key={kc} className="px-0.5 py-0.5">
                         <div
-                          className="w-5 h-5 rounded-sm flex items-center justify-center text-[9px] font-bold transition-all"
+                          className="w-6 h-6 rounded-sm flex items-center justify-center text-[11px] font-bold transition-all"
                           style={{
                             backgroundColor: count > 0 ? fill : '#f1f5f9',
                             opacity: count > 0 ? opacity : 1,
@@ -383,7 +396,8 @@ export default function ClassMap() {
       {/* Reteach action cards */}
       {actNow.length > 0 && (
         <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3">
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-1.5">
+            <BookOpen01Icon size={12} className="text-slate-400" />
             Reteach before moving on
           </p>
           <div className="grid grid-cols-3 gap-4">
@@ -391,9 +405,10 @@ export default function ClassMap() {
               <div key={e.kc} className="bg-white rounded-xl border border-rose-100 p-4 shadow-sm">
                 <div className="flex items-start justify-between mb-2">
                   <span className="font-mono font-semibold text-slate-900 text-sm">{e.kc}</span>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  <span className={`flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
                     i === 0 ? 'bg-rose-100 text-rose-600' : 'bg-orange-100 text-orange-600'
                   }`}>
+                    <AlertCircleIcon size={10} />
                     #{i + 1}
                   </span>
                 </div>
@@ -411,10 +426,12 @@ export default function ClassMap() {
       {/* Top row: Treemap + Matrix */}
       {classLoading ? <Loading /> : (
         <div className="grid grid-cols-2 gap-6">
-          <Panel title="Gap distribution" subtitle="Tile area ∝ total flags · hover for details · color = KC category">
+          <Panel title="Gap distribution" subtitle="Tile area ∝ total flags · hover for details · color = KC category"
+            icon={<GridViewIcon size={14} className="text-slate-400" />}>
             <GapTreemap entries={entries} />
           </Panel>
-          <Panel title="Student × KC matrix" subtitle="Rows sorted by total gaps · click any row to open student profile">
+          <Panel title="Student × KC matrix" subtitle="Rows sorted by total gaps · click any row to open student profile"
+            icon={<LayoutGridIcon size={14} className="text-slate-400" />}>
             <StudentKCMatrix />
           </Panel>
         </div>
@@ -426,6 +443,7 @@ export default function ClassMap() {
           <Panel
             title="Gap persistence"
             subtitle="% still flagged in 2nd half of problem sequence — high = needs explicit re-teaching"
+            icon={<ChartLineData01Icon size={14} className="text-slate-400" />}
           >
             <PersistenceChart data={persistence} />
           </Panel>
@@ -434,25 +452,14 @@ export default function ClassMap() {
           <Panel
             title="Hardest problems"
             subtitle="Problems where the most students had gaps — candidates for extra scaffolding"
+            icon={<ChartBarLineIcon size={14} className="text-slate-400" />}
           >
             <ProblemHardnessChart data={problems} />
           </Panel>
         )}
       </div>
 
-      {/* Zero-gap KCs */}
-      {all.filter(e => e.gap_count === 0).length > 0 && (
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-2">No gaps flagged</p>
-          <div className="flex flex-wrap gap-2">
-            {all.filter(e => e.gap_count === 0).map(e => (
-              <span key={e.kc} className="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full text-xs font-mono">
-                {e.kc}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+
     </div>
   )
 }

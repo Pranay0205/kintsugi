@@ -1,13 +1,19 @@
 import { Routes, Route, NavLink, useNavigate } from 'react-router-dom'
+import {
+  Analytics01Icon,
+  AlertCircleIcon,
+  FlashIcon,
+  AiBrain01Icon,
+} from 'hugeicons-react'
 import ClassMap from './views/ClassMap'
 import TriageList from './views/TriageList'
 import StudentProfile from './views/StudentProfile'
 import LiveDiagnose from './views/LiveDiagnose'
 
 const nav = [
-  { to: '/',         label: 'Class Skill Map',  dot: 'bg-violet-500' },
-  { to: '/triage',   label: 'At-Risk Triage',   dot: 'bg-rose-500'   },
-  { to: '/diagnose', label: 'Live Diagnosis',    dot: 'bg-emerald-500'},
+  { to: '/',         label: 'Class Skill Map',  Icon: Analytics01Icon },
+  { to: '/triage',   label: 'At-Risk Triage',   Icon: AlertCircleIcon  },
+  { to: '/diagnose', label: 'Live Diagnosis',    Icon: FlashIcon        },
 ]
 
 export default function App() {
@@ -17,13 +23,16 @@ export default function App() {
     <div className="flex h-screen overflow-hidden bg-slate-50">
       {/* Sidebar */}
       <aside className="w-60 flex-shrink-0 bg-slate-900 flex flex-col border-r border-slate-800">
-        <div className="px-5 pt-6 pb-5 border-b border-slate-800">
-          <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-1">KCDP Dashboard</p>
-          <p className="text-sm font-semibold text-white leading-snug">Instructor Tool</p>
+        <div className="px-5 pt-6 pb-5 border-b border-slate-800 flex items-center gap-3">
+          <AiBrain01Icon size={20} className="text-violet-400 flex-shrink-0" />
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-slate-500 mb-0.5">KCDP Dashboard</p>
+            <p className="text-sm font-semibold text-white leading-snug">Instructor Tool</p>
+          </div>
         </div>
 
         <nav className="flex-1 px-3 py-5 space-y-0.5">
-          {nav.map(({ to, label, dot }) => (
+          {nav.map(({ to, label, Icon }) => (
             <NavLink
               key={to}
               to={to}
@@ -38,7 +47,7 @@ export default function App() {
             >
               {({ isActive }) => (
                 <>
-                  <span className={`w-2 h-2 rounded-full flex-shrink-0 ${dot} ${isActive ? 'opacity-100' : 'opacity-40'}`} />
+                  <Icon size={16} className={`flex-shrink-0 transition-opacity ${isActive ? 'opacity-100' : 'opacity-50'}`} />
                   {label}
                 </>
               )}

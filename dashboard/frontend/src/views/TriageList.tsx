@@ -1,5 +1,14 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
+import {
+  Loading03Icon,
+  AlertCircleIcon,
+  Flag01Icon,
+  FilterHorizontalIcon,
+  ArrowRight01Icon,
+  TeacherIcon,
+  Analytics01Icon,
+} from 'hugeicons-react'
 import { api, StudentSummary } from '../api'
 
 const CLUSTER_STYLE: Record<string, { badge: string; dot: string }> = {
@@ -19,11 +28,16 @@ export default function TriageList({ onSelect }: Props) {
 
   if (isLoading) return (
     <div className="p-8 flex items-center gap-2 text-slate-400 text-sm">
-      <span className="animate-spin w-4 h-4 border-2 border-slate-300 border-t-violet-500 rounded-full inline-block" />
+      <Loading03Icon size={16} className="animate-spin text-violet-500" />
       Loading…
     </div>
   )
-  if (error) return <div className="p-8 text-rose-500 text-sm">Failed to load data.</div>
+  if (error) return (
+    <div className="p-8 flex items-center gap-2 text-rose-500 text-sm">
+      <AlertCircleIcon size={16} />
+      Failed to load data.
+    </div>
+  )
 
   const all = data ?? []
   const students = filter ? all.filter(s => s.cluster === filter) : all
@@ -33,26 +47,33 @@ export default function TriageList({ onSelect }: Props) {
     <div className="p-8 space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-slate-900 tracking-tight">At-Risk Triage</h1>
+        <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
+          <Flag01Icon size={22} className="text-rose-500" />
+          At-Risk Triage
+        </h1>
         <p className="text-slate-500 mt-1 text-sm">Ranked by recurrence-weighted gap score.</p>
       </div>
 
       {/* Summary strip */}
       <div className="grid grid-cols-3 gap-4">
         {[
-          { label: 'Students tracked', value: all.length },
-          { label: 'Avg sub-100% count', value: Math.round(all.reduce((s, x) => s + x.sub100_count, 0) / (all.length || 1)) },
-          { label: 'Most urgent', value: all[0]?.id ?? '—' },
-        ].map(({ label, value }) => (
-          <div key={label} className="bg-white rounded-xl border border-slate-200 shadow-sm px-5 py-4">
-            <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">{label}</p>
-            <p className="text-2xl font-bold text-slate-900 mt-1 font-mono">{value}</p>
+          { label: 'Students tracked', value: all.length,    Icon: TeacherIcon     },
+          { label: 'Avg sub-100% count', value: Math.round(all.reduce((s, x) => s + x.sub100_count, 0) / (all.length || 1)), Icon: Analytics01Icon },
+          { label: 'Most urgent', value: all[0]?.id ?? '—',  Icon: AlertCircleIcon },
+        ].map(({ label, value, Icon }) => (
+          <div key={label} className="bg-white rounded-xl border border-slate-200 shadow-sm px-5 py-4 flex items-start gap-3">
+            <Icon size={16} className="text-slate-400 mt-1 flex-shrink-0" />
+            <div>
+              <p className="text-xs text-slate-400 font-medium uppercase tracking-wider">{label}</p>
+              <p className="text-2xl font-bold text-slate-900 mt-1 font-mono">{value}</p>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Filter pills */}
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
+        <FilterHorizontalIcon size={14} className="text-slate-400 flex-shrink-0" />
         {['', 'struggling', 'average', 'high'].map(c => {
           const style = CLUSTER_STYLE[c] ?? {}
           return (
@@ -139,7 +160,9 @@ export default function TriageList({ onSelect }: Props) {
                       ))}
                     </div>
                   </td>
-                  <td className="px-4 py-3.5 text-slate-300 group-hover:text-violet-400 transition-colors text-right">→</td>
+                  <td className="px-4 py-3.5 text-right">
+                    <ArrowRight01Icon size={14} className="text-slate-300 group-hover:text-violet-400 transition-colors inline-block" />
+                  </td>
                 </tr>
               )
             })}

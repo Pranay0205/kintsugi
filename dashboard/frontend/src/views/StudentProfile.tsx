@@ -5,6 +5,20 @@ import {
   ComposedChart, Area, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer,
 } from 'recharts'
+import {
+  Loading03Icon,
+  AlertCircleIcon,
+  ArrowLeft01Icon,
+  ArrowUp01Icon,
+  ArrowDown01Icon,
+  ArrowRight01Icon,
+  Mortarboard01Icon,
+  FlashIcon,
+  CheckmarkCircle01Icon,
+  Flag01Icon,
+  ChartLineData01Icon,
+  GridViewIcon,
+} from 'hugeicons-react'
 import { Flag, SubmissionStat, TrajectoryPoint } from '../api'
 import { api } from '../api'
 
@@ -42,19 +56,24 @@ function GapTrendChart({ timeline }: { timeline: SubmissionStat[] }) {
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <p className="text-sm font-semibold text-slate-800">Gap trend over time</p>
+          <p className="text-sm font-semibold text-slate-800 flex items-center gap-2">
+            <ChartLineData01Icon size={14} className="text-slate-400" />
+            Gap trend over time
+          </p>
           <p className="text-xs text-slate-400 mt-0.5">Gap count per submission in problem sequence</p>
         </div>
-        <span className={`text-xs font-semibold px-2.5 py-1 rounded-full border ${
+        <span className={`flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full border ${
           improving
             ? 'bg-emerald-50 text-emerald-700 border-emerald-100'
             : 'bg-amber-50 text-amber-700 border-amber-100'
         }`}>
-          {improving ? '↓ Improving' : '→ Not improving'}
+          {improving
+            ? <><ArrowDown01Icon size={12} /> Improving</>
+            : <><ArrowRight01Icon size={12} /> Not improving</>}
         </span>
       </div>
       <ResponsiveContainer width="100%" height={200}>
-        <ComposedChart data={smoothed} margin={{ left: -10, right: 8, top: 4, bottom: 0 }}>
+        <ComposedChart data={smoothed} margin={{ left: 0, right: 8, top: 4, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
           <XAxis
             dataKey="attempt_order"
@@ -109,9 +128,12 @@ function Trajectory({ points }: { points: TrajectoryPoint[] }) {
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-      <p className="text-sm font-semibold text-slate-800 mb-4">KC pattern across submissions</p>
+      <p className="text-sm font-semibold text-slate-800 mb-4 flex items-center gap-2">
+          <GridViewIcon size={14} className="text-slate-400" />
+          KC pattern across submissions
+        </p>
       <div className="overflow-x-auto">
-        <table className="text-[11px] border-collapse">
+        <table className="text-[11px] border-collapse mx-auto">
           <thead>
             <tr>
               <th className="text-left pr-4 pb-1.5 text-slate-400 font-medium w-32">KC</th>
@@ -182,7 +204,11 @@ function FlagCard({ flag }: { flag: Flag }) {
           ))}
           {!flag.gaps?.length && <span className="text-xs text-slate-400 italic">no gaps flagged</span>}
         </div>
-        <span className="ml-auto text-slate-300 text-xs">{open ? '▲' : '▼'}</span>
+        <span className="ml-auto text-slate-300">
+          {open
+            ? <ArrowUp01Icon size={14} />
+            : <ArrowDown01Icon size={14} />}
+        </span>
       </button>
 
       {open && (
@@ -251,11 +277,16 @@ export default function StudentProfile() {
 
   if (isLoading) return (
     <div className="p-8 flex items-center gap-2 text-slate-400 text-sm">
-      <span className="animate-spin w-4 h-4 border-2 border-slate-300 border-t-violet-500 rounded-full inline-block" />
+      <Loading03Icon size={16} className="animate-spin text-violet-500" />
       Loading…
     </div>
   )
-  if (error)  return <div className="p-8 text-rose-500 text-sm">Failed to load student {sid}.</div>
+  if (error) return (
+    <div className="p-8 flex items-center gap-2 text-rose-500 text-sm">
+      <AlertCircleIcon size={16} />
+      Failed to load student {sid}.
+    </div>
+  )
   if (!data)  return null
 
   const studyFlags = data.flags?.filter(f => f.source !== 'live') ?? []
@@ -268,15 +299,14 @@ export default function StudentProfile() {
         onClick={() => navigate('/triage')}
         className="text-sm text-slate-400 hover:text-slate-700 flex items-center gap-1.5 transition-colors"
       >
-        ← Back to triage
+        <ArrowLeft01Icon size={14} />
+        Back to triage
       </button>
 
       {/* Header */}
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 rounded-xl bg-violet-100 flex items-center justify-center">
-          <span className="font-mono font-bold text-violet-700 text-sm">
-            {String(data.id).slice(-3)}
-          </span>
+          <Mortarboard01Icon size={22} className="text-violet-600" />
         </div>
         <div>
           <h1 className="text-2xl font-bold text-slate-900 font-mono">Student {data.id}</h1>
@@ -288,20 +318,24 @@ export default function StudentProfile() {
         </div>
         <button
           onClick={() => navigate('/diagnose')}
-          className="ml-auto px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors"
+          className="ml-auto flex items-center gap-2 px-4 py-2 bg-violet-600 hover:bg-violet-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors"
         >
-          Run live diagnosis →
+          <FlashIcon size={14} />
+          Run live diagnosis
         </button>
       </div>
 
       {/* KC summary */}
       <div className="grid grid-cols-2 gap-4">
         {[
-          { label: 'Weak KCs', kcs: data.weak_kcs, variant: 'weak' as const },
-          { label: 'Strong KCs', kcs: data.strong_kcs, variant: 'strong' as const },
-        ].map(({ label, kcs, variant }) => (
+          { label: 'Weak KCs',   kcs: data.weak_kcs,   variant: 'weak'   as const, Icon: AlertCircleIcon,      iconClass: 'text-rose-400'    },
+          { label: 'Strong KCs', kcs: data.strong_kcs, variant: 'strong' as const, Icon: CheckmarkCircle01Icon, iconClass: 'text-emerald-500' },
+        ].map(({ label, kcs, variant, Icon, iconClass }) => (
           <div key={label} className="bg-white rounded-xl border border-slate-200 shadow-sm p-5">
-            <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-3">{label}</p>
+            <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-3 flex items-center gap-1.5">
+              <Icon size={12} className={iconClass} />
+              {label}
+            </p>
             <div className="flex flex-wrap gap-1.5">
               {kcs?.length
                 ? kcs.map(kc => <KCChip key={kc} kc={kc} variant={variant} />)
@@ -320,7 +354,8 @@ export default function StudentProfile() {
 
       {/* Study flags */}
       <div>
-        <p className="text-sm font-semibold text-slate-700 mb-3">
+        <p className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+          <Flag01Icon size={14} className="text-rose-400" />
           Flagged submissions
         </p>
         <div className="space-y-2">
@@ -334,7 +369,10 @@ export default function StudentProfile() {
       {/* Live flags */}
       {liveFlags.length > 0 && (
         <div>
-          <p className="text-sm font-semibold text-slate-700 mb-3">Live diagnoses</p>
+          <p className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-2">
+            <FlashIcon size={14} className="text-violet-500" />
+            Live diagnoses
+          </p>
           <div className="space-y-2">
             {liveFlags.map((f, i) => <FlagCard key={i} flag={f} />)}
           </div>
