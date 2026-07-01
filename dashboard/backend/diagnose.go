@@ -81,6 +81,12 @@ func handleDiagnose(db *sql.DB) http.HandlerFunc {
 		prompt := buildV3Prompt(req.ProblemID, requirement, assignmentID, requiredKCs, req.Code, 0.5)
 
 		reasoning, gaps, invalidKCs, parseStatus := callDeepSeek(prompt)
+		if gaps == nil {
+			gaps = []string{}
+		}
+		if invalidKCs == nil {
+			invalidKCs = []string{}
+		}
 
 		// Compute next attempt_order for this student
 		var maxOrder int
@@ -198,6 +204,12 @@ func parseKCDP(content string) (reasoning string, gaps []string, invalidKCs []st
 		} else {
 			invalidKCs = append(invalidKCs, kc)
 		}
+	}
+	if gaps == nil {
+		gaps = []string{}
+	}
+	if invalidKCs == nil {
+		invalidKCs = []string{}
 	}
 	return obj.Reasoning, gaps, invalidKCs, "ok"
 }

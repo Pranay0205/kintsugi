@@ -1,13 +1,43 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
+func loadEnv(candidates []string) {
+	for _, path := range candidates {
+		f, err := os.Open(path)
+		if err != nil {
+			continue
+		}
+		scanner := bufio.NewScanner(f)
+		for scanner.Scan() {
+			line := strings.TrimSpace(scanner.Text())
+			if line == "" || strings.HasPrefix(line, "#") {
+				continue
+			}
+			parts := strings.SplitN(line, "=", 2)
+			if len(parts) != 2 {
+				continue
+			}
+			key := strings.TrimSpace(parts[0])
+			val := strings.Trim(strings.TrimSpace(parts[1]), `'"`)
+			if os.Getenv(key) == "" {
+				os.Setenv(key, val)
+			}
+		}
+		f.Close()
+		break
+	}
+}
+
 func main() {
+	loadEnv([]string{"../../.env", ".env"})
 	db := openDB()
 	defer db.Close()
 
@@ -19,8 +49,10 @@ func main() {
 	mux.Handle("GET /api/class/persistence", handleClassPersistence(db))
 	mux.Handle("GET /api/students", handleStudents(db))
 	mux.Handle("GET /api/student/{id}", handleStudent(db))
+	mux.Handle("GET /api/problems", handleProblems(db))
 	mux.Handle("GET /api/practice", handlePractice(db))
 	mux.Handle("POST /api/diagnose", handleDiagnose(db))
+	mux.Handle("POST /api/reteach", handleReteach(db))
 
 	port := os.Getenv("PORT")
 	if port == "" {

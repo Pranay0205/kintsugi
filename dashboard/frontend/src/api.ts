@@ -70,6 +70,33 @@ export interface PracticeItem {
   assignment_id: number
 }
 
+export interface ReteachRecommendation {
+  kc: string
+  java_topic: string
+  why_struggle: string
+  reteach_points: string[]
+}
+
+export interface ReteachPlan {
+  recommendations: ReteachRecommendation[]
+  class_summary: string
+}
+
+export interface ReteachKCInput {
+  kc: string
+  flags: number
+  student_count: number
+  total_students: number
+  kind: string
+}
+
+export interface ProblemInfo {
+  id: number
+  assignment_id: number
+  requirement: string
+  required_kcs: string[]
+}
+
 export interface DiagnoseResult {
   reasoning: string
   gaps: string[]
@@ -105,6 +132,8 @@ export const api = {
   classPersistence: () => get<KCPersistence[]>('/class/persistence'),
   students: () => get<StudentSummary[]>('/students'),
   student: (id: number) => get<StudentDetail>(`/student/${id}`),
+  problems: () => get<ProblemInfo[]>('/problems'),
+  reteach: (kcs: ReteachKCInput[]) => post<ReteachPlan>('/reteach', { kcs }),
   practice: (kc: string) => get<PracticeItem[]>(`/practice?kc=${encodeURIComponent(kc)}`),
   diagnose: (studentId: number, problemId: number, code: string) =>
     post<DiagnoseResult>('/diagnose', { student_id: studentId, problem_id: problemId, code }),

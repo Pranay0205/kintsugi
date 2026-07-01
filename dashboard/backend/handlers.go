@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 // ---------------------------------------------------------------------------
@@ -191,6 +192,48 @@ func handleStudent(db *sql.DB) http.HandlerFunc {
 			Trajectory:  traj,
 			Timeline:    timeline,
 		})
+	}
+}
+
+// ---------------------------------------------------------------------------
+// GET /api/problems
+// ---------------------------------------------------------------------------
+
+type ProblemInfo struct {
+	ID           int      `json:"id"`
+	AssignmentID int      `json:"assignment_id"`
+	Requirement  string   `json:"requirement"`
+	RequiredKCs  []string `json:"required_kcs"`
+}
+
+func handleProblems(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		rows, err := db.Query(`
+			SELECT p.id, p.assignment_id, p.requirement, COALESCE(group_concat(pk.kc, ','), '') as kcs
+			FROM problems p
+			LEFT JOIN problem_kcs pk ON pk.problem_id = p.id
+			GROUP BY p.id
+			ORDER BY p.assignment_id, p.id
+		`)
+		if err != nil {
+			http.Error(w, err.Error(), 500)
+			return
+		}
+		defer rows.Close()
+
+		var out []ProblemInfo
+		for rows.Next() {
+			var p ProblemInfo
+			var kcsRaw string
+			rows.Scan(&p.ID, &p.AssignmentID, &p.Requirement, &kcsRaw)
+			if kcsRaw != "" {
+				for _, kc := range strings.Split(kcsRaw, ",") {
+					p.RequiredKCs = append(p.RequiredKCs, strings.TrimSpace(kc))
+				}
+			}
+			out = append(out, p)
+		}
+		writeJSON(w, out)
 	}
 }
 

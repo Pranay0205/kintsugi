@@ -12,10 +12,12 @@ import {
   LayoutGridIcon,
   ChartLineData01Icon,
   ChartBarLineIcon,
-
   AlertCircleIcon,
+  AiBrain01Icon,
+  FlashIcon,
+  CheckmarkCircle01Icon,
 } from 'hugeicons-react'
-import { api, KCEntry, KCPersistence, ProblemHardness } from '../api'
+import { api, KCEntry, KCPersistence, ProblemHardness, ReteachPlan, ReteachKCInput } from '../api'
 
 // ---------------------------------------------------------------------------
 // KC metadata
@@ -378,10 +380,36 @@ export default function ClassMap() {
   const { data: problems }                 = useQuery({ queryKey: ['class-problems'],   queryFn: api.classProblems })
   const { data: persistence }              = useQuery({ queryKey: ['class-persistence'], queryFn: api.classPersistence })
 
+  const [reteachPlan, setReteachPlan]     = useState<ReteachPlan | null>(null)
+  const [reteachLoading, setReteachLoading] = useState(false)
+  const [reteachError, setReteachError]   = useState('')
+
   const entries = (data ?? []).filter(e => e.gap_count > 0)
   const all     = data ?? []
   const total   = entries.reduce((s, e) => s + e.gap_count, 0)
   const actNow  = entries.filter(e => e.student_count >= 7).slice(0, 3)
+
+  const generatePlan = async () => {
+    if (!actNow.length) return
+    setReteachLoading(true)
+    setReteachError('')
+    setReteachPlan(null)
+    try {
+      const kcs: ReteachKCInput[] = actNow.map(e => ({
+        kc: e.kc,
+        flags: e.gap_count,
+        student_count: e.student_count,
+        total_students: all.length,
+        kind: e.kind,
+      }))
+      const plan = await api.reteach(kcs)
+      setReteachPlan(plan)
+    } catch {
+      setReteachError('Failed to generate plan. Check backend is running.')
+    } finally {
+      setReteachLoading(false)
+    }
+  }
 
   return (
     <div className="p-8 space-y-6">
@@ -393,33 +421,120 @@ export default function ClassMap() {
         </p>
       </div>
 
-      {/* Reteach action cards */}
+      {/* Reteach section */}
       {actNow.length > 0 && (
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-3 flex items-center gap-1.5">
-            <BookOpen01Icon size={12} className="text-slate-400" />
-            Reteach before moving on
-          </p>
-          <div className="grid grid-cols-3 gap-4">
+        <div className="bg-white rounded-xl border border-rose-100 shadow-sm overflow-hidden">
+          {/* Header row */}
+          <div className="px-5 py-4 border-b border-rose-50 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <BookOpen01Icon size={14} className="text-rose-400" />
+              <p className="text-sm font-semibold text-slate-800">Reteach before moving on</p>
+              <span className="text-xs text-slate-400">— {actNow.length} KCs flagged by ≥7 students</span>
+            </div>
+            <button
+              onClick={generatePlan}
+              disabled={reteachLoading}
+              className="flex items-center gap-2 px-3.5 py-1.5 bg-violet-600 hover:bg-violet-700 disabled:bg-violet-400 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors"
+            >
+              {reteachLoading
+                ? <><Loading03Icon size={12} className="animate-spin" /> Generating…</>
+                : <><AiBrain01Icon size={12} /> Generate Teaching Plan</>}
+            </button>
+          </div>
+
+          {/* Summary cards */}
+          <div className="grid grid-cols-3 divide-x divide-rose-50">
             {actNow.map((e, i) => (
-              <div key={e.kc} className="bg-white rounded-xl border border-rose-100 p-4 shadow-sm">
+              <div key={e.kc} className="px-5 py-4">
                 <div className="flex items-start justify-between mb-2">
                   <span className="font-mono font-semibold text-slate-900 text-sm">{e.kc}</span>
                   <span className={`flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
                     i === 0 ? 'bg-rose-100 text-rose-600' : 'bg-orange-100 text-orange-600'
                   }`}>
-                    <AlertCircleIcon size={10} />
-                    #{i + 1}
+                    <AlertCircleIcon size={10} />#{i + 1}
                   </span>
                 </div>
                 <p className="text-2xl font-bold text-rose-600 leading-none">
                   {e.student_count}
                   <span className="text-sm font-normal text-slate-400 ml-1">/ {all.length} students</span>
                 </p>
-                <p className="text-xs text-slate-400 mt-1.5">{e.gap_count} flags · {e.kind}</p>
+                <p className="text-xs text-slate-400 mt-1">{e.gap_count} flags · {e.kind}</p>
               </div>
             ))}
           </div>
+
+          {/* AI plan */}
+          {reteachError && (
+            <div className="px-5 py-3 border-t border-rose-50 text-sm text-rose-600 flex items-center gap-2">
+              <AlertCircleIcon size={14} />{reteachError}
+            </div>
+          )}
+
+          {reteachPlan && (
+            <div className="border-t border-slate-100">
+              {/* Class summary */}
+              <div className="px-5 py-4 bg-violet-50/40 border-b border-violet-100/60 flex items-start gap-3">
+                <AiBrain01Icon size={14} className="text-violet-500 mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-slate-700 leading-relaxed">{reteachPlan.class_summary}</p>
+              </div>
+
+              {/* Per-KC recommendations */}
+              <div className="divide-y divide-slate-100">
+                {reteachPlan.recommendations.map(rec => {
+                  const color = KC_CATEGORY[rec.kc]?.fill ?? '#94a3b8'
+                  return (
+                    <div key={rec.kc} className="px-5 py-4 grid grid-cols-[140px_1fr_1fr] gap-6 items-start">
+                      {/* KC label */}
+                      <div>
+                        <span
+                          className="inline-block font-mono text-xs font-semibold px-2 py-0.5 rounded-md text-white mb-2"
+                          style={{ background: color }}
+                        >
+                          {rec.kc}
+                        </span>
+                        <p className="text-[11px] text-slate-400">{KC_CATEGORY[rec.kc]?.label}</p>
+                      </div>
+
+                      {/* Topic + why */}
+                      <div className="space-y-2">
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mb-1">Java topic</p>
+                          <p className="text-sm text-slate-800 font-medium">{rec.java_topic}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mb-1">Why students struggle</p>
+                          <p className="text-sm text-slate-600 leading-relaxed">{rec.why_struggle}</p>
+                        </div>
+                      </div>
+
+                      {/* Reteach points */}
+                      <div>
+                        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-semibold mb-2">Teaching points</p>
+                        <ul className="space-y-1.5">
+                          {rec.reteach_points.map((pt, j) => (
+                            <li key={j} className="flex items-start gap-2 text-sm text-slate-700">
+                              <CheckmarkCircle01Icon size={13} className="text-violet-400 mt-0.5 flex-shrink-0" />
+                              {pt}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Regenerate */}
+              <div className="px-5 py-3 border-t border-slate-100 flex justify-end">
+                <button
+                  onClick={generatePlan}
+                  className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-violet-600 transition-colors"
+                >
+                  <FlashIcon size={11} /> Regenerate
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

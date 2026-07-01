@@ -10,7 +10,7 @@ import {
   ArrowRight01Icon,
   Alert01Icon,
 } from 'hugeicons-react'
-import { api, DiagnoseResult } from '../api'
+import { api, DiagnoseResult, ProblemInfo } from '../api'
 
 interface HistoryItem {
   studentId: number
@@ -21,9 +21,12 @@ interface HistoryItem {
 
 export default function LiveDiagnose() {
   const { data: students } = useQuery({ queryKey: ['students'], queryFn: api.students })
+  const { data: problems } = useQuery({ queryKey: ['problems'], queryFn: api.problems })
 
   const [studentId, setStudentId] = useState<number>(0)
   const [problemId, setProblemId] = useState<string>('')
+
+  const selectedProblem: ProblemInfo | undefined = problems?.find(p => p.id === parseInt(problemId))
   const [code, setCode] = useState<string>('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string>('')
@@ -106,17 +109,37 @@ export default function LiveDiagnose() {
               ))}
             </select>
           </div>
-          <div className="w-36">
-            <label className="block text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-1.5">Problem ID</label>
-            <input
-              type="number"
+          <div className="flex-1">
+            <label className="block text-[11px] uppercase tracking-widest text-slate-400 font-semibold mb-1.5">Problem</label>
+            <select
               value={problemId}
               onChange={e => setProblemId(e.target.value)}
-              placeholder="e.g. 42"
               className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-800 bg-white focus:outline-none focus:ring-2 focus:ring-violet-400 focus:border-violet-400 font-mono"
-            />
+            >
+              <option value="">Select problem…</option>
+              {(problems ?? []).map(p => (
+                <option key={p.id} value={p.id}>
+                  P{p.id} · A{p.assignment_id} · [{p.required_kcs.join(', ')}]
+                </option>
+              ))}
+            </select>
           </div>
         </div>
+
+        {/* Problem context */}
+        {selectedProblem && (
+          <div className="bg-slate-50 rounded-lg border border-slate-200 px-4 py-3 space-y-2">
+            <p className="text-[11px] uppercase tracking-widest text-slate-400 font-semibold">Requirement</p>
+            <p className="text-sm text-slate-700 leading-relaxed">{selectedProblem.requirement}</p>
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {selectedProblem.required_kcs.map(kc => (
+                <span key={kc} className="px-2 py-0.5 bg-violet-50 text-violet-700 border border-violet-100 rounded text-xs font-mono">
+                  {kc}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Drop zone */}
         <div>
