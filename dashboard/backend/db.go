@@ -19,5 +19,6 @@ func openDB() *sql.DB {
 	}
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(5)
+	ensureSchema(db)
 	return db
 }

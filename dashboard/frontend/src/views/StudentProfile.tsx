@@ -120,11 +120,19 @@ function GapTrendChart({ timeline }: { timeline: SubmissionStat[] }) {
 // Trajectory grid
 // ---------------------------------------------------------------------------
 
-function Trajectory({ points }: { points: TrajectoryPoint[] }) {
+function Trajectory({ points, flags }: { points: TrajectoryPoint[]; flags: Flag[] }) {
+  const [selected, setSelected] = useState<{ kc?: string; order: number } | null>(null)
+
   if (!points?.length) return null
   const kcs = [...new Set(points.map(p => p.kc))].sort()
   const maxOrder = Math.max(...points.map(p => p.attempt_order))
   const lookup = new Set(points.map(p => `${p.kc}::${p.attempt_order}`))
+  const flaggedOrders = new Set(flags.map(f => f.attempt_order))
+
+  const selectedFlag = selected
+    ? flags.find(f => f.attempt_order === selected.order && (!selected.kc || f.gaps?.includes(selected.kc)))
+      ?? flags.find(f => f.attempt_order === selected.order)
+    : undefined
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
@@ -137,9 +145,23 @@ function Trajectory({ points }: { points: TrajectoryPoint[] }) {
           <thead>
             <tr>
               <th className="text-left pr-4 pb-1.5 text-slate-400 font-medium w-32">KC</th>
-              {Array.from({ length: maxOrder }, (_, i) => (
-                <th key={i} className="px-px pb-1.5 text-slate-300 text-center w-4 font-normal">{i + 1}</th>
-              ))}
+              {Array.from({ length: maxOrder }, (_, i) => {
+                const hasFlag = flaggedOrders.has(i + 1)
+                return (
+                  <th
+                    key={i}
+                    onClick={hasFlag ? () => setSelected({ order: i + 1 }) : undefined}
+                    className={`px-px pb-1.5 text-center w-4 font-normal ${
+                      hasFlag
+                        ? 'text-slate-400 cursor-pointer hover:text-violet-600 hover:underline'
+                        : 'text-slate-300'
+                    }`}
+                    title={hasFlag ? `Problem ${i + 1}: click to view code` : undefined}
+                  >
+                    {i + 1}
+                  </th>
+                )
+              })}
             </tr>
           </thead>
           <tbody>
@@ -151,8 +173,11 @@ function Trajectory({ points }: { points: TrajectoryPoint[] }) {
                   return (
                     <td key={i} className="px-px py-px text-center">
                       <span
-                        className={`inline-block w-3 h-3 rounded-sm transition-colors ${failed ? 'bg-rose-400' : 'bg-slate-100'}`}
-                        title={failed ? `Problem ${i + 1}: gap flagged` : `Problem ${i + 1}: ok`}
+                        onClick={failed ? () => setSelected({ kc, order: i + 1 }) : undefined}
+                        className={`inline-block w-3 h-3 rounded-sm transition-colors ${
+                          failed ? 'bg-rose-400 cursor-pointer hover:ring-2 hover:ring-rose-300' : 'bg-slate-100'
+                        }`}
+                        title={failed ? `Problem ${i + 1}: gap flagged — click to view code` : `Problem ${i + 1}: ok`}
                       />
                     </td>
                   )
@@ -164,8 +189,65 @@ function Trajectory({ points }: { points: TrajectoryPoint[] }) {
       </div>
       <p className="mt-3 text-[11px] text-slate-400">
         <span className="inline-block w-2.5 h-2.5 rounded-sm bg-rose-400 mr-1.5 align-middle" />
-        gap flagged · columns = problem sequence order
+        gap flagged · columns = problem sequence order · click a flagged cell or problem number to view code
       </p>
+
+      {selected && (
+        <div
+          className="fixed inset-0 bg-slate-900/40 flex items-center justify-center p-6 z-50"
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="px-5 py-3.5 border-b border-slate-100 flex items-center gap-3">
+              <span className="font-mono text-sm font-semibold text-slate-700">
+                Problem #{selected.order}{selectedFlag ? ` · P${selectedFlag.problem_id}` : ''}
+              </span>
+              <div className="flex gap-1 flex-wrap">
+                {(selected.kc ? [selected.kc] : selectedFlag?.gaps ?? []).map(kc => (
+                  <span key={kc} className="px-1.5 py-0.5 bg-rose-50 text-rose-700 border border-rose-100 rounded text-[11px] font-mono">
+                    {kc}
+                  </span>
+                ))}
+              </div>
+              <button
+                onClick={() => setSelected(null)}
+                className="ml-auto text-slate-300 hover:text-slate-600 text-sm"
+              >
+                Close
+              </button>
+            </div>
+            <div className="px-5 py-4 space-y-4">
+              {selectedFlag ? (
+                <>
+                  <div>
+                    <p className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-1.5">Reasoning</p>
+                    {selectedFlag.reasoning ? (
+                      <p className="text-sm text-slate-700 leading-relaxed">{selectedFlag.reasoning}</p>
+                    ) : (
+                      <p className="text-sm text-slate-400 italic">Reasoning not available for this submission.</p>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-[11px] uppercase tracking-wider text-slate-400 font-semibold mb-1.5">Student code</p>
+                    {selectedFlag.code ? (
+                      <pre className="bg-slate-900 text-slate-100 text-[11px] leading-relaxed rounded-lg p-4 overflow-x-auto whitespace-pre-wrap font-mono">
+                        {selectedFlag.code}
+                      </pre>
+                    ) : (
+                      <p className="text-sm text-slate-400 italic">No code available for this submission.</p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <p className="text-sm text-slate-400 italic">No submission data found for this cell.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
@@ -350,7 +432,7 @@ export default function StudentProfile() {
       {data.timeline?.length > 0 && <GapTrendChart timeline={data.timeline} />}
 
       {/* Trajectory */}
-      {data.trajectory?.length > 0 && <Trajectory points={data.trajectory} />}
+      {data.trajectory?.length > 0 && <Trajectory points={data.trajectory} flags={data.flags ?? []} />}
 
       {/* Study flags */}
       <div>

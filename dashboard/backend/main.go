@@ -54,6 +54,14 @@ func main() {
 	mux.Handle("POST /api/diagnose", handleDiagnose(db))
 	mux.Handle("POST /api/reteach", handleReteach(db))
 
+	mux.Handle("/api/kcs", handleKCs(db))
+	mux.Handle("/api/kcs/{name}", handleKCByName(db))
+	mux.Handle("GET /api/prompt/components", handlePromptComponents(db))
+	mux.Handle("/api/prompt/components/{key}", handlePromptComponentByKey(db))
+	mux.Handle("/api/prompt/rules", handleDisambiguationRules(db))
+	mux.Handle("/api/prompt/rules/{id}", handleDisambiguationRuleByID(db))
+	mux.Handle("GET /api/prompt/preview", handlePromptPreview(db))
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
@@ -67,7 +75,7 @@ func main() {
 func corsMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
-		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 		if r.Method == http.MethodOptions {
 			w.WriteHeader(http.StatusNoContent)

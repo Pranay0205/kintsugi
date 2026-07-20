@@ -16,6 +16,7 @@ import {
   AiBrain01Icon,
   FlashIcon,
   CheckmarkCircle01Icon,
+  Settings02Icon,
 } from 'hugeicons-react'
 import { api, KCEntry, KCPersistence, ProblemHardness, ReteachPlan, ReteachKCInput } from '../api'
 
@@ -109,7 +110,14 @@ function CategoryLegend() {
 interface HoverNode { name: string; gap_count: number; category: string; x: number; y: number }
 
 function GapTreemap({ entries }: { entries: KCEntry[] }) {
+  const navigate = useNavigate()
   const [hovered, setHovered] = useState<HoverNode | null>(null)
+  const { data: kcDefs } = useQuery({ queryKey: ['kcs'], queryFn: api.kcs })
+  const gapSignalByName = useMemo(() => {
+    const m = new Map<string, string>()
+    kcDefs?.forEach(k => m.set(k.name, k.gap_signal))
+    return m
+  }, [kcDefs])
 
   const data = useMemo(() => entries.map(e => ({
     name: e.kc,
@@ -156,7 +164,16 @@ function GapTreemap({ entries }: { entries: KCEntry[] }) {
 
   return (
     <div className="relative">
-      <CategoryLegend />
+      <div className="flex items-start justify-between">
+        <CategoryLegend />
+        <button
+          onClick={() => navigate('/prompt')}
+          className="flex items-center gap-1 text-[11px] font-medium text-slate-400 hover:text-violet-600 transition-colors flex-shrink-0 -mt-0.5"
+        >
+          <Settings02Icon size={12} />
+          Edit KCs
+        </button>
+      </div>
       <ResponsiveContainer width="100%" height={300}>
         <Treemap data={data} dataKey="size" content={<TreemapTile />} />
       </ResponsiveContainer>
@@ -164,11 +181,16 @@ function GapTreemap({ entries }: { entries: KCEntry[] }) {
       {hovered && (
         <div
           style={{ position: 'fixed', left: hovered.x + 14, top: hovered.y - 52, zIndex: 50, pointerEvents: 'none' }}
-          className="bg-slate-900 text-white px-3 py-2.5 rounded-xl shadow-2xl text-xs space-y-1 border border-slate-700"
+          className="bg-slate-900 text-white px-3 py-2.5 rounded-xl shadow-2xl text-xs space-y-1 border border-slate-700 max-w-xs"
         >
           <p className="font-mono font-semibold text-white">{hovered.name}</p>
           <p className="text-slate-400">{hovered.category}</p>
           <p className="text-slate-200">{hovered.gap_count} total gap flag{hovered.gap_count !== 1 ? 's' : ''}</p>
+          {gapSignalByName.get(hovered.name) && (
+            <p className="text-slate-400 leading-snug pt-1 border-t border-slate-700/60 mt-1.5">
+              {gapSignalByName.get(hovered.name)}
+            </p>
+          )}
         </div>
       )}
     </div>

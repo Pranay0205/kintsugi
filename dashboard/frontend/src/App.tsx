@@ -4,16 +4,19 @@ import {
   AlertCircleIcon,
   FlashIcon,
   AiBrain01Icon,
+  Settings02Icon,
 } from 'hugeicons-react'
 import ClassMap from './views/ClassMap'
 import TriageList from './views/TriageList'
 import StudentProfile from './views/StudentProfile'
 import LiveDiagnose from './views/LiveDiagnose'
+import PromptEditor from './views/PromptEditor'
 
 const nav = [
   { to: '/',         label: 'Class Skill Map',  Icon: Analytics01Icon },
   { to: '/triage',   label: 'At-Risk Triage',   Icon: AlertCircleIcon  },
   { to: '/diagnose', label: 'Live Diagnosis',    Icon: FlashIcon        },
+  { to: '/prompt',   label: 'Prompt Editor',     Icon: Settings02Icon   },
 ]
 
 export default function App() {
@@ -64,6 +67,7 @@ export default function App() {
           <Route path="/triage"   element={<TriageList onSelect={(id) => navigate(`/student/${id}`)} />} />
           <Route path="/student/:id" element={<StudentProfile />} />
           <Route path="/diagnose" element={<LiveDiagnose />} />
+          <Route path="/prompt"   element={<PromptEditor />} />
         </Routes>
       </main>
     </div>

@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -28,14 +29,6 @@ type DiagnoseResponse struct {
 	InvalidKCs  []string `json:"invalid_kcs"`
 	ParseStatus string   `json:"parse_status"`
 	Source      string   `json:"source"`
-}
-
-var allKCs = map[string]bool{
-	"If/Else": true, "NestedIf": true, "While": true, "For": true, "NestedFor": true,
-	"Math+-*/": true, "Math%": true, "LogicAndNotOr": true, "LogicCompareNum": true,
-	"LogicBoolean": true, "StringFormat": true, "StringConcat": true, "StringIndex": true,
-	"StringLen": true, "StringEqual": true, "CharEqual": true, "ArrayIndex": true,
-	"DefFunction": true,
 }
 
 func handleDiagnose(db *sql.DB) http.HandlerFunc {
@@ -78,9 +71,9 @@ func handleDiagnose(db *sql.DB) http.HandlerFunc {
 		// Per spec: if score == 1.0 → return empty gaps. We can't enforce that here without the score.
 		// The live path always runs; callers should pass score ≥ 1.0 to get the skip signal.
 
-		prompt := buildV3Prompt(req.ProblemID, requirement, assignmentID, requiredKCs, req.Code, 0.5)
+		prompt := buildV3Prompt(db, req.ProblemID, requirement, assignmentID, requiredKCs, req.Code, 0.5)
 
-		reasoning, gaps, invalidKCs, parseStatus := callDeepSeek(prompt)
+		reasoning, gaps, invalidKCs, parseStatus := callDeepSeek(db, prompt)
 		if gaps == nil {
 			gaps = []string{}
 		}
@@ -143,7 +136,7 @@ type dsResponse struct {
 	Choices []dsChoice `json:"choices"`
 }
 
-func callDeepSeek(prompt string) (reasoning string, gaps []string, invalidKCs []string, parseStatus string) {
+func callDeepSeek(db *sql.DB, prompt string) (reasoning string, gaps []string, invalidKCs []string, parseStatus string) {
 	apiKey := os.Getenv("DEEPSEEK_API_KEY")
 	if apiKey == "" {
 		return "", nil, nil, "no_api_key"
@@ -173,10 +166,10 @@ func callDeepSeek(prompt string) (reasoning string, gaps []string, invalidKCs []
 	}
 
 	content := dsResp.Choices[0].Message.Content
-	return parseKCDP(content)
+	return parseKCDP(content, loadValidKCNames(db))
 }
 
-func parseKCDP(content string) (reasoning string, gaps []string, invalidKCs []string, parseStatus string) {
+func parseKCDP(content string, validKCs map[string]bool) (reasoning string, gaps []string, invalidKCs []string, parseStatus string) {
 	// Strip ```json fence if present
 	s := strings.TrimSpace(content)
 	if strings.HasPrefix(s, "```") {
@@ -199,7 +192,7 @@ func parseKCDP(content string) (reasoning string, gaps []string, invalidKCs []st
 	}
 
 	for _, kc := range obj.KnowledgeGaps {
-		if allKCs[kc] {
+		if validKCs[kc] {
 			gaps = append(gaps, kc)
 		} else {
 			invalidKCs = append(invalidKCs, kc)
@@ -215,191 +208,127 @@ func parseKCDP(content string) (reasoning string, gaps []string, invalidKCs []st
 }
 
 // ---------------------------------------------------------------------------
-// V3 prompt builder — Go port of lib/v3_prompt.py build_v3_prompt()
+// V3 prompt builder — assembled at request time from admin-editable pieces:
+// prompt_components (schema.go), the kcs table, and disambiguation_rules.
+// Originally a Go port of lib/v3_prompt.py build_v3_prompt(); now DB-driven
+// so instructors can tune wording from the Prompt Editor without redeploying.
 // ---------------------------------------------------------------------------
 
-func buildV3Prompt(problemID int, requirement string, assignmentID int, requiredKCs []string, studentCode string, score float64) string {
-	kcInjection := fmt.Sprintf(
-		"REQUIRED KCs FOR THIS PROBLEM: [%s]\n"+
-			"These are the KCs this problem is designed to test. Check these first. "+
-			"However, if the student's code reveals gaps in other KCs not on this list, tag those too.",
-		strings.Join(requiredKCs, ", "),
-	)
-
-	rulesJSON := buildDisambiguationRules()
-
-	var b strings.Builder
-	fmt.Fprintf(&b, `You are an expert CS1 instructor analyzing a single student Java code submission to identify knowledge gaps.
-
-PROBLEM CONTEXT:
-{
-  "problem_id": %d,
-  "assignment_id": %d,
-  "requirement": %q,
-  "student_score": %.4f
-}
-
-KC DEFINITIONS:
-Below are all 18 Knowledge Components (KCs) used in this course. Each includes what a gap looks like in student code.
-
-{
-  "If/Else": {
-    "category": "Control Flow",
-    "type": "structural",
-    "gap_signal": "Tag when the STRUCTURE is wrong: missing branches that the problem requires, wrong order of tests, a case that is never handled, two sequential ifs where if/else was needed. Do NOT tag for missing else when a simple if-with-early-return is cleaner. Do NOT tag when the condition inside the if is wrong but the branching structure is correct — that belongs to a Logic KC."
-  },
-  "NestedIf": {
-    "category": "Control Flow",
-    "type": "structural",
-    "gap_signal": "Tag only if the code actually contains nested ifs and uses them incorrectly (wrong nesting order, conditions at wrong level). Do NOT tag 'they should have nested' — only tag what the student actually wrote."
-  },
-  "While": {
-    "category": "Loops",
-    "type": "structural",
-    "gap_signal": "Tag when the loop structure itself is wrong: wrong stopping condition, never updates the loop variable, infinite loop. Do NOT tag if the problem does not require a while loop and the student did not use one. Do NOT tag if the loop structure is fine but the logic inside it is wrong."
-  },
-  "For": {
-    "category": "Loops",
-    "type": "structural",
-    "gap_signal": "Tag when the loop structure is wrong: wrong initialization, wrong update expression, loop variable does not iterate correctly. Off-by-one in the termination condition belongs to LogicCompareNum, not For."
-  },
-  "NestedFor": {
-    "category": "Loops",
-    "type": "structural",
-    "gap_signal": "Tag only if code contains nested loops and uses them incorrectly (wrong inner bounds, reusing outer variable, wrong nesting order). Do NOT tag if the problem does not require nested loops. Do NOT infer 'the student would struggle with nested loops' — only tag what is actually in the code."
-  },
-  "Math+-*/": {
-    "category": "Math",
-    "type": "specific",
-    "gap_signal": "Tag when the student uses the wrong arithmetic operation or gets arithmetic logic wrong: dividing when they should multiply, missing integer-division truncation, wrong order of operations."
-  },
-  "Math%%": {
-    "category": "Math",
-    "type": "specific",
-    "gap_signal": "Tag when the student needs modulo and does not use it, or uses it wrong: checking divisibility with / instead of %%, wrong modulo base, misunderstanding what %% returns."
-  },
-  "LogicAndNotOr": {
-    "category": "Logic",
-    "type": "specific",
-    "gap_signal": "Tag when the student combines booleans wrong: uses && where || was needed, inverts a condition incorrectly with !, misses a case when chaining compound conditions, wrong short-circuit logic."
-  },
-  "LogicCompareNum": {
-    "category": "Logic",
-    "type": "specific",
-    "gap_signal": "Tag for any numeric comparison bug: wrong direction (< vs >), off-by-one at boundary (< vs <=), enumerating values (day==1||day==2||day==3) instead of using ranges (day>=1 && day<=5), comparing when equality was needed or vice versa."
-  },
-  "LogicBoolean": {
-    "category": "Logic",
-    "type": "specific",
-    "gap_signal": "Tag for: if (x = true) (assignment instead of comparison), returning true/false in the wrong branch, unnecessary if (bool == true) revealing misunderstanding of boolean type, using 0/1 instead of true/false."
-  },
-  "StringFormat": {
-    "category": "Strings",
-    "type": "specific",
-    "gap_signal": "Tag when the student cannot produce the expected output format even when their logic is close: wrong spacing, missing separators, wrong order of concatenated pieces in the final output string."
-  },
-  "StringConcat": {
-    "category": "Strings",
-    "type": "specific",
-    "gap_signal": "Tag when concatenation is missing, in wrong order, or produces wrong result. Not about output format (that is StringFormat) — about the mechanical act of joining strings."
-  },
-  "StringIndex": {
-    "category": "Strings",
-    "type": "specific",
-    "gap_signal": "Tag for wrong index, index out of bounds, off-by-one in string position, using wrong substring bounds."
-  },
-  "StringLen": {
-    "category": "Strings",
-    "type": "specific",
-    "gap_signal": "Tag when the student confuses .length() method with .length property (Java arrays), or uses wrong length value for substring bounds, or does not account for zero-based indexing with length."
-  },
-  "StringEqual": {
-    "category": "Strings",
-    "type": "specific",
-    "gap_signal": "Tag when the student uses == on strings instead of .equals(), or compares the wrong parts of strings. Do NOT tag for numeric comparisons — that is LogicCompareNum."
-  },
-  "CharEqual": {
-    "category": "Strings",
-    "type": "specific",
-    "gap_signal": "Tag when comparison at the character level is wrong: comparing wrong char position, wrong char literal, confusing char with String type."
-  },
-  "ArrayIndex": {
-    "category": "Arrays",
-    "type": "specific",
-    "gap_signal": "Tag for out-of-bounds access, off-by-one in array indexing, wrong index variable, confusing index with value stored at that index."
-  },
-  "DefFunction": {
-    "category": "Functions",
-    "type": "specific",
-    "gap_signal": "Tag when the problem asks for a specific helper method and the student's helper is missing, incomplete, has wrong signature, or has broken logic inside it."
-  }
-}
-
-%s
-
-TAGGING HIERARCHY — CHECK SPECIFIC BEFORE STRUCTURAL:
-KCs marked "structural" (If/Else, NestedIf, While, For, NestedFor) are tags of LAST RESORT.
-Always check "specific" KCs first (Logic, Math, String, Array, Function).
-If a specific KC explains the error, tag ONLY the specific KC. Do NOT also tag the structural KC.
-Tag a structural KC only when the structure itself is the problem and no specific KC explains it.
-
-Examples:
-- Wrong condition inside an if-statement → LogicCompareNum or LogicBoolean, NOT If/Else
-- Wrong loop boundary value → LogicCompareNum, NOT For
-- Wrong arithmetic inside a loop body → Math+-*/, NOT For
-- Student uses && where || needed inside an if → LogicAndNotOr, NOT If/Else
-
-REDUNDANCY CHECK — apply before finalizing your tags:
-For every structural KC (If/Else, NestedIf, While, For, NestedFor) in your list, ask: "If I remove this tag, does my diagnosis lose any information?" If the answer is no — if a specific KC already explains the error — drop the structural tag.
-
-DISAMBIGUATION RULES:
-When two KCs seem applicable, use these rules to pick the correct one.
-
-%s
-
-CRITICAL RULES:
-1. If the code is a trivial placeholder (e.g., just "return true;" or "return 0;") with no real attempt, return empty knowledge_gaps.
-2. If the student scored 1.0 (perfect), return empty knowledge_gaps.
-3. Only use KC names from the 18 defined above. Do not invent new names.
-4. Think through your reasoning BEFORE listing gaps. Write your reasoning first, then decide on tags.
-
-OUTPUT FORMAT:
-Respond with ONLY a JSON object, no other text:
-{
-  "reasoning": "Brief explanation of what the student did wrong and which KCs are affected, applying the hierarchy (specific before structural).",
-  "knowledge_gaps": ["KC1", "KC2"]
-}
-
-STUDENT CODE:
-`, problemID, assignmentID, requirement, score, kcInjection, rulesJSON)
-
-	b.WriteString("```java\n")
-	b.WriteString(studentCode)
-	b.WriteString("\n```")
-	return b.String()
-}
-
-func buildDisambiguationRules() string {
-	rules := []string{
-		`LogicCompareNum vs If/Else — If the student writes day==1||day==2||day==3 instead of day>=1&&day<=5, tag LogicCompareNum. The if-statement structure is correct, the comparison inside it is wrong.`,
-		`LogicBoolean vs If/Else — If the student writes vacation==false instead of !vacation, or uses = instead of ==, tag LogicBoolean. The student misunderstands boolean values, not branching structure.`,
-		`LogicAndNotOr vs If/Else — If the student uses && where || was needed or misses parentheses on grouped conditions, tag LogicAndNotOr. The branching structure is fine, the boolean composition is wrong.`,
-		`LogicCompareNum vs For — Off-by-one in a loop termination condition (< vs <=) is LogicCompareNum. The loop structure is correct, the comparison value is wrong. Tag For only when init, update, or overall structure is broken.`,
-		`Math+-*/ vs For — Wrong arithmetic inside a loop body is Math+-*/. Wrong increment in the for-update (i+=1 when it should be i+=2) is For, because the update is part of loop structure.`,
-		`StringEqual vs LogicCompareNum — String comparison with == or .equals() is StringEqual. Numeric comparison with <, >, == between numbers is LogicCompareNum. Never interchangeable.`,
-		`CharEqual vs StringEqual — charAt() comparisons are CharEqual. Full-string .equals() comparisons are StringEqual.`,
-		`StringIndex vs StringLen — Wrong position in charAt()/substring() is StringIndex. Wrong .length() usage or confusing .length with .length() is StringLen.`,
-		`StringConcat vs StringFormat — Failing to join strings mechanically is StringConcat. Joining strings but producing wrong output format (spacing, separators) is StringFormat.`,
-		`ArrayIndex vs LogicCompareNum — Wrong element retrieved from arr[i] due to wrong index is ArrayIndex. Wrong threshold in a comparison like if(arr[i]>5) is LogicCompareNum.`,
-		`ArrayIndex vs For — Wrong array element accessed inside a correct loop is ArrayIndex. Wrong loop bounds for array iteration: check if it is the comparison value (LogicCompareNum) or the loop setup (For).`,
-		`LogicCompareNum vs LogicBoolean — Comparing two numeric values (age>18) incorrectly is LogicCompareNum. Misusing a boolean value (if(x=true), redundant bool==true) is LogicBoolean.`,
-		`LogicCompareNum vs LogicAndNotOr — A single comparison that is wrong (< instead of <=) is LogicCompareNum. Multiple comparisons combined with the wrong operator (&& instead of ||) is LogicAndNotOr. If both are wrong, tag both.`,
-		`NestedFor vs While — Only tag the construct actually in the code. Nested for-loops wrong = NestedFor. While-loop wrong = While. Never tag a construct the student did not write.`,
+func loadPromptComponentMap(db *sql.DB) map[string]string {
+	rows, _ := db.Query(`SELECT key, content FROM prompt_components`)
+	defer rows.Close()
+	m := map[string]string{}
+	for rows.Next() {
+		var k, c string
+		rows.Scan(&k, &c)
+		m[k] = c
 	}
+	return m
+}
 
+func loadKCDefs(db *sql.DB) []KCDef {
+	rows, _ := db.Query(`SELECT name, kind, category, gap_signal, sort_order FROM kcs ORDER BY sort_order, name`)
+	defer rows.Close()
+	var out []KCDef
+	for rows.Next() {
+		var k KCDef
+		rows.Scan(&k.Name, &k.Kind, &k.Category, &k.GapSignal, &k.SortOrder)
+		out = append(out, k)
+	}
+	return out
+}
+
+func loadDisambiguationRuleTexts(db *sql.DB) []string {
+	rows, _ := db.Query(`SELECT rule FROM disambiguation_rules ORDER BY sort_order`)
+	defer rows.Close()
+	var out []string
+	for rows.Next() {
+		var r string
+		rows.Scan(&r)
+		out = append(out, r)
+	}
+	return out
+}
+
+func loadValidKCNames(db *sql.DB) map[string]bool {
+	rows, _ := db.Query(`SELECT name FROM kcs`)
+	defer rows.Close()
+	m := map[string]bool{}
+	for rows.Next() {
+		var n string
+		rows.Scan(&n)
+		m[n] = true
+	}
+	return m
+}
+
+func buildKCDefsJSON(kcs []KCDef) string {
+	var parts []string
+	for _, k := range kcs {
+		parts = append(parts, fmt.Sprintf(
+			"  %q: {\n    \"category\": %q,\n    \"type\": %q,\n    \"gap_signal\": %q\n  }",
+			k.Name, k.Category, k.Kind, k.GapSignal,
+		))
+	}
+	return "{\n" + strings.Join(parts, ",\n") + "\n}"
+}
+
+func buildDisambiguationRulesJSON(rules []string) string {
 	var parts []string
 	for _, r := range rules {
 		parts = append(parts, fmt.Sprintf(`  {"rule": %q}`, r))
 	}
 	return "[\n" + strings.Join(parts, ",\n") + "\n]"
+}
+
+func buildV3Prompt(db *sql.DB, problemID int, requirement string, assignmentID int, requiredKCs []string, studentCode string, score float64) string {
+	comps := loadPromptComponentMap(db)
+	kcs := loadKCDefs(db)
+	rules := loadDisambiguationRuleTexts(db)
+
+	var structural []string
+	for _, k := range kcs {
+		if k.Kind == "structural" {
+			structural = append(structural, k.Name)
+		}
+	}
+
+	vars := map[string]string{
+		"problem_id":     strconv.Itoa(problemID),
+		"assignment_id":  strconv.Itoa(assignmentID),
+		"requirement":    fmt.Sprintf("%q", requirement),
+		"score":          fmt.Sprintf("%.4f", score),
+		"kc_count":       strconv.Itoa(len(kcs)),
+		"structural_kcs": strings.Join(structural, ", "),
+		"required_kcs":   strings.Join(requiredKCs, ", "),
+	}
+
+	render := func(key string) string {
+		s := comps[key]
+		for k, v := range vars {
+			s = strings.ReplaceAll(s, "{{"+k+"}}", v)
+		}
+		return s
+	}
+
+	sections := []string{
+		render("preamble"),
+		render("kc_definitions_intro"),
+		buildKCDefsJSON(kcs),
+		render("kc_injection_template"),
+		render("tagging_hierarchy"),
+		render("redundancy_check"),
+		render("disambiguation_intro"),
+		buildDisambiguationRulesJSON(rules),
+		render("critical_rules"),
+		render("output_format"),
+		render("student_code_label"),
+	}
+
+	var b strings.Builder
+	b.WriteString(strings.Join(sections, "\n\n"))
+	b.WriteString("\n```java\n")
+	b.WriteString(studentCode)
+	b.WriteString("\n```")
+	return b.String()
 }

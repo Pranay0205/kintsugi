@@ -16,6 +16,21 @@ async function post<T>(path: string, body: unknown): Promise<T> {
   return r.json()
 }
 
+async function put<T>(path: string, body: unknown): Promise<T> {
+  const r = await fetch(BASE + path, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
+  if (!r.ok) throw new Error(`${r.status} ${path}`)
+  return r.json()
+}
+
+async function del(path: string): Promise<void> {
+  const r = await fetch(BASE + path, { method: 'DELETE' })
+  if (!r.ok) throw new Error(`${r.status} ${path}`)
+}
+
 export interface KCEntry {
   kc: string
   kind: 'specific' | 'structural'
@@ -125,6 +140,27 @@ export interface KCPersistence {
   persistence: number
 }
 
+export interface KCDef {
+  name: string
+  kind: 'specific' | 'structural'
+  category: string
+  gap_signal: string
+  sort_order: number
+}
+
+export interface PromptComponent {
+  key: string
+  label: string
+  content: string
+  sort_order: number
+}
+
+export interface DisambiguationRule {
+  id: number
+  rule: string
+  sort_order: number
+}
+
 export const api = {
   class: () => get<KCEntry[]>('/class'),
   classMatrix: () => get<MatrixCell[]>('/class/matrix'),
@@ -137,4 +173,21 @@ export const api = {
   practice: (kc: string) => get<PracticeItem[]>(`/practice?kc=${encodeURIComponent(kc)}`),
   diagnose: (studentId: number, problemId: number, code: string) =>
     post<DiagnoseResult>('/diagnose', { student_id: studentId, problem_id: problemId, code }),
+
+  kcs: () => get<KCDef[]>('/kcs'),
+  createKC: (kc: Omit<KCDef, 'sort_order'>) => post<KCDef>('/kcs', kc),
+  updateKC: (name: string, kc: Omit<KCDef, 'sort_order'>) =>
+    put<KCDef>(`/kcs/${encodeURIComponent(name)}`, kc),
+  deleteKC: (name: string) => del(`/kcs/${encodeURIComponent(name)}`),
+
+  promptComponents: () => get<PromptComponent[]>('/prompt/components'),
+  updatePromptComponent: (key: string, content: string) =>
+    put<{ key: string; content: string }>(`/prompt/components/${encodeURIComponent(key)}`, { content }),
+
+  disambiguationRules: () => get<DisambiguationRule[]>('/prompt/rules'),
+  createRule: (rule: string) => post<DisambiguationRule>('/prompt/rules', { rule }),
+  updateRule: (id: number, rule: string) => put<DisambiguationRule>(`/prompt/rules/${id}`, { rule }),
+  deleteRule: (id: number) => del(`/prompt/rules/${id}`),
+
+  promptPreview: () => get<{ prompt: string }>('/prompt/preview'),
 }
